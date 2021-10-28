@@ -15,8 +15,8 @@
     top:50%;
     left:50%;
     transform: translate(-50%,-50%);
-    width: 1000px;
-    height: 650px;
+    width: 1200px;
+    height: 750px;
     background-color: white;
     border-radius: 10px;
     display: flex;
@@ -24,8 +24,10 @@
     
 }
 .login_layer .login_container .login_bg{
-    background-image: url("../assets/images/login_bg.jpg");
-    background-position: center;
+    background-image: url("../assets/images/login_bg2.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: left;
     width: 60%;
     display:flex;
     justify-content: center;
@@ -66,6 +68,7 @@
     border:none;
     font-size: 18px;
     line-height: 1.2;
+    color: rgba(0,0,0,0.8);
 }
 .login_form .form input::placeholder{
     color:rgba(0,0,0,0.3)
@@ -123,11 +126,21 @@
     font-weight: bold;
     letter-spacing: 2px;
 }
+.MuiFormControlLabel-root{
+    position: relative;
+}
 .MuiSvgIcon-root {
     margin-right: 4px;
+}
+.MuiTypography-root{
+    color:rgba(0,0,0,0.3)
+}
+.gg img{
+    margin-right: 4px;
+    height: 24px;
 }
 .fb{
     background: #4267B2;
     color:white;
-
 }
+
