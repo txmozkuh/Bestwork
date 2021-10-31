@@ -1,5 +1,6 @@
 import React from 'react'
 import "./Login.css"
+import SignUp from './SignUp'
 import Googlelogo from '../assets/images/icon_google.png'
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -7,7 +8,7 @@ import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FacebookOutlinedIcon from '@mui/icons-material/FacebookOutlined';
 import { orange } from '@mui/material/colors';
-
+import PasswordIcon from '@mui/icons-material/Password';
 
 const Login = ({handleForm}) => {
     //<--Xử lí đóng mở form đăng nhập
@@ -22,10 +23,12 @@ const Login = ({handleForm}) => {
     const handleChange = (event) => {
       setChecked(event.target.checked);
     };
+    
     return (
         <div className="login_layer">
             <div className="login_container">
                 <div className="login_bg"><span className="title" style={{"color":"white"}}>WELCOM</span></div>
+                <span className="tag"></span>
                 <div className="login_form">
 
                     <div className="title"><span style={{"color":"#FF954A"}}>Join</span> with us</div>
@@ -42,8 +45,8 @@ const Login = ({handleForm}) => {
                             <LockOutlinedIcon color="disabled"/>
                             <input type="password" name="password" id="password" placeholder="Password" />
                         </div>
-
-                        <FormControlLabel 
+                        <div className="check" >
+                        <FormControlLabel className="remember"
                             control={<Checkbox
                                         sx={{
                                             color: orange["myOrange"],//customize OUR orange color in mui/material/orange
@@ -56,12 +59,16 @@ const Login = ({handleForm}) => {
                                         inputProps={{ 'aria-label': 'controlled' }}/>
                                     }
                             label="Remember password"
+                            
                         />
+                        <div className="forgot"><PasswordIcon/>Forgot?</div>
+                        </div>
                         <button className="button">
                             Sign in
                         </button>
                         <br /><br />
                         <span style={{"color":"rgb(0,0,0,0.4)"}}>or login with</span>
+                        <br />
                         <div className="link_login">
                             <div className="fb">
                                 <FacebookOutlinedIcon/>
@@ -74,9 +81,20 @@ const Login = ({handleForm}) => {
                                 Google
                             </div>
                         </div>
+                        <div className="sign_up_option" onClick={()=>{
+                                document.querySelector('.login_bg').style.animation="SignUpOn 1.5s ease"
+                                document.querySelector('.login_bg').style.left="40%"
+                                document.querySelector('.tag').style.animation="tagMoveLeft 1.5s ease"
+                                setTimeout(()=>{
+                                    document.querySelector('.tag').style.left="40%"
+
+                                },1000)
+                            }}>
+                            Don't have account? Sign Up!
+                        </div>
                     </div>
-                    
                 </div>
+                <SignUp/>
             </div>
         </div>
     )

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RSA</title>
+</head>
+<body>
+    <h1>Chương trình sinh cặp khóa công khai và khóa bí mật trong hệ mã hóa RSA</h1>
+    <h2>Sinh số nguyên tố từ khoảng
+        <input type="number" name="" id="num1">
+        đến
+        <input type="number" name="" id="num2">
+        <button onClick="primeArr()">Sinh số nguyên tố</button>
+        
+    </h2>
+    Kết quả
+    <br>
+    <textarea name="" id="primeNumberLists" cols="110" rows="6" disabled></textarea>
+    <br>
+    <br>
+    <span>Nhập số  nguyên tố p:</span>
+    <input type="number" name="numA" id="numA" >
+    <span>Nhập số  nguyên tố q:</span>
+    <input type="number" name="numB" id="numB" >
+    <button onClick="func()">Generate</button>
+    <br>
+    <br>
+    Public key: <input type="number" name="" id="publicKey" disabled>
+    Private key: <input type="number" name="" id="privateKey" disabled>
+
+    <script>
+        const isPrime=(num)=> {
+            for(var i = 2; i < num; i++)
+                if(num % i === 0) return false;
+            return num > 1;
+        }
+        const primeArr=()=> {
+            var num1=document.getElementById('num1').value
+            var num2=document.getElementById('num2').value
+            var arr = [];
+            for ( var i = Number(num1); i <= num2; i++ ) {
+                if ( isPrime(i) ) {
+                    arr.push(i);
+                }
+            }
+            console.log(arr)
+            document.querySelector('#primeNumberLists').innerHTML=arr
+        }
+        
+        const ucln=(a,b)=>{
+            if (b == 0)
+                return a;
+            return ucln(b, a % b);
+        }
+        const func=()=>{
+            var p=document.getElementById('numA').value
+            var q=document.getElementById('numB').value
+            if(p&&q){
+                var e=2
+                var o=0;
+                var phi=(p-1)*(q-1)
+                while (e < phi)
+                {
+                    if (ucln(e, phi)==1)
+                        break;
+                    else
+                        e++;
+                }
+                var k = 2;  // A constant
+                var d = (1 + (k*phi))/e;
+                console.log(e, d)
+                document.querySelector('#publicKey').value=e
+                document.querySelector('#privateKey').value=d
+            }
+            else{
+                alert("Nhập đầy đủ 2 số nguyên tố!!!")
+            }
+        }
+    </script>
+</body>
+</html>
