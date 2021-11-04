@@ -4,6 +4,7 @@ import MailOutlineIcon from '@mui/icons-material/MailOutline';
 const SignUp = () => {
     return (
         <div className="sign_up_form" >
+                <div className="layer"></div>
                 <div className="title">Let's Go</div>
                 <div className="form">
                     <div className="input_field">

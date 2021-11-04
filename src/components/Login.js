@@ -30,7 +30,7 @@ const Login = ({handleForm}) => {
                 <div className="login_bg"><span className="title" style={{"color":"white"}}>WELCOM</span></div>
                 <span className="tag"></span>
                 <div className="login_form">
-
+                    <div className="layer"></div>
                     <div className="title"><span style={{"color":"#FF954A"}}>Join</span> with us</div>
 
                     <div className="form">

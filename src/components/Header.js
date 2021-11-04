@@ -10,10 +10,12 @@ const Header = () => {
     console.log(`Form stay: ${loginForm?"Close":"Open"}`)
     const handleLoginForm=(value,target)=>{//value được truyền từ component Login thông qua func
         setLoginForm(!loginForm)
-        loginForm?
+        if(loginForm)
+        {
         document.querySelector(".login_layer").style.display="block"
-        :
-        document.querySelector(".login_layer").style.display="none";
+        }
+        else
+        {document.querySelector(".login_layer").style.display="none";}
     }
     
     return (
