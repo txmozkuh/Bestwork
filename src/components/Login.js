@@ -1,5 +1,5 @@
 import React from 'react'
-import "./Login.css"
+import "./css/Login.css"
 import SignUp from './SignUp'
 import Googlelogo from '../assets/images/icon_google.png'
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
@@ -30,7 +30,6 @@ const Login = ({handleForm}) => {
                 <div className="login_bg"><span className="title" style={{"color":"white"}}>WELCOM</span></div>
                 <span className="tag"></span>
                 <div className="login_form">
-                    <div className="layer"></div>
                     <div className="title"><span style={{"color":"#FF954A"}}>Join</span> with us</div>
 
                     <div className="form">
@@ -67,7 +66,7 @@ const Login = ({handleForm}) => {
                             Sign in
                         </button>
                         <br /><br />
-                        <span style={{"color":"rgb(0,0,0,0.4)"}}>or login with</span>
+                        <span style={{"color":"rgb(0,0,0,0.4)","fontSize":"0.9rem"}}>or login with</span>
                         <br />
                         <div className="link_login">
                             <div className="fb">
@@ -90,7 +89,7 @@ const Login = ({handleForm}) => {
 
                                 },1000)
                             }}>
-                            Don't have account? Sign Up!
+                            Don't have account? <span style={{"color":"#FF954A","font-weight":"bold"}}>Sign Up!</span>
                         </div>
                     </div>
                 </div>

@@ -1,13 +1,16 @@
 .login_layer{
     display:none;
     position: fixed;
+    background-color: rgba(0,0,0,0.3);
+    backdrop-filter:blur(15px);
+    /* -webkit-backdrop-filter:blur(15px); */
     z-index: 1;
     left: 0;
     top: 0;
     width: 100%;
     height: 100vh;
     overflow: auto; 
-    background-color: rgba(0,0,0,0.6);
+
 }
 
 .login_container{
@@ -24,7 +27,7 @@
     
 }
 .login_layer .login_container .login_bg{
-    background-image: url("../assets/images/login_bg2.jpg");
+    background-image: url("../../assets/images/login_bg2.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     background-position: left;
@@ -54,10 +57,11 @@
     position: absolute;
     width: 40%;
     height: 100%;
-    justify-content: center;
+    justify-content: space-around;
     align-items:center ;
     right:0;
     z-index: 1;
+
 }
 
 .login_layer .login_container .sign_up_form{
@@ -132,11 +136,12 @@
     align-items: center;
     flex-direction: column;
     margin-top: 100px;
+ 
 }
   .form .input_field{
     width: 80%;
     background: #e6e6e6;
-    height: 52px;
+    height: 48px;
     font-size: 18px;
     display:flex;
     align-items: center;
@@ -156,7 +161,8 @@
     width: 100%;
 }
  .form input::placeholder{
-    color:rgba(0,0,0,0.3)
+    color:rgba(0,0,0,0.3);
+    font-size: 1rem;
 }
 .login_layer .title{
     font-size: 2rem;
@@ -188,13 +194,14 @@
     color:rgba(0,0,0,0.8);
 }
 .login_layer .login_container .login_form .form .check .remember:hover .MuiTypography-root{
-    color:rgba(0,0,0,0.8);
+    color:rgba(0,0,0,0.6);
 }
 /*Button*/
- .button{
+.login_layer .login_container .login_form .form .button{
     width: 80%;
     height: 52px;
     margin:15px;
+    margin-bottom: 2%;
     padding:0 30px;
     border-radius: 3px;
     font-size: 18px;
@@ -203,12 +210,11 @@
     border:0;
     font-weight: bolder;
     cursor: pointer;
-    color: white;
-            
+    color: white;      
 }
 
 .link_login{
-    margin-top: 20px;
+    margin-top: 1%;
     display: flex;
     justify-content: center;
     width:100%;
@@ -244,7 +250,7 @@
     color:white;
 }
 .login_layer .login_container .login_form .form .sign_up_option{
-    margin-top: 20px;
+    margin-top: 5%;
     font-size: 0.8rem;
 
 }
