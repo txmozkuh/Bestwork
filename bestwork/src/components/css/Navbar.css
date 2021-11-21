@@ -1,7 +1,7 @@
 .navbar {
     height:80px;
     width:100%;
-    background: rgb(238,125,52);
+    background: rgba(238,125,52,1);
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -33,12 +33,10 @@
     align-items: center;
     color:rgba(255, 255, 255, 1);
     font-size: 1.4rem;
-    font-weight: bold;
 }
 
 .navbar .link_container a:hover {
-    font-weight: bold;
-    /* color:#2A458A; */
+    
 
 }
 .navbar .link_container li:not(:last-child)::after {
@@ -95,7 +93,7 @@
     transform: scale(1.1);
 }
 .navbar .searchBar input::placeholder{
-    font-family: 'Chivo', sans-serif;
+    font-family: 'Raleway', sans-serif;
     font-weight: bold;
     color:rgba(0, 0, 0, 0.5);
     font-size: 1rem;
