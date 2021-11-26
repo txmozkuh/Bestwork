@@ -4,11 +4,3 @@
     bottom: 0;
     animation: animation 1s 1 ease;
 }
-@keyframes animation {
-    from{
-        background-color: black;
-    }
-    to{
-        background-color: chartreuse;
-    }
-}

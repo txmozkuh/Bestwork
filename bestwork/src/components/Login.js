@@ -23,7 +23,6 @@ const Login = ({handleForm}) => {
     const handleChange = (event) => {
       setChecked(event.target.checked);
     };
-    
     return (
         <div className="login_layer">
             <div className="login_container">
@@ -31,9 +30,7 @@ const Login = ({handleForm}) => {
                 <span className="tag"></span>
                 <div className="login_form">
                     <div className="title"><span style={{"color":"#FF954A"}}>Join</span> with us</div>
-
                     <div className="form">
-
                         <div className="input_field">
                             <PersonOutlineIcon color="disabled"/>
                             <input type="text" name="account" id="account" placeholder="Username or Email"  />

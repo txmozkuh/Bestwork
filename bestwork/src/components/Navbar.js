@@ -1,12 +1,9 @@
 import React from 'react';
 import {
-    Link,
-    Outlet
+    Link
 } from "react-router-dom";
-import $ from 'jquery';
-import Login from './Login';
 import './css/Navbar.css'
-import Avatar from '@mui/material/Avatar';
+import Login from './Login';
 import Tooltip from '@mui/material/Tooltip';
 import SearchIcon from '@mui/icons-material/Search';
 

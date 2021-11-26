@@ -12,15 +12,12 @@ const Home = () => {
         </div>
     )
 }
-
 export default Home
  
 export const HeroSection = () =>{
     return (
         <Grid container className="hero_section page">
-                <div className="bubble"></div>
-                <div className="bubble"></div>
-                <div className="bubble"></div>
+                <div className="bubble"></div><div className="bubble"></div><div className="bubble"></div>
                 <div className="fade"></div>
 
                 <Grid item xs={12} md={5} className="hero">
@@ -29,7 +26,7 @@ export const HeroSection = () =>{
                     <span className="title2">FUTURE DECISION</span>
                     </div>
                     <span className="description">Unify your team, data and software as one.</span>
-                    <button className="get_started_btn">Get Started<DoubleArrowIcon/></button>
+                    <a href="/job"><button className="get_started_btn">Get Started<DoubleArrowIcon/></button></a>
                 </Grid>
                 <Grid item xs={12} md={7} className="img">
                     <img src="./images/home_bg4.jpg" alt="" />
@@ -140,7 +137,7 @@ export const HomeSection2 = () => {
     return (
         <div className="section2_container">
             <div className="title">COLLABORATOR</div>
-            <Grid container className="collab_list">
+            <Grid container spacing={2} className="collab_list">
                 {
                     collaborators.map((colab)=>{
                         return <Grid className="collab_item" item xs={6} md={3}><img src={`./images/${colab.logo}`} alt="" /></Grid>
