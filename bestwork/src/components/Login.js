@@ -1,5 +1,5 @@
 import React from 'react'
-import "./css/Login.css"
+import "./css/Login.scss"
 import SignUp from './SignUp'
 import Googlelogo from '../assets/images/icon_google.png'
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';

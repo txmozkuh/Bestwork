@@ -7,10 +7,6 @@ const SignUp = () => {
                 <div className="layer"></div>
                 <div className="title">Let's Go</div>
                 <div className="form">
-                    <div className="input_field">
-                        <PersonOutlineIcon color="disabled"/>
-                        <input type="text" name="account" id="account" placeholder="Account"  />
-                    </div>
 
                     <div className="input_field">
                         <MailOutlineIcon color="disabled"/>

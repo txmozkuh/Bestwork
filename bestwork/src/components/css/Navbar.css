@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap');
 .navbar {
     height:80px;
     width:100%;
@@ -10,10 +11,21 @@
     z-index: 999;
     box-shadow: rgba(0, 0, 0, 0.45) 0px 25px 20px -20px;
 }
-
-    .navbar .logo img{
-    width:80%;
+.navbar .logo_container{
+    font-family: 'Montserrat', sans-serif;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    font-weight: bold;
+    color:#F8CBAE;
+    font-size: 3rem;
+    margin: 0;
+    padding: 0;
 }
+.navbar .logo img{
+    width: 90px;
+}
+
 .navbar .link_container {
     height: 100%;
     display: flex;
@@ -69,6 +81,22 @@
     box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 10px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
 
 }
+.navbar .menu_btn{
+    padding:10px 15px;
+    border-radius: 50px;
+    background:white;
+    font-size: 1.4rem;
+    color:#EE7D2A;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+    display: none;
+}
+.navbar .menu_btn:active, .login_btn:active{
+    background: #e6e6e6;
+}
 .navbar .searchBar {
 padding: 0 10px;
 display: flex;
@@ -103,4 +131,42 @@ box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, rgba(0, 0, 0, 0.1) 0px 2px 4px
     font-weight: bold;
     color:rgba(0, 0, 0, 0.5);
     font-size: 1rem;
+}
+@media only screen and (max-width: 1400px) {
+    .navbar .link_container{
+        display: none;
+        top:0;
+        left:0;
+        height: 70vh;
+        width: 100%;
+        position: absolute;
+        background-color: rgba(238,125,52,1);
+        z-index: 99;
+        flex-direction: column;
+    }
+    .navbar .link_container li{
+        margin: 0;
+        height: calc(100% / 5);
+        width: 100%;
+        z-index: 99;
+        flex-direction: column;
+    }
+    .navbar .link_container li a{
+        font-size: 2rem;
+    }
+    .navbar .link_container li:not(:last-child):hover {
+        background: rgba(0, 0, 0, 0.2);
+        font-size: 2rem;
+        font-weight: bold;
+    }
+    .navbar .link_container li:not(:last-child)::after {
+        display: none;
+    }
+    .navbar .link_container .login_btn{
+        margin-top: 20px;
+    }
+    .navbar .menu_btn{
+        display: flex;
+        border-radius: 10px;
+    }
 }
