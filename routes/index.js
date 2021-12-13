@@ -10,30 +10,6 @@ const getRouter = require('./get');
 
 
 function route(app){
-  app.get('/register', async function(req, res){
-    const pool = await connect;
-    const sqlString = 'SELECT * FROM account';
-    return await pool.request()
-    .query(sqlString, function(err, data){
-      res.send({result:data.recordset});
-    });
-  });
-
-  app.get('/register/:email', async function(req, res){
-    const email = req.params.email;
-    const pool = await connect;
-    const sqlString = 'SELECT * FROM account WHERE email = @varEmail';
-    return await pool.request()
-    .input('varEmail',email)
-    .query(sqlString, function(err, data){
-      res.send({result:data.recordset});
-    });
-  });
-
-  app.get('/user', loggedInGuard.candidate, function(req, res, next ){
-    res.send(req.user);
-  });
-
   app.use('/candidate', candidateRouter);
 
   app.use('/register', registerRouter);
