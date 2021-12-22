@@ -1,7 +1,4 @@
 const createError = require("http-errors");
-const passport = require("passport");
-const {connect, sql}= require('../Model/connect');
-const bcrypt = require('bcrypt')
 const loggedInGuard = require('../middlewares/loggedInGuard')
 const registerRouter = require('./register');
 const authRouter = require('./auth');

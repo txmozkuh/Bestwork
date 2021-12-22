@@ -1,23 +1,24 @@
 const {connect, sql}= require('./connect');
 
-
 exports.getProfile = async (req, res) => {
-    const user_id = req.params.id;
+    const user_id = req.user.account_id;
+
+    const candidate_id = req.user.user_id;
+
     const pool = await connect;
     const request = pool.request();
 
     //-------------------------- Get Candidate Profile --------------------------------\\
     const result1 = await request.query(`SELECT * 
                                          FROM Candidate join Job on Candidate.Apply_Position = Job.Job_ID 
-                                         WHERE User_ID='${user_id}'`);
-    const candidate_id = result1.recordset[0].Candidate_ID;
+                                         WHERE Candidate_ID='${candidate_id}'`);
     const profile = result1.recordset[0];
 
     //-------------------------- Get Candidate_Skill --------------------------------\\
     const result2 = await request.query(`SELECT Candidate_Skill.Skill_ID, Skill.Skill_Name 
                                          FROM Candidate_Skill join Skill 
                                                        on Candidate_Skill.Skill_ID = Skill.Skill_ID 
-                                          WHERE Candidate_Skill.Candidate_ID = '${candidate_id}'`);
+                                         WHERE Candidate_Skill.Candidate_ID = '${candidate_id}'`);
     const skill = result2.recordset;
 
     //-------------------------- Get Candidate_Interest --------------------------------\\
@@ -37,8 +38,9 @@ exports.getProfile = async (req, res) => {
 exports.updateProfile = async (req, res) => {
     const body = req.body;
     const user = req.user;
-    const interest_Id = body['interest-id'];
-    const skill_Id = body['skill-id'];
+    const skill_IDs = body['skill-id'];
+
+    const candidate_id = user.user_id;
 
     const pool = await connect;
     const request = pool.request();
@@ -54,26 +56,23 @@ exports.updateProfile = async (req, res) => {
                          Apply_Position = '${body['apply-position']}',
                          Working_Form = N'${body['working-form']}',
                          Created_Date = CURRENT_TIMESTAMP
-                     WHERE Account_ID = '${user.id}'`;
+                     WHERE Candidate_ID = '${candidate_id}'`;
     await request.query(sqlString);
 
     //-------------------------- Candidate_Interest --------------------------------\\
-    const result = await request.query(`SELECT Candidate_ID FROM Candidate WHERE Account_ID='${user.id}'`);
-    const candidate_Id = result.recordset[0].Candidate_ID;
+    await request.query(`DELETE FROM Candidate_Interest WHERE Candidate_ID='${candidate_id}'`);
 
-    await request.query(`DELETE FROM Candidate_Interest WHERE Candidate_ID='${candidate_Id}'`);
-
-    for(let i=0; i<interest_Id.length; i++){
+    for(const interest_id of body['interest-id']){
         await request.query(`INSERT INTO Candidate_Interest (Interest_ID, Candidate_ID)
-                        VALUES('${interest_Id[i]}', '${candidate_Id}')`);
+                        VALUES('${interest_id}', '${candidate_id}')`);
     }
 
     //-------------------------- Candidate_Skill --------------------------------\\
-    await request.query(`DELETE FROM Candidate_Skill WHERE Candidate_ID='${candidate_Id}'`);
+    await request.query(`DELETE FROM Candidate_Skill WHERE Candidate_ID='${candidate_id}'`);
 
-    for(let i=0; i<skill_Id.length; i++){
+    for(let i=0; i<skill_IDs.length; i++){
         await request.query(`INSERT INTO Candidate_Skill (Skill_ID, Candidate_ID, Rank)
-                        VALUES('${skill_Id[i]}', '${candidate_Id}', '${body.rank[i]}')`);
+                        VALUES('${skill_IDs[i]}', '${candidate_id}', '${body.rank[i]}')`);
     }
 }
 
@@ -83,11 +82,77 @@ exports.setPublic = async (req, res) => {
 
     //-------------------------- Candidate --------------------------------\\
     let sqlString = `UPDATE Candidate 
-                     SET Public_CV = '${req.body.public}'
-                     WHERE Account_ID = '${req.user.id}'`;
+                     SET Public_CV = '${req.body['public-cv']}'
+                     WHERE Candidate_ID = '${req.user.user_id}'`;
     await request.query(sqlString);
 }
 
+exports.apply = async (req, res) => {
+    const pool = await connect;
+    const request = pool.request();
+
+    await request.query(`INSERT INTO Application (Recruiter_Job_ID, Candidate_ID, Apply_Time)
+                         VALUES ('${req.body['recruiter-job-id']}', '${req.user.user_id}', CURRENT_TIMESTAMP)`);
+}
+
+exports.appliedList = async(req,res) => {
+    const candidate_id = req.user.user_id;
+    const pool = await connect;
+    const request = pool.request();
+
+    const result = await request
+        .query(`SELECT Recruiter.Recruiter_Name, Recruiter_Job.Job_Name, Recruiter_Job.District,
+                       Recruiter_Job.city, Recruiter_Job.Salary, Recruiter_Job.Start_Date, 
+                       Recruiter_Job.End_Date, Recruiter_Job.Status
+                FROM (Recruiter_Job join Application on Recruiter_Job.Recruiter_Job_ID = Application.Recruiter_Job_ID)
+                      join Recruiter on Recruiter_Job.Recruiter_ID = Recruiter.Recruiter_ID
+                WHERE Application.Candidate_ID='${candidate_id}'`);
+
+    return result.recordset;
+}
+
+exports.jobList = async (req,res) => {
+    const pool = await connect;
+    const request = pool.request();
+
+    const result = await request
+        .query(`SELECT Recruiter.Recruiter_Name, Recruiter_Job.Job_Name, Recruiter_Job.District,
+                       Recruiter_Job.city, Recruiter_Job.Salary, Recruiter_Job.Start_Date, 
+                       Recruiter_Job.End_Date, Recruiter_Job.Status
+                FROM Recruiter_Job join Recruiter on Recruiter_Job.Recruiter_ID = Recruiter.Recruiter_ID
+                WHERE Recruiter_Job.Status = 'available'`);
+    return result.recordset;
+}
+
+exports.jobDescription = async (req, res) => {
+    const job_id = req.params.jobId;
+
+    const pool = await connect;
+    const request = pool.request();
+
+    let result =  null;
+
+    //-------------------------- Get Recruiter Profile --------------------------------\\
+    result = await request.query(`SELECT * 
+                                  FROM Recruiter_Job
+                                  WHERE Recruiter_Job_ID='${job_id}'`);
+    const description = result.recordset[0];
+
+    //-------------------------- Get Job Type --------------------------------\\
+    result = await request.query(`SELECT Job.Job_Name, Job_Type.Type_Name
+                                  FROM Job_Type join Job on Job_Type.Job_ID = Job.Job_ID
+                                  WHERE Type_ID='${description.Type_ID}'`);
+    const job_type = result.recordset[0];
+
+    //-------------------------- Skill requirement --------------------------------\\
+    result = await request.query(`SELECT Skill.Skill_name
+                                  FROM Experience_Require join Skill on Experience_Require.Skill_ID = Skill.Skill_ID
+                                  WHERE Recruiter_Job_ID='${description.Recruiter_Job_ID}'`);
+    const experience_require = result.recordset;
+
+    return {description, job_type, experience_require}
+
+}
 
 // SELECT * FROM account WHERE ?=?  => get
 // INSERT INTO account(email, password,...) VALUE (?,?,...)  => post

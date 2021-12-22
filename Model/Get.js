@@ -15,7 +15,7 @@ exports.getSkill = async () => {
     const pool = await connect;
     const request = pool.request();
 
-    //-------------------------- Get Interest --------------------------------\\
+    //-------------------------- Get Skill --------------------------------\\
 
     const result = await request.query(`SELECT * FROM Skill`);
 
@@ -26,20 +26,15 @@ exports.getJob = async () => {
     const pool = await connect;
     const request = pool.request();
 
-    //-------------------------- Get Interest --------------------------------\\
+    //-------------------------- Get Job --------------------------------\\
+    let result = await request.query(`SELECT * FROM Job`);
 
-    const result = await request.query(`SELECT * FROM Job`);
+    const jobs = result.recordset;
 
-    return result.recordset;
-}
+    for(const job of jobs){
+        result = await request.query(`SELECT Type_ID, Type_Name FROM Job_Type WHERE Job_ID='${job.Job_ID}'`);
+        job.jobtype = result.recordset;
+    }
 
-exports.getJobType = async (job_id) => {
-    const pool = await connect;
-    const request = pool.request();
-
-    //-------------------------- Get Interest --------------------------------\\
-
-    const result = await request.query(`SELECT * FROM Job_Type WHERE Job_ID = '${job_id}'`);
-
-    return result.recordset;
+    return jobs;
 }

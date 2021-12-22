@@ -10,14 +10,9 @@ passport.use(new LocalStrategy({
     },
     async function(username, password, done) {
         const pool = await connect;
-        let sqlString = `SELECT Account.Account_ID, Account.Email, Account.User_Type, Account.Password, 
-                                Recruiter.Recruiter_ID
-                         FROM Account join Recruiter on Account.Account_ID = Recruiter.Account_ID
-                         WHERE Account.Email='${username}'`;
-        const result = await pool.request()
-            .query(sqlString);
+        let sqlString = '';
 
-
+        const result = await pool.request().query(`SELECT * FROM Account WHERE Account.Email='${username}'`);
         const user = result.recordset[0];
 
         if (!user) {
@@ -29,6 +24,22 @@ passport.use(new LocalStrategy({
         if (!isValid) {
             return done(null, false, {message: 'Incorrect password'});
         }
+
+        if(user.User_Type.trim() === 'candidate'){
+            sqlString = `SELECT Candidate_ID FROM Candidate
+                         WHERE Account_ID = '${user.Account_ID}'`;
+
+            const result = await pool.request().query(sqlString);
+            user.user_id = result.recordset[0].Candidate_ID;
+
+        } else if (user.User_Type.trim() === 'recruiter'){
+            sqlString = `SELECT Recruiter_ID FROM Recruiter
+                         WHERE Account_ID = '${user.Account_ID}'`;
+
+            const result = await pool.request().query(sqlString);
+            user.user_id = result.recordset[0].Recruiter_ID;
+        }
+
         return done(null, user);
     }
 ));
@@ -36,7 +47,7 @@ passport.use(new LocalStrategy({
 passport.serializeUser(function(user, done) {
     done(null, {
         account_id: user.Account_ID,
-        recruiter_id: user.Recruiter_ID,
+        user_id: user.user_id,
         email : user.Email,
         type: user.User_Type
     });

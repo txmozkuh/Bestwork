@@ -53,25 +53,22 @@ exports.createJob = async (req, res) => {
     const job_id = result.recordset[0].Job_ID;
 
     //-------------------------- Experience_Require --------------------------------\\
-    for(let i = 0; i<body['skill-id'].length; i++){
+    for(const skill of body['skill-id']){
         await request.query(`INSERT INTO Experience_Require (Recruiter_Job_ID, Skill_ID)
-                                  VALUES ('${job_id}', '${body['skill-id'][i]}')`);
+                                  VALUES ('${job_id}', '${skill}')`);
     }
 }
 
 exports.getCreatedJob = async (req, res) => {
     const pool = await connect;
     const request = pool.request();
-    let result =  null;
 
-    result = await request.query(`SELECT Recruiter.Recruiter_Name, Recruiter_Job.Job_Name, Recruiter_Job.District,
+    const result = await request.query(`SELECT Recruiter.Recruiter_Name, Recruiter_Job.Job_Name, Recruiter_Job.District,
                                         Recruiter_Job.city, Recruiter_Job.Salary, Recruiter_Job.Start_Date, 
                                         Recruiter_Job.End_Date, Recruiter_Job.Status
                                   FROM Recruiter_Job join Recruiter on Recruiter_Job.Recruiter_ID = Recruiter.Recruiter_ID
                                   WHERE Recruiter.Recruiter_ID='${req.user.recruiter_id}'`);
-    const job = result.recordset;
-
-    return job;
+    return result.recordset;
 }
 
 exports.getJobDescription = async (req, res) => {
@@ -99,7 +96,6 @@ exports.getJobDescription = async (req, res) => {
     const experience_require = result.recordset;
 
     return {description, job_type, experience_require}
-
 }
 
 exports.updateJob = async (req, res) => {
@@ -126,9 +122,9 @@ exports.updateJob = async (req, res) => {
     await request.query(`DELETE FROM Experience_Require 
                          WHERE Recruiter_Job_ID = '${job_id}'`);
 
-    for(let i = 0; i < body['skill-id'].length; i++){
+    for(const skill_id of body['skill-id']){
         await request.query(`INSERT INTO Experience_Require (Recruiter_Job_ID, Skill_ID)
-                                        VALUES('${job_id}', '${body['skill-id'][i]}')`);
+                                        VALUES('${job_id}', '${skill_id}')`);
     }
 
 }
