@@ -5,7 +5,7 @@ class authController {
     auth(req, res, next) {
         passport.authenticate('local', (err, user, info) => {
             if (err) throw err;
-            if (!user) res.send('No user exist');
+            if (!user) res.send(info.message);
             else {
                 req.logIn(user, err => {
                     if (err) throw err;

@@ -1,6 +1,6 @@
 exports.candidate = function(req,res,next){
     if(req.user) {
-        if(req.user.type !== 0){
+        if(req.user.type.trim() !== 'candidate'){
             res.send("You must log in with candidate account !!!");
         } else {
             return next();
@@ -12,8 +12,8 @@ exports.candidate = function(req,res,next){
 
 exports.recruiter = function(req,res,next){
     if(req.user) {
-        if(req.user.type !== 1){
-            res.send("You must log in with candidate account !!!");
+        if(req.user.type.trim() !== 'recruiter'){
+            res.send("You must log in with recruiter account !!!");
         } else {
             return next();
         }

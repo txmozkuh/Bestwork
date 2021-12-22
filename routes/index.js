@@ -6,11 +6,13 @@ const loggedInGuard = require('../middlewares/loggedInGuard')
 const registerRouter = require('./register');
 const authRouter = require('./auth');
 const candidateRouter = require('./candidate');
+const recruiterRouter = require('./recruiter');
 const getRouter = require('./get');
 
 
 function route(app){
-  app.use('/candidate', candidateRouter);
+  app.use('/candidate',loggedInGuard.candidate, candidateRouter);
+  app.use('/recruiter',loggedInGuard.recruiter, recruiterRouter);
 
   app.use('/register', registerRouter);
 

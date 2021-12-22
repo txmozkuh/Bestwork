@@ -10,7 +10,7 @@ class registerController{
         } else if(user === -2){
             res.send({message: 'Password don\'t match !!!'});
         }else{
-            await accountModel.createCandidate(user);
+            await accountModel.createInfo(user);
             res.send({message: 'Register successfully !!!'})
         }
     }

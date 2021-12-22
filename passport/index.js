@@ -10,7 +10,10 @@ passport.use(new LocalStrategy({
     },
     async function(username, password, done) {
         const pool = await connect;
-        let sqlString = `SELECT * FROM Account WHERE Email='${username}'`;
+        let sqlString = `SELECT Account.Account_ID, Account.Email, Account.User_Type, Account.Password, 
+                                Recruiter.Recruiter_ID
+                         FROM Account join Recruiter on Account.Account_ID = Recruiter.Account_ID
+                         WHERE Account.Email='${username}'`;
         const result = await pool.request()
             .query(sqlString);
 
@@ -18,13 +21,13 @@ passport.use(new LocalStrategy({
         const user = result.recordset[0];
 
         if (!user) {
-            return done(null, false, {message: 'Incorrect email'});
+            return done(null, false, {message: 'Email not exist'});
         }
 
-        const isValid = bcrypt.compare(password,user.Password);
+        const isValid = await bcrypt.compare(password,user.Password.trim());
 
         if (!isValid) {
-            return done(null, false, {message: 'Incorrect password.'});
+            return done(null, false, {message: 'Incorrect password'});
         }
         return done(null, user);
     }
@@ -32,7 +35,8 @@ passport.use(new LocalStrategy({
 
 passport.serializeUser(function(user, done) {
     done(null, {
-        id: user.User_ID,
+        account_id: user.Account_ID,
+        recruiter_id: user.Recruiter_ID,
         email : user.Email,
         type: user.User_Type
     });

@@ -45,20 +45,20 @@ exports.updateProfile = async (req, res) => {
 
     //-------------------------- Candidate --------------------------------\\
     let sqlString = `UPDATE Candidate 
-                     SET Candidate_Name = '${body.name}',
-                         Date_Of_Birth ='${body.dob}',
-                         Gender ='${body.gender}',
-                         Phone_Number ='${body.phone}',
-                         Email ='${user.email}',
-                         About ='${body.about}',
-                         Apply_Position ='${body.position}',
-                         Working_Form ='${body.workingForm}',
-                         Created_Date =CURRENT_TIMESTAMP
-                     WHERE User_ID = '${user.id}'`;
+                     SET Candidate_Name = N'${body['candidate-name']}',
+                         Date_Of_Birth = '${body['date-of-birth']}',
+                         Gender = '${body.gender}',
+                         Phone_Number = '${body['phone-number']}',
+                         Email = '${user.email}',
+                         About = N'${body.about}',
+                         Apply_Position = '${body['apply-position']}',
+                         Working_Form = N'${body['working-form']}',
+                         Created_Date = CURRENT_TIMESTAMP
+                     WHERE Account_ID = '${user.id}'`;
     await request.query(sqlString);
 
     //-------------------------- Candidate_Interest --------------------------------\\
-    const result = await request.query(`SELECT Candidate_ID FROM Candidate WHERE User_ID='${user.id}'`);
+    const result = await request.query(`SELECT Candidate_ID FROM Candidate WHERE Account_ID='${user.id}'`);
     const candidate_Id = result.recordset[0].Candidate_ID;
 
     await request.query(`DELETE FROM Candidate_Interest WHERE Candidate_ID='${candidate_Id}'`);
@@ -84,7 +84,7 @@ exports.setPublic = async (req, res) => {
     //-------------------------- Candidate --------------------------------\\
     let sqlString = `UPDATE Candidate 
                      SET Public_CV = '${req.body.public}'
-                     WHERE User_ID = '${req.user.id}'`;
+                     WHERE Account_ID = '${req.user.id}'`;
     await request.query(sqlString);
 }
 
