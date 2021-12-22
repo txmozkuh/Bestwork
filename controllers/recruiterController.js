@@ -30,8 +30,8 @@ class recruiterController{
     }
 
     // [GET] /job-list
-    async getCreatedJob(req, res) {
-        const jobList = await recruiterModel.getCreatedJob(req, res);
+    async getCreatedJobs(req, res) {
+        const jobList = await recruiterModel.getCreatedJobs(req, res);
         res.send({message: 'GET job list successfully !!!', jobList});
     }
 
@@ -45,22 +45,22 @@ class recruiterController{
 
     // [GET] /applied-list/:jobId
     async getAppliedList(req, res) {
-        const recruiter = await recruiterModel.postJob(req, res);
-        res.send({message: 'GET applied list successfully !!!', recruiter});
+        const list = await recruiterModel.getAppliedList(req, res);
+        res.send({message: 'GET applied list successfully !!!', list});
     }
 
     // [GET] /candidate-profile/:candidateId
     async getCandidateProfile(req, res) {
-        const recruiter = await recruiterModel.postJob(req, res);
-        res.send({message: 'GET candidate profile successfully !!!', recruiter});
+        const candidate = await recruiterModel.getCandidateProfile(req, res);
+        res.send({message: 'GET candidate profile successfully !!!', candidate});
     }
 
     //---------------------------------- StarCV ----------------------------------------\\
 
     // [GET] /star-cv
     async getStarCV(req, res) {
-        const recruiter = await recruiterModel.postJob(req, res);
-        res.send({message: 'GET candidate profile successfully !!!', recruiter});
+        const candidates = await recruiterModel.starCV(req, res);
+        res.send({message: 'GET list star CV successfully !!!', candidates});
     }
 
 }

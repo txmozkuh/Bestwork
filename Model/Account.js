@@ -47,12 +47,3 @@ class Account{
     }
 }
 module.exports = new Account();
-
-
-
-// SELECT * FROM account WHERE ?=?  => get
-// INSERT INTO account(email, password,...) VALUE (?,?,...)  => post
-// UPDATE account SET email=?, password=?  => put
-// DELETE FROM account WHERE email=>?  => delete
-
-// install 2 package 'mssql' and 'msnodesqlv8'

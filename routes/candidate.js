@@ -5,8 +5,8 @@ const router = express.Router();
 const candidateController = require('../controllers/candidateController');
 
 router.get('/profile', candidateController.get);
-router.patch('/profile', candidateController.setPublic);
 router.put('/profile', candidateController.update);
+router.patch('/profile', candidateController.setPublic);
 
 router.post('/apply', candidateController.apply);
 router.get('/job-applied', candidateController.appliedList);

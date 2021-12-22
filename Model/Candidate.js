@@ -1,8 +1,6 @@
 const {connect, sql}= require('./connect');
 
 exports.getProfile = async (req, res) => {
-    const user_id = req.user.account_id;
-
     const candidate_id = req.user.user_id;
 
     const pool = await connect;
@@ -153,10 +151,3 @@ exports.jobDescription = async (req, res) => {
     return {description, job_type, experience_require}
 
 }
-
-// SELECT * FROM account WHERE ?=?  => get
-// INSERT INTO account(email, password,...) VALUE (?,?,...)  => post
-// UPDATE account SET email=?, password=?  => put
-// DELETE FROM account WHERE email=>?  => delete
-
-// install 2 package 'mssql' and 'msnodesqlv8'
