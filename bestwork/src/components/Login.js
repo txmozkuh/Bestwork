@@ -9,7 +9,8 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FacebookOutlinedIcon from '@mui/icons-material/FacebookOutlined';
 import { orange } from '@mui/material/colors';
 import PasswordIcon from '@mui/icons-material/Password';
-
+import axios from 'axios';
+import { useState } from 'react';
 const Login = ({handleForm}) => {
     //<--Xử lí đóng mở form đăng nhập
     var target = document.querySelector(".login_layer");
@@ -23,6 +24,29 @@ const Login = ({handleForm}) => {
     const handleChange = (event) => {
       setChecked(event.target.checked);
     };
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const clickLogin = () => {
+        axios.post('https://bestwork-server.herokuapp.com/auth/login', {
+            email: email,
+            password: password,
+        },
+        {
+            withCredentials: true
+        }
+        ).then((response) => {
+            console.log(response)
+        });
+    }
+    const clickProfile = () => {
+        axios.get('https://bestwork-server.herokuapp.com/candidate/profile',
+        {
+            withCredentials: true
+        }
+        ).then((response1) =>{
+            console.log(response1)
+        })
+    }
     return (
         <div className="login_layer">
             <div className="login_container">
@@ -33,14 +57,21 @@ const Login = ({handleForm}) => {
                     <div className="form">
                         <div className="input_field">
                             <PersonOutlineIcon color="disabled"/>
-                            <input type="text" name="account" id="account" placeholder="Username or Email"  />
+                            <input type="text" name="email" id="email" placeholder="Email" onChange={(e)=> {
+                                setEmail(e.target.value)
+                            }}  />
                         
                         </div>
 
                         <div className="input_field">
                             <LockOutlinedIcon color="disabled"/>
-                            <input type="password" name="password" id="password" placeholder="Password" />
+                            <input type="password" name="password" id="password" placeholder="Password" onChange={(e) => {
+                                setPassword(e.target.value)
+                            }}/>
                         </div>
+                        <button className="button" onClick={clickProfile}>
+                            Profile
+                        </button>
                         <div className="check" >
                         <FormControlLabel className="remember"
                             control={<Checkbox
@@ -59,7 +90,7 @@ const Login = ({handleForm}) => {
                         />
                         <div className="forgot"><PasswordIcon/>Forgot?</div>
                         </div>
-                        <button className="button">
+                        <button className="button" onClick={clickLogin}>
                             Sign in
                         </button>
                         <br /><br />
