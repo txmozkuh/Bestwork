@@ -13,16 +13,7 @@ import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
 import ListItem from '@mui/material/ListItem';
 
-const Header = () => {
-    //HANDLE OPEN LOGIN FORM 
-    const [loginForm, setLoginForm] = React.useState(true)
-    console.log(`Form stay: ${loginForm?"Close":"Open"}`)
-    const handleLoginForm = (value, target) => { //value được truyền từ component Login thông qua func
-        setLoginForm(!loginForm)
-        loginForm ?
-            document.querySelector(".login_layer").style.display = "block" :
-            document.querySelector(".login_layer").style.display = "none"
-    }
+const Header = () => {    
     //HANDLE CHECK LOGIN OR NOT?
     const [isLogin,setLogin]=React.useState(false)
     const [state, setState] = React.useState({
@@ -55,7 +46,7 @@ const Header = () => {
         <Divider/>
         <List>
         <ListItem button >
-            <div className = "login_btn" onClick = { handleLoginForm } > Sign In </div>
+            <div className = "login_btn" > Sign In </div>
         </ListItem>
         </List>
         </Box>
@@ -85,7 +76,6 @@ const Header = () => {
     }
     return ( 
         <div className = "navbar" >
-            <Login handleForm = { handleLoginForm }/>
             <div className="logo_container"><Link to = "/" className = 'logo' > < img src = {navbarElements.logo} alt = "" /></Link>BestWork</div>
             <SearchBar/>
             <ul className = "link_container">
@@ -96,7 +86,7 @@ const Header = () => {
                 }
             <li>
             <Tooltip title = "Still not loggin?" >
-                <div className = "login_btn" onClick = { handleLoginForm } > Sign In </div> 
+            <Link to={"/sign-in"}><div className = "login_btn" > Sign In </div> </Link>
             </Tooltip > 
             </li>
             </ul>

@@ -1,0 +1,116 @@
+.login_container{
+    font-size: 1.2rem;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    width: 100%;
+    margin-top: 10px;
+    height: calc(100vh);
+}
+.login_box{
+    /* margin: 20px; */
+    width: 55%;
+}
+.login_container .login_title{
+    margin: 128px 0 48px 0;
+}
+.login_container .login_title h1{
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+.login_container .login_title p{
+    color:#474D57;
+}
+
+.login_container .login_form span{
+    font-size: 1rem;
+    margin: 0 0 0 4px;
+}
+.login_container .login_form .input_field{
+    margin: 8px 0 52px 0 ;
+}
+.login_container .login_form .input_field input{
+    outline: none;
+    border: 1px solid rgb(234, 236, 239);
+    color: rgb(30, 35, 41);
+    border-radius: 4px;
+    height: 48px;
+    width: 380px;
+    font-size: 1rem;
+    padding:2px 12px
+}
+.login_container .login_form .input_field .error_mess{
+    font-size: 0.9rem;
+    margin: 6px 0 0 4px;
+    position: absolute;
+    color: rgb(207, 48, 74);
+}
+.login_container .login_form .input_field input::placeholder{
+    color:transparent
+}
+.login_container .login_form .input_field input:hover{
+    border-color: rgb(238,125,52);
+}
+.login_container .login_form .input_field input:focus{
+    border-color: rgb(238,125,52);
+}
+.login_container .login_form .sign_in_btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 48px;
+    width: 380px;
+    background-color:rgb(238,125,52);
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+}
+.login_container .login_form .sign_in_btn:hover{
+    background-color:rgb(240, 136, 66);
+    transform: scale(1.01);
+}
+.login_container .login_form .switch_sign_up{
+    width: 70px;
+    margin-top: 20px;
+    color:rgb(238,125,52);
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+.login_container .login_form .switch_sign_up:hover{
+    text-decoration: underline;
+    color:rgb(213, 95, 16)
+    
+}
+.login_container img{
+    width: 500px;
+    transform: translateY(-35%);
+}
+@media only screen and (max-width: 1360px) {
+    .login_box{
+        /* margin: 20px; */
+        width: 70%;
+    }
+  }
+  @media only screen and (max-width: 1080px) {
+    .login_box{
+         margin-left: 20px;
+        width: 90%;
+    }
+    .login_container img{
+        width: 500px;
+        transform: translate(-30%,-35%);
+
+    }
+  }
+  @media only screen and (max-width: 896px) {
+    .login_box{
+        max-width: 80%;
+   }
+   .login_container img{
+       display: none;
+
+   }
+  }
