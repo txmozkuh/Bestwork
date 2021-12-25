@@ -21,11 +21,28 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser("my-super-super-secret-key"));
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(session({
-    secret: "my-super-super-secret-key",
-    resave:true,
-    saveUninitialized:true
-}));
+// app.use(session({
+//     secret: "my-super-super-secret-key",
+//     resave:false,
+//     saveUninitialized:false,
+//     cookie: {
+//         SameSite: 'none',
+//         maxAge: 1000 * 60 * 60 * 60
+//     }
+// }));
+const sessionConfig = {
+    secret: 'MYSECRET',
+    name: 'appName',
+    resave: true,
+    cookie: {
+        sameSite: process.env.NODE_ENV === "production" ? 'none' : 'lax', // must be 'none' to enable cross-site delivery
+        secure: process.env.NODE_ENV === "production", // must be true if sameSite='none'
+    }
+};
+
+app.set("trust proxy", 1);
+
+app.use(session(sessionConfig));
 app.use(passport.initialize());
 app.use(passport.session());
 

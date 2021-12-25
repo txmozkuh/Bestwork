@@ -1,6 +1,7 @@
 const {connect, sql}= require('./connect');
 
 exports.getProfile = async (req, res) => {
+    console.log(req);
     const pool = await connect;
     const request = pool.request();
 

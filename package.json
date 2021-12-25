@@ -3,7 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon ./bin/www"
+    "start": "nodemon ./bin/www",
+    "heroku-prebuild": "npm i -f",
+    "heroku-postbuild": "npm run build"
   },
   "dependencies": {
     "bcrypt": "^5.0.1",
@@ -16,12 +18,12 @@
     "hbs": "~4.0.4",
     "http-errors": "~1.6.3",
     "morgan": "~1.9.1",
-    "msnodesqlv8": "^2.4.4",
     "mssql": "^7.3.0",
     "passport": "^0.5.0",
-    "passport-local": "^1.0.0"
+    "passport-local": "^1.0.0",
+    "nodemon": "^2.0.15"
   },
   "devDependencies": {
-    "nodemon": "^2.0.15"
+
   }
 }
