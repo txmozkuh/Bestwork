@@ -9,6 +9,7 @@ import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import Home from './components/Home'
 import JobList from "./components/JobList";
+import JobDetail from "./components/JobDetail";
 import Login from "./components/Login";
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 function App() {
@@ -36,6 +37,7 @@ function App() {
         <Routes>
             <Route path="/" exact element={<Home/>}/>
             <Route path="/job" element={<JobList/>}/>
+            <Route path="/job/item/:id" element={<JobDetail/>}/>   
             <Route path="/sign-in" element={<Login/>}/>   
         </Routes>
         <Footer/>

@@ -1,5 +1,11 @@
 import React from 'react'
 import './css/JobList.scss'
+import JobDetail from './JobDetail.js'
+import { Redirect } from "react-router-dom";
+import {
+    Link
+} from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 import Slider from '@mui/material/Slider';
 import Box from '@mui/material/Box';
 import Switch from '@mui/material/Switch';
@@ -21,7 +27,6 @@ const JobList = () => {
             <div className="box">
                 <List/>
                 <Filter/>
-               
             </div>
         </div>
     )
@@ -36,6 +41,7 @@ export const Filter = () => {
     const [district, setDistrict]= React.useState('')
     let curDistricts=[]
     React.useEffect(()=>{
+        callApi()
     },[])
 
     function valuetext(value) {
@@ -57,20 +63,16 @@ export const Filter = () => {
         setDistrict(event.target.value)
     }
     const fakeJobType=["IT","IT1","IT2","IT3"]
-    var cities={}
-    var arr=[]
+    var cities=[]
     function callApi(){
-        axios.get("https://provinces.open-api.vn/api/?depth=3")
+        axios.get("https://api.mysupership.vn/v1/partner/areas/province")
         .then((response) =>{
-            console.log(typeof(response.data))
-            for(var i in response.data){
-                cities[i]=response.data[i]
-                arr.push(cities[i].name)
+            for(var i in response.data.results){
+                cities[i]= response.data.results[i]
             }
+
         });
     }   
-    console.log(arr)
-    callApi()
     return (
         <div className="filter_container">
             
@@ -119,7 +121,11 @@ export const Filter = () => {
                     onChange={handleChangeCity}
                     >
                     {
-                        
+                        // cities.map( city => {
+                        //     // return <MenuItem value={city}>{city}</MenuItem>
+                        //     console.log(city)
+                        // })
+                        console.log(cities["0"])
                     }
                 </Select>
                 </FormControl>
@@ -147,6 +153,7 @@ export const Filter = () => {
 export const List = () => {
     const list=[
         {
+            id:"123asd123123",
             img:"./images/gg.png",
             company:"ATOM",
             required:"Reactjs Javascript",
@@ -362,7 +369,7 @@ export const List = () => {
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
-
+    
     return (
         <div className="list_container"> 
             <Pagination style={{"color":"white"}} count={totalPage} page={page} onChange={handleChangePage}/>
@@ -376,16 +383,22 @@ export const List = () => {
 }
 export const JobItem = (props) =>{
     const JobItem=props.item
+    const navigate = useNavigate();
+    function handleClick() {
+        navigate(`/job/item/${JobItem.id}`);
+    }
     return(
-        <div className="item">
-            <img src={JobItem.img} alt="" />
-            <div className="info">
-                <div className="name">{`${JobItem.position} [ ${JobItem.required} ]`}</div>
-                <div className="company"><BusinessIcon/>{JobItem.company}</div>
-                <div className="salary"><CreditCardSharpIcon/>{`${JobItem.salary}$`}</div>
-                <div className="address"><RoomIcon fontSize={"small"}/>{JobItem.address}</div>
-                <div className="description"><NotesIcon/>{JobItem.description}</div>
+        // <Link to ={`/item`}> 
+            <div className="item" onClick={handleClick}>
+                <img src={JobItem.img} alt="" />
+                <div className="info">
+                    <div className="name">{`${JobItem.position} [ ${JobItem.required} ]`}</div>
+                    <div className="company"><BusinessIcon/>{JobItem.company}</div>
+                    <div className="salary"><CreditCardSharpIcon/>{`${JobItem.salary}$`}</div>
+                    <div className="address"><RoomIcon fontSize={"small"}/>{JobItem.address}</div>
+                    <div className="description"><NotesIcon/>{JobItem.description}</div>
+                </div>
             </div>
-        </div>
+        // </Link>
     )
 }
