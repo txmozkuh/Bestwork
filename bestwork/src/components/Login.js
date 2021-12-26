@@ -19,18 +19,6 @@ const Login = ({handleForm}) => {
             withCredentials: true
         }).then((res)=>console.log(res));
     }
-    const validateEmail = ( e ) => {
-        let re = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
-        var email=e.target.value
-        if ( re.test(email) || email.length==0 ) {
-            document.querySelector('.error_mess').innerHTML=""
-            setEmail(email)
-        }
-        else {
-            document.querySelector('.error_mess').innerHTML="Please enter correct email"
-        }
-    
-    }
     return (
         <div className="login_container">
             <div className="login_box">
@@ -43,9 +31,10 @@ const Login = ({handleForm}) => {
                     <div className="login_form">
                         <span>Email</span>
                         <div className="input_field">
-                            <input type="email" name="email" id="email" placeholder="Email" onChange={validateEmail
-                                }/>
-                            <div className="error_mess"></div>
+                            <input type="email" name="email" id="email" placeholder="Email" onChange={(e)=> {
+                                    setEmail(e.target.value)
+                                }}/>
+                            <div className="error_mess">Enter a correct form of email</div>
                         </div>
                         <span >Password</span>
                         <div className="input_field" >
