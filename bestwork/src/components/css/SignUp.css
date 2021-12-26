@@ -42,7 +42,7 @@
     margin: 0 0 0 4px;
 }
 .sign_up_container .sign_up_form .input_field{
-    margin: 8px 0 20px 0 ;
+    margin: 8px 0 24px 0 ;
 }
 .sign_up_container .sign_up_form .input_field input{
     outline: none;
@@ -55,7 +55,7 @@
     padding:2px 12px
 }
 .sign_up_container .sign_up_form .input_field .error_mess{
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     margin: 6px 0 0 4px;
     position: absolute;
     color: rgb(207, 48, 74);
@@ -81,7 +81,7 @@
     font-weight: bold;
     color: white;
     cursor: pointer;
-    margin-bottom: 20px;
+    margin: 28px 0
 }
 .sign_up_container .sign_up_form .sign_up_btn:hover{
     background-color:rgb(240, 136, 66);

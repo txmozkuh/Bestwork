@@ -9,6 +9,7 @@ const SignUp = () => {
     const [passwordConfirm, setPasswordConfirm] = useState('');
     const [type, setType] = useState("candicate");
     const [code, setCode] = useState("");
+
     const handleUserType = (e) => {
         var curActive=document.querySelector('.active').classList.remove('active')
         var user_type = e.target;
@@ -17,6 +18,7 @@ const SignUp = () => {
         for(var i of document.querySelectorAll('.error_mess')){
             i.innerHTML=""
         }
+        
     }
 
     const validateEmail = ( e ) => {
@@ -104,6 +106,7 @@ const SignUp = () => {
             }
         }
     }
+    
     return (
         <div className="sign_up_container">
             <div className="sign_up_box">
@@ -120,35 +123,30 @@ const SignUp = () => {
                         </div>
                         <span>Email</span>
                         <div className="input_field">
-                            <input type="email" name="email" id="email" placeholder="Email" onChange={(e)=> {
-                                    setEmail(e.target.value)
-                                }}/>
-                            <div className="error_mess"></div>
+                            <input type="email" name="email" id="email" placeholder="Email" onChange={validateEmail}/>
+                            <div className="error_mess_email error_mess"></div>
                         </div>
                         <span >Password</span>
                         <div className="input_field" >
-                                <input type="password" name="password" id="password" placeholder="Password" onChange={(e) => {
-                                    setPassword(e.target.value)
-                                }}/>
+                                <input type="password" name="password" id="password" placeholder="Password" onFocus={()=>document.querySelector('.error_mess_pass').innerHTML=""} onChange={validatePassword}/>
+                                <div className="error_mess_pass error_mess"></div>
                         </div>
                         <span >Confirm Password</span>
                         <div className="input_field" >
-                                <input type="password" name="confirm_password" id="confirm_password" placeholder="confirm_password" onChange={(e) => {
-                                    setPasswordConfirm(e.target.value)
-                                }}/>
+                                <input type="password" name="confirm_password" id="confirm_password" placeholder="confirm_password" onFocus={checkPassword} onChange={validateRePassword}/>
+                                <div className="error_mess_repass error_mess"></div>
                         </div>
                         {
-                            type=="recruiter"?
+                            type==="recruiter"?
                             <><span >Company Code</span>
                             <div className="input_field" >
-                                    <input type="text" name="code" id="code" placeholder="code" onChange={(e) => {
-                                        setCode(e.target.value)
-                                    }}/>
+                                    <input type="text" name="code" id="code" placeholder="code" onChange={validateCompanyCode}/>
+                                    <div className="error_mess_code error_mess"></div>
                             </div></>
                             :
                             <></>
                         }
-                        <div className="sign_up_btn">
+                        <div className="sign_up_btn" onClick={clickRegister}>
                             Sign Up
                         </div>
                         
