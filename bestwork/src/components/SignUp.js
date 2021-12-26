@@ -70,6 +70,7 @@ const SignUp = () => {
         var registerInfo={
             email: email,
             password: password,
+            passwordConfirm: passwordConfirm,
             type: type
         }
         if(type=="recruiter"){
