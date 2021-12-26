@@ -11,6 +11,8 @@ import Home from './components/Home'
 import JobList from "./components/JobList";
 import JobDetail from "./components/JobDetail";
 import Login from "./components/Login";
+import SignUp from "./components/SignUp";
+
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 
 function App() {
@@ -40,6 +42,8 @@ function App() {
             <Route path="/job" element={<JobList/>}/>
             <Route path="/job/item/:id" element={<JobDetail/>}/>   
             <Route path="/sign-in" element={<Login/>}/>   
+            <Route path="/sign-up" element={<SignUp/>}/>   
+
         </Routes>
         <Footer/> 
       </Router>

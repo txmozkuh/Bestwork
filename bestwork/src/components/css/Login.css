@@ -74,10 +74,12 @@
 .login_container .login_form .switch_sign_up{
     width: 70px;
     margin-top: 20px;
-    color:rgb(238,125,52);
     font-size: 1rem;
     font-weight: bold;
     cursor: pointer;
+}
+.login_container .login_form .switch_sign_up a{
+    color:rgb(238,125,52) ;
 }
 .login_container .login_form .switch_sign_up:hover{
     text-decoration: underline;

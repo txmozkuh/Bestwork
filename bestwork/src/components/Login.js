@@ -1,7 +1,7 @@
 import React from 'react'
 import "./css/Login.css"
 import Grid from '@mui/material/Grid';
-import SignUp from './SignUp'
+import {Link} from "react-router-dom";
 import axios from 'axios';
 
 
@@ -46,7 +46,7 @@ const Login = ({handleForm}) => {
                             Sign In
                         </div>
                         <div className="switch_sign_up">
-                            Sign Up
+                            <Link to="/sign-up">Sign Up</Link>
                         </div>
                     </div>
                 </Grid>
