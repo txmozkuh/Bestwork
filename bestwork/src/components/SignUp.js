@@ -10,22 +10,101 @@ const SignUp = () => {
     const [type, setType] = useState("candicate");
     const [code, setCode] = useState("");
 
-    const clickRegister = () => {
-        axios.post('https://bestwork-server.herokuapp.com/register', {
-            email: email,
-            password: password,
-            passwordConfirm: passwordConfirm,
-            type: type
-        }).then((response) => {
-            console.log(response)
-        });
-    }
     const handleUserType = (e) => {
         var curActive=document.querySelector('.active').classList.remove('active')
         var user_type = e.target;
         user_type.classList.add('active')
         setType(user_type.getAttribute('type-value'))
+        for(var i of document.querySelectorAll('.error_mess')){
+            i.innerHTML=""
+        }
     }
+
+    const validateEmail = ( e ) => {
+        let re = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+        var email=e.target.value
+        if ( re.test(email) || email.length===0 ) {
+            document.querySelector('.error_mess_email').innerHTML=""
+            setEmail(email)
+        }
+        else {
+            document.querySelector('.error_mess_email').innerHTML="Please enter correct email"
+        }
+    }
+    const validatePassword = e => {
+        let password=e.target.value
+        if(password.length<=6 && password.length >0)
+        {
+            document.querySelector('.error_mess_pass').innerHTML="Password must have more than 6 characters"
+        }
+        else{
+            setPassword(password)
+            document.querySelector('.error_mess_pass').innerHTML=""
+
+        }
+    }
+    const checkPassword = e =>{
+        if(password.length===0)
+        {
+            document.querySelector('.error_mess_pass').innerHTML="Please enter password first"
+        }
+    }
+    const validateRePassword = e => {
+        let repassword=e.target.value
+        if(repassword===password){
+            document.querySelector('.error_mess_repass').innerHTML=""
+            setPasswordConfirm(repassword)
+        }
+        else{
+            document.querySelector('.error_mess_repass').innerHTML="Confirm password must the same to password"
+        }
+    }
+    const validateCompanyCode = e => {
+        let compCode=e.target.value
+        if(compCode.length>0){
+            document.querySelector('.error_mess_code').innerHTML=""
+            setCode(compCode)
+        }
+    }
+    const clickRegister = () => {
+        var registerInfo={
+            email: email,
+            password: password,
+            type: type
+        }
+        if(type=="recruiter"){
+            registerInfo.code=code
+        }
+        if(email&&password&&passwordConfirm&&type==="candicate"||email&&password&&passwordConfirm&&code&&type==="recruiter")
+        {
+            // axios.post('https://bestwork-server.herokuapp.com/register', registerInfo)
+            //.then((response) => {
+                    //     console.log(response)
+            // });
+            console.log(registerInfo)
+        }
+        else{
+            for(var i in registerInfo){
+                if(!registerInfo[i]){
+                    console.log(i)
+                    if(i==="email"){
+                        document.querySelector('.error_mess_email').innerHTML="Please enter email"
+                    }
+                    if(i==="password"){
+                        document.querySelector('.error_mess_pass').innerHTML="Please enter password"
+                    }
+                    if(i==="passwordConfirm"){
+                        document.querySelector('.error_mess_repass').innerHTML="Please enter confirm password"
+                    }
+                    if(i==="code"&&type==="recruiter"){
+                        document.querySelector('.error_mess_code').innerHTML="Please enter code"
+                    }
+
+                }
+            }
+        }
+    }
+    
     return (
         <div className="sign_up_container">
             <div className="sign_up_box">
@@ -42,35 +121,30 @@ const SignUp = () => {
                         </div>
                         <span>Email</span>
                         <div className="input_field">
-                            <input type="email" name="email" id="email" placeholder="Email" onChange={(e)=> {
-                                    setEmail(e.target.value)
-                                }}/>
-                            <div className="error_mess"></div>
+                            <input type="email" name="email" id="email" placeholder="Email" onChange={validateEmail}/>
+                            <div className="error_mess_email error_mess"></div>
                         </div>
                         <span >Password</span>
                         <div className="input_field" >
-                                <input type="password" name="password" id="password" placeholder="Password" onChange={(e) => {
-                                    setPassword(e.target.value)
-                                }}/>
+                                <input type="password" name="password" id="password" placeholder="Password" onFocus={()=>document.querySelector('.error_mess_pass').innerHTML=""} onChange={validatePassword}/>
+                                <div className="error_mess_pass error_mess"></div>
                         </div>
                         <span >Confirm Password</span>
                         <div className="input_field" >
-                                <input type="password" name="confirm_password" id="confirm_password" placeholder="confirm_password" onChange={(e) => {
-                                    setPasswordConfirm(e.target.value)
-                                }}/>
+                                <input type="password" name="confirm_password" id="confirm_password" placeholder="confirm_password" onFocus={checkPassword} onChange={validateRePassword}/>
+                                <div className="error_mess_repass error_mess"></div>
                         </div>
                         {
-                            type=="recruiter"?
+                            type==="recruiter"?
                             <><span >Company Code</span>
                             <div className="input_field" >
-                                    <input type="text" name="code" id="code" placeholder="code" onChange={(e) => {
-                                        setCode(e.target.value)
-                                    }}/>
+                                    <input type="text" name="code" id="code" placeholder="code" onChange={validateCompanyCode}/>
+                                    <div className="error_mess_code error_mess"></div>
                             </div></>
                             :
                             <></>
                         }
-                        <div className="sign_up_btn">
+                        <div className="sign_up_btn" onClick={clickRegister}>
                             Sign Up
                         </div>
                         
