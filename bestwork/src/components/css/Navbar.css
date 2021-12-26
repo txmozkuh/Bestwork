@@ -1,0 +1,172 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap');
+.navbar {
+    height:80px;
+    width:100%;
+    background: rgba(238,125,52,1);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    position: fixed;
+    top:0;
+    z-index: 999;
+    box-shadow: rgba(0, 0, 0, 0.45) 0px 25px 20px -20px;
+}
+.navbar .logo_container{
+    font-family: 'Montserrat', sans-serif;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    font-weight: bold;
+    color:#F8CBAE;
+    font-size: 3rem;
+    margin: 0;
+    padding: 0;
+}
+.navbar .logo img{
+    width: 90px;
+}
+
+.navbar .link_container {
+    height: 100%;
+    display: flex;
+}
+.navbar .link_container li{
+    height: 100%;
+    margin: 0 20px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+.navbar .link_container a{
+    height: 100%;
+    display: flex;
+    align-items: center;
+    color:rgba(255, 255, 255, 1);
+    font-size: 1.4rem;
+}
+
+.navbar .link_container a:hover {
+    
+
+}
+.navbar .link_container li:not(:last-child)::after {
+    content:"";
+    height: 6px;
+    width: 100%;
+    border-radius: 1px;
+    background-color: white;
+    position: absolute;
+    bottom: 0;
+    left:-100%;
+    transition: all 0.3s ease;
+}
+.navbar .link_container li:hover::after {
+    left:0;
+}
+.navbar .login_btn{
+    padding:10px 15px;
+    border-radius: 50px;
+    background:white;
+    font-size: 1.4rem;
+    color:#EE7D2A;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+}
+.navbar .login_btn:hover{
+    margin-bottom: 5px;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 10px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+
+}
+.navbar .menu_btn{
+    padding:10px 15px;
+    border-radius: 50px;
+    background:white;
+    font-size: 1.4rem;
+    color:#EE7D2A;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+    display: none;
+}
+.navbar .menu_btn:active, .login_btn:active{
+    background: #e6e6e6;
+}
+.navbar .searchBar {
+padding: 0 10px;
+display: flex;
+align-items: center;
+background: white;
+border-radius: 20px;
+overflow: hidden;
+box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset;
+}
+.navbar .searchBar .css-i4bv87-MuiSvgIcon-root{
+    height: 100%;
+    color:#EE7D2A;
+    background: white;
+    height: 40px;
+    
+}
+.navbar .searchBar input{
+    height: 40px;
+    width: 300px;
+    padding:0 10px;
+    font-size:1.2rem;
+    color:rgba(0, 0, 0, 0.7);
+    border: none;
+    border-radius: 20px;
+    outline: none;
+}
+.navbar .searchBar.searchBar:hover{
+    transform: scale(1.1);
+}
+.navbar .searchBar input::placeholder{
+    font-family: 'Raleway', sans-serif;
+    font-weight: bold;
+    color:rgba(0, 0, 0, 0.5);
+    font-size: 1rem;
+}
+@media only screen and (max-width: 1400px) {
+    .navbar .link_container{
+        display: none;
+        top:0;
+        left:0;
+        height: 70vh;
+        width: 100%;
+        position: absolute;
+        background-color: rgba(238,125,52,1);
+        z-index: 99;
+        flex-direction: column;
+    }
+    .navbar .link_container li{
+        margin: 0;
+        height: calc(100% / 5);
+        width: 100%;
+        z-index: 99;
+        flex-direction: column;
+    }
+    .navbar .link_container li a{
+        font-size: 2rem;
+    }
+    .navbar .link_container li:not(:last-child):hover {
+        background: rgba(0, 0, 0, 0.2);
+        font-size: 2rem;
+        font-weight: bold;
+    }
+    .navbar .link_container li:not(:last-child)::after {
+        display: none;
+    }
+    .navbar .link_container .login_btn{
+        margin-top: 20px;
+    }
+    .navbar .menu_btn{
+        display: flex;
+        border-radius: 10px;
+    }
+}
