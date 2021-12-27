@@ -79,10 +79,10 @@ const SignUp = () => {
         }
         if(email&&password&&passwordConfirm&&type==="candicate"||email&&password&&passwordConfirm&&code&&type==="recruiter")
         {
-            // axios.post('https://bestwork-server.herokuapp.com/register', registerInfo)
-            //.then((response) => {
-                    //     console.log(response)
-            // });
+            axios.post('http://localhost:3001/register', registerInfo)
+            .then((response) => {
+                        console.log(response)
+            });
             console.log(registerInfo)
         }
         else{
