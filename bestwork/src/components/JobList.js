@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import './css/JobList.scss'
 import JobDetail from './JobDetail.js'
 import { Redirect } from "react-router-dom";
@@ -151,6 +151,13 @@ export const Filter = () => {
 }
 
 export const List = () => {
+    const [listJob,setListJob] = useState([]);
+    useEffect(() => {
+        axios.get('http://localhost:3001/candidate/job-list',
+        {
+            withCredentials: true
+        }).then((res)=>{console.log(res)})
+    })
     const list=[
         {
             id:"123asd123123",
