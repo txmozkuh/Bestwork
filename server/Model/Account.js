@@ -22,7 +22,7 @@ class Account{
 
             const result = await pool.request().query(sqlString);
             const account_id = result.recordset[0].account_id;
-
+            console.log(`Type: ${req.body.type}`)
             return{
                 account_id:account_id,
                 email: req.body.email,

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import './css/JobList.scss'
 import JobDetail from './JobDetail.js'
 import { Redirect } from "react-router-dom";
@@ -73,9 +73,17 @@ export const Filter = () => {
 
         });
     }   
+    const handleLogOut = () =>{
+        axios.get('http://localhost:3001/auth/logout',
+        {
+            withCredentials: true
+        }).then((res)=>{
+            console.log(res)
+        })
+    }
     return (
         <div className="filter_container">
-            
+            <div className="logoutbtn" onClick={handleLogOut}>Logout</div>
             Salary:
             <Box sx={{ width: 300 }}>   
             <Slider
@@ -151,6 +159,13 @@ export const Filter = () => {
 }
 
 export const List = () => {
+    const [listJob,setListJob] = useState([]);
+    useEffect(() => {
+        axios.get('http://localhost:3001/candidate/job-list',
+        {
+            withCredentials: true
+        }).then((res)=>{setListJob(res)})
+    })
     const list=[
         {
             id:"123asd123123",
@@ -362,7 +377,7 @@ export const List = () => {
             address:"100 NTMK Q3",
             description:"We are looking a great Front-end developer",
         }
-    ]
+    ] 
     const [page,setPage]=React.useState(1)
     const itemPerPage=10
     const totalPage=Math.ceil(list.length/itemPerPage)

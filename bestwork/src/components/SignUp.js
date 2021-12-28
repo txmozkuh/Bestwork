@@ -7,7 +7,7 @@ const SignUp = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [passwordConfirm, setPasswordConfirm] = useState('');
-    const [type, setType] = useState("candicate");
+    const [type, setType] = useState("candidate");
     const [code, setCode] = useState("");
 
     const handleUserType = (e) => {
@@ -20,7 +20,6 @@ const SignUp = () => {
         }
         
     }
-
     const validateEmail = ( e ) => {
         let re = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
         var email=e.target.value
@@ -77,12 +76,12 @@ const SignUp = () => {
         if(type=="recruiter"){
             registerInfo.code=code
         }
-        if(email&&password&&passwordConfirm&&type==="candicate"||email&&password&&passwordConfirm&&code&&type==="recruiter")
+        if(email&&password&&passwordConfirm&&type==="candidate"||email&&password&&passwordConfirm&&code&&type==="recruiter")
         {
-            // axios.post('https://bestwork-server.herokuapp.com/register', registerInfo)
-            //.then((response) => {
-                    //     console.log(response)
-            // });
+            axios.post('http://localhost:3001/register', registerInfo)
+            .then((response) => {
+                        console.log(response)
+            });
             console.log(registerInfo)
         }
         else{
@@ -118,7 +117,7 @@ const SignUp = () => {
                 <Grid item xs={12} md={8} lg={8} >
                     <div className="sign_up_form">
                         <div className="type_btn_group">
-                            <div className="candicate_type_btn type_btn active" type-value="candicate" onClick={handleUserType}>Candicate</div>
+                            <div className="candidate_type_btn type_btn active" type-value="candidate" onClick={handleUserType}>Candidate</div>
                             <div className="recruiter_type_btn type_btn"  type-value="recruiter" onClick={handleUserType}>Recruiter</div>
                         </div>
                         <span>Email</span>

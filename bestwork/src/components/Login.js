@@ -3,12 +3,12 @@ import "./css/Login.css"
 import Grid from '@mui/material/Grid';
 import {Link} from "react-router-dom";
 import axios from 'axios';
-import Cookies from 'js-cookie';
 
 
-const Login = ({handleForm}) => {
+const Login = () => {
     const [email, setEmail] = React.useState("")
     const [password, setPassword] = React.useState("")
+    
     const validateEmail = ( e ) => {
         let re = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
         var email=e.target.value
@@ -21,23 +21,66 @@ const Login = ({handleForm}) => {
         }
     }
 
+    const validatePassword = e => {
+        let password=e.target.value
+        if(password.length<=6 && password.length >0)
+        {
+            document.querySelector('.error_mess_pass').innerHTML="Password must have more than 6 characters"
+        }
+        else{
+            setPassword(password)
+            document.querySelector('.error_mess_pass').innerHTML=""
+
+        }
+    }
+
     const clickLogin = () => {
-        axios({
-            url: 'http://localhost:3001/auth/login',
-            method: 'POST',
-            data: {
-                email: email,
-                password: password,
-            },
+        var loginInfo={
+            email: email,
+            password: password
+        }
+        if(email&&password){
+            axios.post('http://localhost:3001/auth/login',loginInfo,
+            {
+                withCredentials:true
+            }).then((res) => {
+                console.log(res.data)
+                if(res.data=="Successfully Authentication !!"){
+                    window.location.href="/"
+                }
+                else{
+                    alert(res.data)
+                }
+            })
+        }
+        else{
+            for(var i in loginInfo){
+                if(!loginInfo[i]){
+                    console.log(i)
+                    if(i==="email"){
+                        document.querySelector('.error_mess_email').innerHTML="Please enter email"
+                    }
+                    if(i==="password"){
+                        document.querySelector('.error_mess_pass').innerHTML="Please enter password"
+                    }
+                }
+            }
+        }
+    }
+    const clickProfile = () => {
+        axios.get('http://localhost:3001/candidate/profile',
+        {
             withCredentials: true
-        }).then((res)=>console.log(res.headers));
+        }).then((res)=>{
+            console.log(res)
+        })
     }
     return (
         <div className="login_container">
             <div className="login_box">
             <div className="login_title">
                 <h1><span style={{"color":"rgb(238,125,52)"}}>Sign in </span> to account</h1>
-                <p>Welcom back, sign in and take your opportunity</p>
+                <p>Welcome back, sign in and take your opportunity</p>
             </div>
             <Grid container className='grid' >
                 <Grid item xs={12} md={8} lg={8} >
@@ -49,14 +92,13 @@ const Login = ({handleForm}) => {
                         </div>
                         <span >Password</span>
                         <div className="input_field" >
-                                <input type="password" name="password" id="password" placeholder="Password" onChange={(e) => {
-                                    setPassword(e.target.value)
-                                }}/>
+                                <input type="password" name="password" id="password" placeholder="Password" onFocus={()=>document.querySelector('.error_mess_pass').innerHTML=""} onChange={validatePassword}/>
+                                <div className="error_mess_pass error_mess"></div>
                         </div>
                         <div className="sign_in_btn" onClick={clickLogin}>
                             Sign In
                         </div>
-                        <div className="switch_sign_up">
+                        <div className="switch_sign_up" >
                             <Link to="/sign-up">Sign Up</Link>
                         </div>
                     </div>
