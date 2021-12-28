@@ -3,21 +3,34 @@ import "./css/Login.css"
 import Grid from '@mui/material/Grid';
 import {Link} from "react-router-dom";
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 
 const Login = ({handleForm}) => {
     const [email, setEmail] = React.useState("")
     const [password, setPassword] = React.useState("")
+    const validateEmail = ( e ) => {
+        let re = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+        var email=e.target.value
+        if ( re.test(email) || email.length===0 ) {
+            document.querySelector('.error_mess_email').innerHTML=""
+            setEmail(email)
+        }
+        else {
+            document.querySelector('.error_mess_email').innerHTML="Please enter correct email"
+        }
+    }
+
     const clickLogin = () => {
         axios({
-            url: 'https://bestwork-server.herokuapp.com/auth/login',
+            url: 'http://localhost:3001/auth/login',
             method: 'POST',
             data: {
-                email: "test7521",
-                password: "123",
+                email: email,
+                password: password,
             },
             withCredentials: true
-        }).then((res)=>console.log(res));
+        }).then((res)=>console.log(res.headers));
     }
     return (
         <div className="login_container">
@@ -31,10 +44,8 @@ const Login = ({handleForm}) => {
                     <div className="login_form">
                         <span>Email</span>
                         <div className="input_field">
-                            <input type="email" name="email" id="email" placeholder="Email" onChange={(e)=> {
-                                    setEmail(e.target.value)
-                                }}/>
-                            <div className="error_mess">Enter a correct form of email</div>
+                            <input type="email" name="email" id="email" placeholder="Email" onChange={validateEmail}/>
+                            <div className="error_mess error_mess_email"></div>
                         </div>
                         <span >Password</span>
                         <div className="input_field" >
@@ -42,7 +53,7 @@ const Login = ({handleForm}) => {
                                     setPassword(e.target.value)
                                 }}/>
                         </div>
-                        <div className="sign_in_btn">
+                        <div className="sign_in_btn" onClick={clickLogin}>
                             Sign In
                         </div>
                         <div className="switch_sign_up">
