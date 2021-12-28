@@ -79,6 +79,7 @@ export const Filter = () => {
             withCredentials: true
         }).then((res)=>{
             console.log(res)
+            localStorage.removeItem('user_status')
         })
     }
     return (
@@ -165,7 +166,7 @@ export const List = () => {
         {
             withCredentials: true
         }).then((res)=>{setListJob(res)})
-    })
+    },[])
     const list=[
         {
             id:"123asd123123",

@@ -46,6 +46,7 @@ const Login = () => {
             }).then((res) => {
                 console.log(res.data)
                 if(res.data=="Successfully Authentication !!"){
+                    localStorage.setItem("user_status","active")
                     window.location.href="/"
                 }
                 else{

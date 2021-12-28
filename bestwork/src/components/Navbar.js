@@ -15,6 +15,11 @@ import ListItem from '@mui/material/ListItem';
 
 const Header = () => {    
     //HANDLE CHECK LOGIN OR NOT?
+    const [userStatus, setUserStatus] = React.useState("")
+    React.useEffect(()=>{
+        setUserStatus(localStorage.getItem('user_status'))
+        console.log(userStatus)
+    },[])
     const [isLogin,setLogin]=React.useState(false)
     const [state, setState] = React.useState({
         top: false
@@ -46,7 +51,7 @@ const Header = () => {
         <Divider/>
         <List>
         <ListItem button >
-            <div className = "login_btn" > Sign In </div>
+            <div className = "login_btn" > Sign In </div>  
         </ListItem>
         </List>
         </Box>
@@ -86,13 +91,19 @@ const Header = () => {
                 }
             <li>
             <Tooltip title = "Still not loggin?" >
-            <Link to={"/sign-in"}><div className = "login_btn" > Sign In </div> </Link>
+            {
+                userStatus==="active"?
+                <Link to={"/profile"}><div className = "login_btn" > Dang</div> </Link>
+                :
+                <Link to={"/sign-in"}><div className = "login_btn" > Sign In </div> </Link>
+            }
             </Tooltip > 
             </li>
             </ul>
             {
                 <React.Fragment key={"top"}>
                 <div className = "menu_btn" onClick={toggleDrawer("top", true)}><ListIcon/></div>
+                
                 <Drawer
                     anchor={"top"}
                     open={state["top"]}
