@@ -31,7 +31,7 @@ exports.getProfile = async (req, res) => {
                                                 on Candidate_Interest.Interest_ID = Interest.Interest_ID 
                                          WHERE Candidate_Interest.Candidate_ID = '${candidate_id}'`);
     const interest = result4.recordset;
-
+    console.log(profile)
     return {
         profile,
         apply_position,

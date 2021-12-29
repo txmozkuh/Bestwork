@@ -38,7 +38,7 @@ export const TableInfo = (props) =>{
     
     return (
         <div className='profile_container'>
-                    {/* {
+                    {
                         update===true?
                         <UpdateForm/>
                         :
@@ -46,38 +46,37 @@ export const TableInfo = (props) =>{
                         <thead>
                             <tr>
                                 <th>Thông tin cá nhân</th>
-                                <th>{props.info.Email}</th>
-                                {console.log(props.info)}
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td>Email</td>
-                                <td>{props.info.Candidate_Name}</td>
+                                <td>{props.info.Email}</td>
                             </tr>
                             <tr>
                                 <td>Họ và tên</td>
-                                <td class='word_color'>ví dụ: Nguyễn Văn A</td>
+                                <td class='word_color'>{props.info.Candidate_Name}</td>
                             </tr>
                             <tr>
                                 <td>Điện thoại</td>
-                                <td class='word_color'>ví dụ: 0908123456</td>
+                                <td class='word_color'>{props.info.Phone_Number}</td>
                             </tr>
                             <tr>
                                 <td>Ngày sinh</td>
-                                <td class='word_color'>ví dụ: 01/01/2001</td>
+                                <td class='word_color'>{props.info.Date_Of_Birth}</td>
                             </tr>
                             <tr>
                                 <td>Giới tính</td>
-                                <td class='word_color'>ví dụ: Nam</td>
+                                <td class='word_color'>{props.info.Gender}</td>
                             </tr>
                             <tr>
                                 <td>Về bản thân</td>
-                                <td class='word_color'>ví dụ: Là một người thích code...</td>
+                                <td class='word_color'>{props.info.About}.</td>
                             </tr>
                         </tbody>
                     </table>
-                    } */}
+                    }
                     <UpdateForm info={props} />
                     {/* <div className="button" onClick={handleUpdateProfile}>
                         Update profile
@@ -118,6 +117,23 @@ export const ListJobTypes = (props) => {
     })
 }
 
+export const TableJobApplied = () => {
+    const [jobApplied, setJobApplied] = React.useState([]);
+    React.useEffect(() => {
+        axios.get('http://localhost:3001/candidate/job-applied',
+        {
+            withCredentials: true
+        }).then((res)=>{
+            setJobApplied(res.data.list)
+        })
+    },[])
+    return(
+        <div>
+            hee
+        </div>
+    );
+}
+
 
 export const UpdateForm = (props) => {
     let curInfo=props.info.info
@@ -145,7 +161,9 @@ export const UpdateForm = (props) => {
         },
         {
         withCredentials: true
-        }).then((res)=>{})
+        }).then((res)=>{
+
+        })
     }
     return(
         <div className='profile_container'>
@@ -192,13 +210,13 @@ export const UpdateForm = (props) => {
                             <tr>
                                 <td>Về bản thân</td>
                                 <td class='word_color'>{curInfo.Gender}</td>
-                                <input type="text" name='about' defaultValue={curInfo.Gender} onChange={(e) => {
+                                <input type="text" name='about' defaultValue={curInfo.About} onChange={(e) => {
                                     SetAbout(e.target.value)
                                 }}></input>
                             </tr>
                         </tbody>
                     </table>
-                    <ListSkills/>
+                    <TableJobApplied/>
                     <div className="button" onClick={handleUpdate}>
                         Update profile
                     </div>
