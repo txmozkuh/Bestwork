@@ -19,7 +19,7 @@ const Profile = () => {
         <>
         {
             Object.keys(UserInfo).length === 0 && UserInfo.constructor === Object?
-            <div className='profile_container'><CircularProgress/></div>
+            <div className='profile_container'><CircularProgress style={{"color":"rgb(238,125,52)"}}/></div>
             :
             <TableInfo info={UserInfo} />
         }

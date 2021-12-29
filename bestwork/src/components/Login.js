@@ -5,18 +5,19 @@ import {Link} from "react-router-dom";
 import axios from 'axios';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const Login = () => {
     const [email, setEmail] = React.useState("")
     const [password, setPassword] = React.useState("")
     const [open, setOpen] = React.useState(false);
+    const [submit, setSubmit] = React.useState(false)
     const Alert = React.forwardRef(function Alert(props, ref) {
         return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
       });
     const handleClick = () => {
       setOpen(true);
     };
-  
     const handleClose = (event, reason) => {
       if (reason === 'clickaway') {
         return;
@@ -55,6 +56,7 @@ const Login = () => {
             password: password
         }
         if(email&&password){
+            setSubmit(true)
             axios.post('http://localhost:3001/auth/login',loginInfo,
             {
                 withCredentials:true
@@ -62,16 +64,17 @@ const Login = () => {
                 console.log(res)
                 if(res.data=="Successfully Authentication !!"){
                     localStorage.setItem("user_status","active")
+                    setSubmit(false)
                     handleClick()
                     setTimeout(() => {
                         window.location.href="/"
-                    }, 1000);
-
-                    
-                    
+                    }, 1000); 
                 }
                 else{
-                    alert(res.data)
+                    setSubmit(false)
+                    setTimeout(()=>{
+                        alert(res.data)
+                    },500)
                 }
             })
         }
@@ -119,7 +122,12 @@ const Login = () => {
                                 <div className="error_mess_pass error_mess"></div>
                         </div>
                         <div className="sign_in_btn" onClick={clickLogin}>
-                            Sign In
+                            {
+                                submit?
+                                <CircularProgress style={{"color":"white"}}/>
+                                :
+                                <>Sign In</>
+                            }
                         </div>
                         <div className="switch_sign_up" >
                             <Link to="/sign-up">Sign Up</Link>

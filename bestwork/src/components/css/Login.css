@@ -7,6 +7,11 @@
     margin-top: 10px;
     height: calc(100vh);
 }
+.login_container .loading{
+    position: absolute;
+    top:50%;
+    right: 50%;
+}
 .login_box{
     /* margin: 20px; */
     width: 55%;
