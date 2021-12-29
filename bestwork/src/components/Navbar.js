@@ -12,8 +12,10 @@ import Drawer from "@mui/material/Drawer";
 import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
 import ListItem from '@mui/material/ListItem';
+import axios from "axios"
 
 const Header = () => {    
+
     //HANDLE CHECK LOGIN OR NOT?
     const [userStatus, setUserStatus] = React.useState("")
     React.useEffect(()=>{
@@ -21,6 +23,18 @@ const Header = () => {
         console.log(userStatus)
     },[])
     const [isLogin,setLogin]=React.useState(false)
+
+    const handleLogOut = () =>{
+        axios.get('http://localhost:3001/auth/logout',
+        {
+            withCredentials: true
+        }).then((res)=>{
+            console.log(res)
+            localStorage.removeItem('user_status')
+            window.location.href="/"
+        })
+    }
+
     const [state, setState] = React.useState({
         top: false
       });
@@ -90,14 +104,18 @@ const Header = () => {
                     })
                 }
             <li>
-            <Tooltip title = "Still not loggin?" >
             {
                 userStatus==="active"?
-                <Link to={"/profile"}><div className = "login_btn" > Dang</div> </Link>
+                <div className="dropdown">
+                    <Link to={'/profile'}><h1>User Name</h1></Link>
+                    <div className='dropdown_box'>
+                    <div className='item'><Link to={'/profile'}>Profile</Link></div>
+                    <div className='item' onClick={handleLogOut}><Link to={'/'}>Log Out</Link></div>
+                    </div>
+                </div>
                 :
                 <Link to={"/sign-in"}><div className = "login_btn" > Sign In </div> </Link>
             }
-            </Tooltip > 
             </li>
             </ul>
             {

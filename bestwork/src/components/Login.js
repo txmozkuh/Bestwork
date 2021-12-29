@@ -3,12 +3,27 @@ import "./css/Login.css"
 import Grid from '@mui/material/Grid';
 import {Link} from "react-router-dom";
 import axios from 'axios';
-
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
 
 const Login = () => {
     const [email, setEmail] = React.useState("")
     const [password, setPassword] = React.useState("")
-    
+    const [open, setOpen] = React.useState(false);
+    const Alert = React.forwardRef(function Alert(props, ref) {
+        return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+      });
+    const handleClick = () => {
+      setOpen(true);
+    };
+  
+    const handleClose = (event, reason) => {
+      if (reason === 'clickaway') {
+        return;
+      }
+  
+      setOpen(false);
+    };
     const validateEmail = ( e ) => {
         let re = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
         var email=e.target.value
@@ -47,7 +62,13 @@ const Login = () => {
                 console.log(res)
                 if(res.data=="Successfully Authentication !!"){
                     localStorage.setItem("user_status","active")
-                    window.location.href="/"
+                    handleClick()
+                    setTimeout(() => {
+                        window.location.href="/"
+                    }, 1000);
+
+                    
+                    
                 }
                 else{
                     alert(res.data)
@@ -76,6 +97,7 @@ const Login = () => {
             console.log(res)
         })
     }
+    
     return (
         <div className="login_container">
             <div className="login_box">
@@ -107,7 +129,16 @@ const Login = () => {
                 <Grid item xs={12} md={4} lg={4} >
                     <img src="/images/login_bg.svg" alt=" " />
                 </Grid>
-                
+                <Snackbar
+                    open={open}
+                    autoHideDuration={6000}
+                    onClose={handleClose}
+                >
+                    <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+                        Sign in successfully
+                        </Alert>
+                </Snackbar>
+
             </Grid>
             </div>
         </div>

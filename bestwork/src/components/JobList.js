@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './css/JobList.scss'
 import JobDetail from './JobDetail.js'
-import { Redirect } from "react-router-dom";
 import {
     Link
 } from "react-router-dom";
@@ -73,18 +72,9 @@ export const Filter = () => {
 
         });
     }   
-    const handleLogOut = () =>{
-        axios.get('http://localhost:3001/auth/logout',
-        {
-            withCredentials: true
-        }).then((res)=>{
-            console.log(res)
-            localStorage.removeItem('user_status')
-        })
-    }
+    
     return (
         <div className="filter_container">
-            <div className="logoutbtn" onClick={handleLogOut}>Logout</div>
             Salary:
             <Box sx={{ width: 300 }}>   
             <Slider
