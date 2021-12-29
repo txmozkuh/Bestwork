@@ -8,26 +8,33 @@ exports.getProfile = async (req, res) => {
 
     //-------------------------- Get Candidate Profile --------------------------------\\
     const result1 = await request.query(`SELECT * 
-                                         FROM Candidate join Job on Candidate.Apply_Position = Job.Job_ID 
+                                         FROM Candidate
                                          WHERE Candidate_ID='${candidate_id}'`);
     const profile = result1.recordset[0];
 
+    //-------------------------- Get Job Position --------------------------------\\
+    const result2 = await request.query(`SELECT Job.Job_ID, Job.Job_Name 
+                                         FROM Candidate join Job on Candidate.Apply_Position = Job.Job_ID 
+                                         WHERE Candidate_ID='${candidate_id}'`);
+    const apply_position = result2.recordset[0];
+
     //-------------------------- Get Candidate_Skill --------------------------------\\
-    const result2 = await request.query(`SELECT Candidate_Skill.Skill_ID, Skill.Skill_Name 
+    const result3 = await request.query(`SELECT Candidate_Skill.Skill_ID, Skill.Skill_Name 
                                          FROM Candidate_Skill join Skill 
                                                        on Candidate_Skill.Skill_ID = Skill.Skill_ID 
                                          WHERE Candidate_Skill.Candidate_ID = '${candidate_id}'`);
-    const skill = result2.recordset;
+    const skill = result3.recordset;
 
     //-------------------------- Get Candidate_Interest --------------------------------\\
-    const result3 = await request.query(`SELECT Candidate_Interest.Interest_ID, Interest.Interest_Name 
+    const result4 = await request.query(`SELECT Candidate_Interest.Interest_ID, Interest.Interest_Name 
                                          FROM Candidate_Interest join Interest 
                                                 on Candidate_Interest.Interest_ID = Interest.Interest_ID 
                                          WHERE Candidate_Interest.Candidate_ID = '${candidate_id}'`);
-    const interest = result3.recordset;
+    const interest = result4.recordset;
 
     return {
         profile,
+        apply_position,
         skill,
         interest
     }
