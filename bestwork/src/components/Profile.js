@@ -38,7 +38,7 @@ export const TableInfo = (props) =>{
     
     return (
         <div className='profile_container'>
-                    {
+                    {/* {
                         update===true?
                         <UpdateForm/>
                         :
@@ -77,7 +77,8 @@ export const TableInfo = (props) =>{
                             </tr>
                         </tbody>
                     </table>
-                    }
+                    } */}
+                    <UpdateForm info={props} />
                     <div className="button" onClick={handleUpdateProfile}>
                         Update profile
                     </div>
@@ -85,15 +86,16 @@ export const TableInfo = (props) =>{
     )
 }
 
-export const UpdateForm = () => {
+export const UpdateForm = (props) => {
+    let curInfo=props.info.info
     return(
         <div className='profile_container'>
                     <table class="styled-table">
                         <thead>
                             <tr>
                                 <th>Thông tin cá nhân</th>
-                                <th>asda</th>
-                                input 
+                                <th></th>
+                                <input type="text" defaultValue={curInfo.Email}></input> 
                             </tr>
                         </thead>
                         <tbody>
