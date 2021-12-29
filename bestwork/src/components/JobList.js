@@ -124,7 +124,6 @@ export const Filter = () => {
                         //     // return <MenuItem value={city}>{city}</MenuItem>
                         //     console.log(city)
                         // })
-                        console.log(cities["0"])
                     }
                 </Select>
                 </FormControl>
@@ -388,10 +387,20 @@ export const List = () => {
     )
 }
 export const JobItem = (props) =>{
+    const [userstatus, setUserStatus] = React.useState("")
+    React.useEffect(()=>{
+        setUserStatus(localStorage.getItem('user_status'))
+    },[])
     const JobItem=props.item
     const navigate = useNavigate();
     function handleClick() {
-        navigate(`/job/item/${JobItem.id}`);
+        if(userstatus){
+            navigate(`/job/item/${JobItem.id}`);
+        }
+        else{
+            navigate('/sign-in')
+        }
+        
     }
     return(
         // <Link to ={`/item`}> 
