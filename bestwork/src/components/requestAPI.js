@@ -1,6 +1,12 @@
 import axios from 'axios';
 import { useState } from 'react';
 
+axios.get('http://localhost:3001/auth/logout',{
+
+}).then((response) => {
+    console.log(response)
+})
+
 axios.get('https://bestwork-server.herokuapp.com/get/interest',{
 
 }).then((response) => {

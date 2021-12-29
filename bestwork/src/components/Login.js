@@ -44,7 +44,7 @@ const Login = () => {
             {
                 withCredentials:true
             }).then((res) => {
-                console.log(res.data)
+                console.log(res)
                 if(res.data=="Successfully Authentication !!"){
                     localStorage.setItem("user_status","active")
                     window.location.href="/"
