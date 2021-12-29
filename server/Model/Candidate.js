@@ -41,6 +41,7 @@ exports.getProfile = async (req, res) => {
 }
 
 exports.updateProfile = async (req, res) => {
+    console.log(req.body['candidate-name'])
     const body = req.body;
     const user = req.user;
     const skill_IDs = body['skill-id'];
@@ -56,7 +57,6 @@ exports.updateProfile = async (req, res) => {
                          Date_Of_Birth = '${body['date-of-birth']}',
                          Gender = '${body.gender}',
                          Phone_Number = '${body['phone-number']}',
-                         Email = '${user.email}',
                          About = N'${body.about}',
                          Apply_Position = '${body['apply-position']}',
                          Working_Form = N'${body['working-form']}',
