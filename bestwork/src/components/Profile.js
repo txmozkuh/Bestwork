@@ -28,10 +28,7 @@ const Profile = () => {
                 setInfo(res.data.candidate.profile)
             })
     },[])
-    
-        
 
-    
     return (
         <>
         {
@@ -102,30 +99,25 @@ export const TableInfo = (props) =>{
     )
 }
 
-export const ListInterests = (props) => {
-    
-}
 
-const ITEM_HEIGHT = 40;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
-    },
-  },
-};
-
-export const MultipleSelectCheckmark = () => {
+export const MultipleSelectCheckmark = (props) => {
     const [interests,setInterest] = React.useState([])
+    const ITEM_HEIGHT = 40;
+    const ITEM_PADDING_TOP = 8;
+    const MenuProps = {
+    PaperProps: {
+        style: {
+        maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+        width: 250,
+        },
+    },
+    };
     React.useEffect(()=>{
         axios.get('http://localhost:3001/get/interest',
         {
             withCredentials: true
         }).then((res)=>{
             setInterest(res.data.interests)
-            
         })
     },[])
     
@@ -140,7 +132,13 @@ export const MultipleSelectCheckmark = () => {
         typeof value === 'string' ? value.split(',') : value,
         );
     };
-    console.log(listInterest)
+    var result=listInterest.map(name=>{
+        var result=interests.find((i_name)=>{
+            return i_name.Interest_Name==name
+        })
+        return result.Interest_ID
+    })
+    console.log("Result:",result)
     return (
         <div>
         <FormControl sx={{ m: 1, width: 300 }}>
@@ -156,7 +154,7 @@ export const MultipleSelectCheckmark = () => {
             MenuProps={MenuProps}
             >
             {interests.map((interest) => (
-                <MenuItem key={interest.Interest_Name} value={interest.Interest_Name}>
+                <MenuItem key={interest.Interest_Name} value={interest.Interest_Name} >
                 <Checkbox checked={listInterest.indexOf(interest.Interest_Name) > -1}/>
                 <ListItemText primary={interest.Interest_Name} />
                 </MenuItem>
@@ -294,7 +292,7 @@ export const UpdateForm = (props) => {
                             </tr>
                         </tbody>
                     </table>
-                    <MultipleSelectCheckmark/>
+                    <MultipleSelectCheckmark />
                     <div className="button" onClick={handleUpdate}>
                         Update profile
                     </div>
