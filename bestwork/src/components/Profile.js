@@ -17,20 +17,16 @@ const Profile = () => {
 
     React.useEffect(() => {
         setUserType(localStorage.getItem('user_status'))
-    }, [])
-
-    React.useEffect(() => {
-            axios.get('http://localhost:3001/candidate/profile',
-            {
-                withCredentials: true
-            }).then((res)=>{
-                console.log(res.data.candidate.profile)
-                setInfo(res.data.candidate.profile)
-            })
-    },[])
-    
         
-
+        axios.get('http://localhost:3001/candidate/profile',
+        {
+            withCredentials: true
+        }).then((res)=>{
+            console.log(res.data.candidate.profile)
+            console.log(userType)
+            setInfo(res.data.candidate.profile)
+        })
+    },[])
     
     return (
         <>
@@ -102,32 +98,20 @@ export const TableInfo = (props) =>{
     )
 }
 
-export const ListInterests = (props) => {
-    
-}
 
-const ITEM_HEIGHT = 40;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
+export const ListInterestOfUser = (props) => {
+    const interests = props.userInterest
+    const ITEM_HEIGHT = 40;
+    const ITEM_PADDING_TOP = 8;
+    const MenuProps = {
+    PaperProps: {
+        style: {
+        maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+        width: 250,
+        },
     },
-  },
-};
-
-export const MultipleSelectCheckmark = () => {
-    const [interests,setInterest] = React.useState([])
-    React.useEffect(()=>{
-        axios.get('http://localhost:3001/get/interest',
-        {
-            withCredentials: true
-        }).then((res)=>{
-            setInterest(res.data.interests)
-            
-        })
-    },[])
+    };
+    
     
     const [listInterest, setListInterest] = React.useState([]);
 
@@ -183,7 +167,6 @@ export const ListJobTypes = (props) => {
     {
         withCredentials: true
     }).then((res)=>{
-        
         setJobType(res.data.jobs)
     })
 }
@@ -219,9 +202,17 @@ export const UpdateForm = (props) => {
     const [SkillID, SetSkillID] = React.useState([])
     const [userType,setUserType] = React.useState('')
 
-    React.useEffect(() => {
+    const [interests,setInterest] = React.useState([])
+    React.useEffect(()=>{
         setUserType(localStorage.getItem('user_status'))
-    })
+        axios.get('http://localhost:3001/get/interest',
+        {
+            withCredentials: true
+        }).then((res)=>{
+            setInterest(res.data.interests)
+            console.log(interests)
+        })
+    },[])
     const handleUpdate = () => {
         console.log('sss')
         if(userType === 'candidate'){
@@ -294,7 +285,7 @@ export const UpdateForm = (props) => {
                             </tr>
                         </tbody>
                     </table>
-                    <MultipleSelectCheckmark/>
+                    <ListInterestOfUser userInterest = {interests}/>
                     <div className="button" onClick={handleUpdate}>
                         Update profile
                     </div>
