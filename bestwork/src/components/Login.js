@@ -12,6 +12,7 @@ const Login = () => {
     const [password, setPassword] = React.useState("")
     const [open, setOpen] = React.useState(false);
     const [submit, setSubmit] = React.useState(false)
+    const [typeUser,setTypeUser] = React.useState("")
     const Alert = React.forwardRef(function Alert(props, ref) {
         return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
       });
@@ -49,21 +50,24 @@ const Login = () => {
 
         }
     }
-
+    
     const clickLogin = () => {
         var loginInfo={
             email: email,
             password: password
         }
+        
         if(email&&password){
             setSubmit(true)
             axios.post('http://localhost:3001/auth/login',loginInfo,
             {
                 withCredentials:true
             }).then((res) => {
+                
                 console.log(res)
-                if(res.data=="Successfully Authentication !!"){
-                    localStorage.setItem("user_status","active")
+                if(res.data.message === "Successfully Authentication !!"){
+                    console.log(res.data.user.Type.replace(/\s/g, ""))
+                    localStorage.setItem("user_status",res.data.user.Type.replace(/\s/g, ""))
                     setSubmit(false)
                     handleClick()
                     setTimeout(() => {
@@ -93,6 +97,7 @@ const Login = () => {
         }
     }
     const clickProfile = () => {
+
         axios.get('http://localhost:3001/candidate/profile',
         {
             withCredentials: true

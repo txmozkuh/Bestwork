@@ -4,16 +4,33 @@ import axios from 'axios'
 import {useParams} from 'react-router-dom'
 import CircularProgress from '@mui/material/CircularProgress';
 
+import OutlinedInput from '@mui/material/OutlinedInput';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import ListItemText from '@mui/material/ListItemText';
+import Select from '@mui/material/Select';
+import Checkbox from '@mui/material/Checkbox';
 const Profile = () => {
     const [UserInfo,setInfo] = React.useState({})
+    const [userType,setUserType] = React.useState('')
+
     React.useEffect(() => {
-        axios.get('http://localhost:3001/candidate/profile',
-        {
-            withCredentials: true
-        }).then((res)=>{
-            setInfo(res.data.candidate.profile)
-        })
+        setUserType(localStorage.getItem('user_status'))
     }, [])
+
+    React.useEffect(() => {
+            axios.get('http://localhost:3001/candidate/profile',
+            {
+                withCredentials: true
+            }).then((res)=>{
+                console.log(res.data.candidate.profile)
+                setInfo(res.data.candidate.profile)
+            })
+    },[])
+    
+        
+
     
     return (
         <>
@@ -86,15 +103,69 @@ export const TableInfo = (props) =>{
 }
 
 export const ListInterests = (props) => {
-    const [interest,setInterest] = React.useState([])
-    axios.get('http://localhost:3001/get/interest',
-    {
-        withCredentials: true
-    }).then((res)=>{
-        setInterest(res.data.interests)
-    })
+    
 }
 
+const ITEM_HEIGHT = 40;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+};
+
+export const MultipleSelectCheckmark = () => {
+    const [interests,setInterest] = React.useState([])
+    React.useEffect(()=>{
+        axios.get('http://localhost:3001/get/interest',
+        {
+            withCredentials: true
+        }).then((res)=>{
+            setInterest(res.data.interests)
+            
+        })
+    },[])
+    
+    const [listInterest, setListInterest] = React.useState([]);
+
+    const handleChange = (event) => {
+        const {
+        target: { value },
+        } = event;
+        setListInterest(
+        // On autofill we get a stringified value.
+        typeof value === 'string' ? value.split(',') : value,
+        );
+    };
+    console.log(listInterest)
+    return (
+        <div>
+        <FormControl sx={{ m: 1, width: 300 }}>
+            <InputLabel id="demo-multiple-checkbox-label">Interest</InputLabel>
+            <Select
+            labelId="demo-multiple-checkbox-label"
+            id="demo-multiple-checkbox"
+            multiple
+            value={listInterest}
+            onChange={handleChange}
+            input={<OutlinedInput label="Interest" />}
+            renderValue={(selected) => selected.join(', ')}
+            MenuProps={MenuProps}
+            >
+            {interests.map((interest) => (
+                <MenuItem key={interest.Interest_Name} value={interest.Interest_Name}>
+                <Checkbox checked={listInterest.indexOf(interest.Interest_Name) > -1}/>
+                <ListItemText primary={interest.Interest_Name} />
+                </MenuItem>
+            ))}
+            </Select>
+        </FormControl>
+        </div>
+    );
+}
 
 export const ListSkills = (props) => {
     const [skill,setSkill] = React.useState([])
@@ -146,24 +217,31 @@ export const UpdateForm = (props) => {
     const [WorkingForm, SetWorkingForm] = React.useState('')
     const [InterestID, SetInterestID] = React.useState([])
     const [SkillID, SetSkillID] = React.useState([])
+    const [userType,setUserType] = React.useState('')
+
+    React.useEffect(() => {
+        setUserType(localStorage.getItem('user_status'))
+    })
     const handleUpdate = () => {
         console.log('sss')
-        axios.put('http://localhost:3001/candidate/profile',{
-            'candidate-name':CandidateName,
-            'date-of-birth':DateOfBirth,
-            gender:Gender,
-            'phone-number':PhoneNumber,
-            about:About,
-            'apply-position':'1',
-            'working-form':'not',
-            'interest-id':'1',
-            'skill-id':'1',
-        },
-        {
-        withCredentials: true
-        }).then((res)=>{
-
-        })
+        if(userType === 'candidate'){
+            axios.put('http://localhost:3001/candidate/profile',{
+                'candidate-name':CandidateName,
+                'date-of-birth':DateOfBirth,
+                gender:Gender,
+                'phone-number':PhoneNumber,
+                about:About,
+                'apply-position':'1',
+                'working-form':'not',
+                'interest-id':'1',
+                'skill-id':'1',
+            },
+            {
+            withCredentials: true
+            }).then((res)=>{
+    
+            })
+        }
     }
     return(
         <div className='profile_container'>
@@ -216,7 +294,7 @@ export const UpdateForm = (props) => {
                             </tr>
                         </tbody>
                     </table>
-                    <TableJobApplied/>
+                    <MultipleSelectCheckmark/>
                     <div className="button" onClick={handleUpdate}>
                         Update profile
                     </div>
