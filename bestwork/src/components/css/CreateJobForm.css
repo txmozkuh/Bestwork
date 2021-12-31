@@ -2,3 +2,40 @@
     min-height: 100vh;
     margin-top: 30px;
 }
+.create_job_container .button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 48px;
+    width: 220px;
+    background-color:rgb(238,125,52);
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+    margin: 28px 0
+  }
+.styled-table {
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 400px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+.styled-table thead tr {
+    background-color: #d37305;
+    color: #ffffff;
+    text-align: left;
+}
+.styled-table th,
+.styled-table td {
+    padding: 12px 15px;
+}
+.styled-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+.word_color {
+    color: #dddddd;
+}

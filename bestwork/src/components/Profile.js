@@ -352,7 +352,7 @@ export const UpdateForm = (props) => {
     const [Gender, SetGender] = React.useState('')
     const [PhoneNumber, SetPhoneNumber] = React.useState('')
     const [About, SetAbout] = React.useState('')
-    const [JobType, SẹtJobType] = React.useState([])
+    const [JobType, SetJobType] = React.useState([])
     const [WorkingForm, SetWorkingForm] = React.useState('')
     const [listInterestID , SetListInterestID] = React.useState([])
     const [listJobTypeID , SetListJobTypeID ] = React.useState([])
@@ -383,7 +383,7 @@ export const UpdateForm = (props) => {
             withCredentials: true
         }).then((res)=>{
             console.log(res)
-            SẹtJobType(res.data.jobs)
+            SetJobType(res.data.jobs)
         })
     },[])
     const handleUpdate = () => {

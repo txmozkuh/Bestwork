@@ -155,10 +155,10 @@ export const List = () => {
         {
             withCredentials: true
         }).then((res)=>{
-            console.log(res.data.list)
             setListJob(res.data.list)
         })
     },[])
+    console.log(listJob)
     const [page,setPage]=React.useState(1)
     const itemPerPage=10
     const totalPage=Math.ceil(listJob.length/itemPerPage)
@@ -175,7 +175,9 @@ export const List = () => {
             }
         </div>
     )
+    
 }
+
 export const JobItem = (props) =>{
     const [userstatus, setUserStatus] = React.useState("")
     React.useEffect(()=>{
