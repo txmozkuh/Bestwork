@@ -23,7 +23,6 @@ export const Filter = ({listCity,SetWorkingForm,setCity,setDistrict, listSkills,
     const cities = listCity
     const skills = listSkills
     const types = Type
-    console.log(types)
     const ITEM_HEIGHT = 40;
     const ITEM_PADDING_TOP = 8;
     const MenuProps = {
@@ -90,7 +89,6 @@ export const Filter = ({listCity,SetWorkingForm,setCity,setDistrict, listSkills,
             );
         console.log(event)
     }
-    console.log(jobType)
     return (
         <div>
         <FormControl sx={{ m: 1, width: 300 }}>
@@ -248,28 +246,41 @@ const CreateJobForm = () => {
             // console.log(res)
             getTypeJob(res.data.jobs)
         })
+        axios.get('http://localhost:3001/recruiter/job-list',
+        {
+        withCredentials: true
+        }).then((res)=>{
+            console.log('job:' , res)
+        })
     },[])
 
     const handleCreateJob = () => {
-        axios.post('http://localhost:3001/recruiter/job-create',{
-            'job-name': jobName,
-            salary: salary,
-            'start-date': startDate,
-            'end-date':endDate,
-            district: district,
-            city: city.name,
-            'working-form': workingForm,
-            'recruitment_quantity': recruimentQuantity,
-            'remote':true,
-            'years-of-experience':yearExperience,
-            'type-id':[1],
-            'skill-id':listSkillsID,
-        },
-        {
-            withCredentials: true
-        }).then((res)=>{
-            console.log(res)
-        })
+        if(jobName&&salary&&startDate&&endDate&&district&&city.name&&workingForm&&recruimentQuantity&&listSkillsID){
+            axios.post('http://localhost:3001/recruiter/job-create',{
+                'job-name': jobName,
+                salary: salary,
+                'start-date': startDate,
+                'end-date':endDate,
+                district: district,
+                city: city.name,
+                'working-form': workingForm,
+                'recruitment_quantity': recruimentQuantity,
+                'remote':true,
+                'years-of-experience':yearExperience,
+                'type-id':[1],
+                'skill-id':listSkillsID,
+            },
+            {
+                withCredentials: true
+            }).then((res)=>{
+                console.log('rrr')
+                console.log(res)
+            })
+        }
+        else {
+            alert('please fill all blank')
+        }
+        
     }
     return (
         <div className='create_job_container'>

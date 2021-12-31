@@ -150,7 +150,7 @@ export const Filter = () => {
 
 export const List = () => {
     const [listJob,setListJob] = useState([]);
-    useEffect(() => {
+    useEffect(() => {   
         axios.get('http://localhost:3001/candidate/job-list',
         {
             withCredentials: true
