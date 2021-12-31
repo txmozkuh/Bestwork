@@ -121,9 +121,9 @@ exports.jobList = async (req,res) => {
     const request = pool.request();
 
     const result = await request
-        .query(`SELECT Recruiter.Recruiter_Name, Recruiter_Job.Job_Name, Recruiter_Job.District,
+        .query(`SELECT Recruiter_Job.Recruiter_Job_ID, Recruiter.Recruiter_Name, Recruiter_Job.Job_Name, Recruiter_Job.District,
                        Recruiter_Job.city, Recruiter_Job.Salary, Recruiter_Job.Start_Date, 
-                       Recruiter_Job.End_Date, Recruiter_Job.Status
+                       Recruiter_Job.End_Date, Recruiter_Job.Status, Recruiter_Job.Working_Form
                 FROM Recruiter_Job join Recruiter on Recruiter_Job.Recruiter_ID = Recruiter.Recruiter_ID
                 WHERE Recruiter_Job.Status = 'available'`);
     return result.recordset;

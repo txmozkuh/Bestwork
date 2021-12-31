@@ -154,232 +154,22 @@ export const List = () => {
         axios.get('http://localhost:3001/candidate/job-list',
         {
             withCredentials: true
-        }).then((res)=>{setListJob(res)})
+        }).then((res)=>{
+            console.log(res.data.list)
+            setListJob(res.data.list)
+        })
     },[])
-    const list=[
-        {
-            id:"123asd123123",
-            img:"./images/gg.png",
-            company:"ATOM",
-            required:"Reactjs Javascript",
-            position:"Front-end developer ",
-            salary:"500",
-            address:"100 NTMK Quan 3",
-            description:"We are looking a great Front-end developer",
-        },
-        {
-            img:"./images/gg.png",
-            company:"REUS",
-            required:"Nodejs, ExpressJs,ElectronicJs",
-            position:"Back-end developer ",
-            salary:"500",
-            address:"100 NTMK Q3",
-            description:"We are looking a great Front-end developer",
-        },
-        {
-            img:"./images/gg.png",
-            company:"HERA",
-            required:"IT",
-            position:"FullStack developer",
-            salary:"500",
-            address:"100 NTMK Q3",
-            description:"We are looking a great Front-end developer",
-        },{
-            img:"./images/gg.png",
-            company:"ATOM",
-            required:"Reactjs Javascript",
-            position:"Front-end developer ",
-            salary:"500",
-            address:"100 NTMK Q3",
-            description:"We are looking a great Front-end developer",
-        },
-        {
-            img:"./images/gg.png",
-            company:"REUS",
-            required:"Nodejs, ExpressJs,ElectronicJs",
-            position:"Back-end developer ",
-            salary:"500",
-            address:"100 NTMK Q3",
-            description:"We are looking a great Front-end developer",
-        },
-        {
-            img:"./images/gg.png",
-            company:"HERA",
-            required:"IT",
-            position:"FullStack developer",
-            salary:"500",
-            address:"100 NTMK Q3",
-            description:"We are looking a great Front-end developer",
-        },{
-            img:"./images/gg.png",
-            company:"ATOM",
-            required:"Reactjs Javascript",
-            position:"Front-end developer ",
-            salary:"500",
-            address:"100 NTMK Q3",
-            description:"We are looking a great Front-end developer",
-        },
-        {
-            img:"./images/gg.png",
-            company:"REUS",
-            required:"Nodejs, ExpressJs,ElectronicJs",
-            position:"Back-end developer ",
-            salary:"500",
-            address:"100 NTMK Q3",
-            description:"We are looking a great Front-end developer",
-        },
-        {
-            img:"./images/gg.png",
-            company:"HERA",
-            required:"IT",
-            position:"FullStack developer",
-            salary:"500",
-            address:"100 NTMK Q3",
-            description:"We are looking a great Front-end developer",
-        },{
-            img:"./images/gg.png",
-            company:"ATOM",
-            required:"Reactjs Javascript",
-            position:"Front-end developer ",
-            salary:"500",
-            address:"100 NTMK Q3",
-            description:"We are looking a great Front-end developer",
-        },
-        {
-            img:"./images/gg.png",
-            company:"REUS",
-            required:"Nodejs, ExpressJs,ElectronicJs",
-            position:"Back-end developer ",
-            salary:"500",
-            address:"100 NTMK Q3",
-            description:"We are looking a great Front-end developer",
-        },
-        {
-            img:"./images/gg.png",
-            company:"HERA",
-            required:"IT",
-            position:"FullStack developer",
-            salary:"500",
-            address:"100 NTMK Q3",
-            description:"We are looking a great Front-end developer",
-        },{
-            img:"./images/gg.png",
-            company:"ATOM",
-            required:"Reactjs Javascript",
-            position:"Front-end developer ",
-            salary:"500",
-            address:"100 NTMK Q3",
-            description:"We are looking a great Front-end developer",
-        },
-        {
-            img:"./images/gg.png",
-            company:"REUS",
-            required:"Nodejs, ExpressJs,ElectronicJs",
-            position:"Back-end developer ",
-            salary:"500",
-            address:"100 NTMK Q3",
-            description:"We are looking a great Front-end developer",
-        },
-        {
-            img:"./images/gg.png",
-            company:"HERA",
-            required:"IT",
-            position:"FullStack developer",
-            salary:"500",
-            address:"100 NTMK Q3",
-            description:"We are looking a great Front-end developer",
-        },{
-            img:"./images/gg.png",
-            company:"ATOM",
-            required:"Reactjs Javascript",
-            position:"Front-end developer ",
-            salary:"500",
-            address:"100 NTMK Q3",
-            description:"We are looking a great Front-end developer",
-        },
-        {
-            img:"./images/gg.png",
-            company:"REUS",
-            required:"Nodejs, ExpressJs,ElectronicJs",
-            position:"Back-end developer ",
-            salary:"500",
-            address:"100 NTMK Q3",
-            description:"We are looking a great Front-end developer",
-        },
-        {
-            img:"./images/gg.png",
-            company:"HERA",
-            required:"IT",
-            position:"FullStack developer",
-            salary:"500",
-            address:"100 NTMK Q3",
-            description:"We are looking a great Front-end developer",
-        },{
-            img:"./images/gg.png",
-            company:"ATOM",
-            required:"Reactjs Javascript",
-            position:"Front-end developer ",
-            salary:"500",
-            address:"100 NTMK Q3",
-            description:"We are looking a great Front-end developer",
-        },
-        {
-            img:"./images/gg.png",
-            company:"REUS",
-            required:"Nodejs, ExpressJs,ElectronicJs",
-            position:"Back-end developer ",
-            salary:"500",
-            address:"100 NTMK Q3",
-            description:"We are looking a great Front-end developer",
-        },
-        {
-            img:"./images/gg.png",
-            company:"HERA",
-            required:"IT",
-            position:"FullStack developer",
-            salary:"500",
-            address:"100 NTMK Q3",
-            description:"We are looking a great Front-end developer",
-        },{
-            img:"./images/gg.png",
-            company:"ATOM",
-            required:"Reactjs Javascript",
-            position:"Front-end developer ",
-            salary:"500",
-            address:"100 NTMK Q3",
-            description:"We are looking a great Front-end developer",
-        },
-        {
-            img:"./images/gg.png",
-            company:"REUS",
-            required:"Nodejs, ExpressJs,ElectronicJs",
-            position:"Back-end developer ",
-            salary:"500",
-            address:"100 NTMK Q3",
-            description:"We are looking a great Front-end developer",
-        },
-        {
-            img:"./images/gg.png",
-            company:"HERA",
-            required:"IT",
-            position:"FullStack developer",
-            salary:"500",
-            address:"100 NTMK Q3",
-            description:"We are looking a great Front-end developer",
-        }
-    ] 
     const [page,setPage]=React.useState(1)
     const itemPerPage=10
-    const totalPage=Math.ceil(list.length/itemPerPage)
+    const totalPage=Math.ceil(listJob.length/itemPerPage)
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
-    
     return (
         <div className="list_container"> 
             <Pagination style={{"color":"white"}} count={totalPage} page={page} onChange={handleChangePage}/>
             {
-                list.slice((page-1)*10,(page-1)*10+10).map((item)=>{
+                listJob.slice((page-1)*10,(page-1)*10+10).map((item)=>{
                     return <JobItem item={item}/>
                 })
             }
@@ -395,7 +185,7 @@ export const JobItem = (props) =>{
     const navigate = useNavigate();
     function handleClick() {
         if(userstatus){
-            navigate(`/job/item/${JobItem.id}`);
+            navigate(`/job/item/${JobItem.Recruiter_Job_ID}`);
         }
         else{
             navigate('/sign-in')
@@ -403,17 +193,15 @@ export const JobItem = (props) =>{
         
     }
     return(
-        // <Link to ={`/item`}> 
             <div className="item" onClick={handleClick}>
                 <img src={JobItem.img} alt="" />
                 <div className="info">
-                    <div className="name">{`${JobItem.position} [ ${JobItem.required} ]`}</div>
-                    <div className="company"><BusinessIcon/>{JobItem.company}</div>
-                    <div className="salary"><CreditCardSharpIcon/>{`${JobItem.salary}$`}</div>
-                    <div className="address"><RoomIcon fontSize={"small"}/>{JobItem.address}</div>
-                    <div className="description"><NotesIcon/>{JobItem.description}</div>
+                    <div className="name">{`${JobItem.Job_Name} [ ${JobItem.required} ]`}</div>
+                    <div className="company"><BusinessIcon/>{JobItem.Recruiter_Name}</div>
+                    <div className="salary"><CreditCardSharpIcon/>{`${JobItem.Salary}$`}</div>
+                    <div className="address"><RoomIcon fontSize={"small"}/>{JobItem.District} {JobItem.city}</div>
+                    <div className="description"><NotesIcon/>{JobItem.Working_Form}</div>
                 </div>
             </div>
-        // </Link>
     )
 }

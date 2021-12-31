@@ -105,7 +105,7 @@ const Header = () => {
                 }
             <li>
             {
-                (userStatus==="candidate")?
+                (userStatus==="candidate" || userStatus==="recruiter")?
                 <div className="dropdown">
                     <Link to={'/profile'}><h1>User Name</h1></Link>
                     <div className='dropdown_box'>

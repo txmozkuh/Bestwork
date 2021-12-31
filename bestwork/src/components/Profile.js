@@ -13,14 +13,13 @@ import Select from '@mui/material/Select';
 import Checkbox from '@mui/material/Checkbox';
 const Profile = () => {
     const [UserInfo,setInfo] = React.useState({})
-    const [userType,setUserType] = React.useState('')
     const [UserSkill,setUserSkill] = React.useState([])
     const [UserInterest,setUserInterest] = React.useState([])
 
     React.useEffect(() => {
-        setUserType(localStorage.getItem('user_status'))
-        // console.log(userType)
-        // if (userType === 'candidate'){
+        const userType = localStorage.getItem('user_status')
+        console.log(userType)
+        if (userType === 'candidate'){
             axios.get('http://localhost:3001/candidate/profile',
             {
                 withCredentials: true
@@ -30,7 +29,16 @@ const Profile = () => {
                 setUserSkill(res.data.candidate.skill)
                 setInfo(res.data.candidate.profile)
             })
-        // }
+        }
+        else {
+            axios.get('http://localhost:3001/recruiter/profile',
+            {
+                withCredentials: true
+            }).then((res)=>{
+                console.log(res.data)
+                setInfo(res.data.recruiter)
+            })
+        }
     },[])
     
     return (
@@ -90,15 +98,15 @@ export const TableInfo = (props) =>{
                             </tr>
                             <tr>
                                 <td>Về bản thân</td>
-                                <td>{props.info.About}.</td>
+                                <td>{props.info.About}</td>
                             </tr>
                             <tr>
                                 <td>Kỹ năng</td>
-                                <td>{props.skill.Skill_Name}.</td>
+                                <td>{props.skill.Skill_Name}</td>
                             </tr>
                             <tr>
                                 <td>Sở thích</td>
-                                <td>{props.interest.Interest_Name}.</td>
+                                <td>{props.interest.Interest_Name}</td>
                             </tr>
                         </tbody>
                     </table>
