@@ -10,6 +10,7 @@ import FormControl from '@mui/material/FormControl';
 import ListItemText from '@mui/material/ListItemText';
 import Select from '@mui/material/Select';
 import Checkbox from '@mui/material/Checkbox';
+import ListSubheader from '@mui/material/ListSubheader';
 
 
 
@@ -34,6 +35,7 @@ export const Filter = ({listCity,SetWorkingForm,setCity,setDistrict, listSkills,
     },
     };
     const [listType, setListType] = React.useState([]);
+    const [jobType, setJobType] = React.useState([]);
     const [listSkillChosen, setListSkillChosen] = React.useState([]);
     const [city, setCityChosen] = React.useState('');
     const [district, setDistrictChosen] = React.useState('');
@@ -77,48 +79,62 @@ export const Filter = ({listCity,SetWorkingForm,setCity,setDistrict, listSkills,
         })
         setListSkillsID(result)
     };
+    const handleChangeTypeJob = (event) => {
+        
+        const {
+            target: { value },
+            } = event;
+            setJobType(
+            // On autofill we get a stringified value.
+            typeof value === 'string' ? value.split(',') : value,
+            );
+        console.log(event)
+    }
+    console.log(jobType)
     return (
         <div>
         <FormControl sx={{ m: 1, width: 300 }}>
             <InputLabel id="demo-multiple-checkbox-label">Working Form</InputLabel>
             <Select
-            labelId="demo-multiple-checkbox-label"
-            id="demo-multiple-checkbox"
-            multiple
-            value={listType}
-            onChange={handleChangeWorkingForm}
-            input={<OutlinedInput label="Working Form" />}
-            renderValue={(selected) => selected.join(', ')}
-            MenuProps={MenuProps}
-            >
-            {working_form.map((item) => (
-                <MenuItem key={item} value={item}>
-                <Checkbox checked={listType.indexOf(item) > -1}/>
-                <ListItemText primary={item} />
-                </MenuItem>
-            ))}
+                labelId="demo-multiple-checkbox-label"
+                id="demo-multiple-checkbox"
+                multiple
+                value={listType}
+                onChange={handleChangeWorkingForm}
+                input={<OutlinedInput label="Working Form" />}
+                renderValue={(selected) => selected.join(', ')}
+                MenuProps={MenuProps}
+                >
+                {working_form.map((item) => (
+                    <MenuItem key={item} value={item}>
+                    <Checkbox checked={listType.indexOf(item) > -1}/>
+                    <ListItemText primary={item} />
+                    </MenuItem>
+                ))}
             </Select>
         </FormControl>
+
         <FormControl sx={{ m: 1, width: 300 }}>
             <InputLabel id="demo-multiple-checkbox-label">Kỹ Năng</InputLabel>
             <Select
-            labelId="demo-multiple-checkbox-label"
-            id="demo-multiple-checkbox"
-            multiple
-            value={listSkillChosen}
-            onChange={handleChangeSkill}
-            input={<OutlinedInput label="Kỹ Năng" />}
-            renderValue={(selected) => selected.join(', ')}
-            MenuProps={MenuProps}
-            >
-            {skills.map((skill) => (
-                <MenuItem key={skill.Skill_Name} value={skill.Skill_Name}>
-                <Checkbox checked={listSkillChosen.indexOf(skill.Skill_Name) > -1}/>
-                <ListItemText primary={skill.Skill_Name} />
-                </MenuItem>
-            ))}
+                labelId="demo-multiple-checkbox-label"
+                id="demo-multiple-checkbox"
+                multiple
+                value={listSkillChosen}
+                onChange={handleChangeSkill}
+                input={<OutlinedInput label="Kỹ Năng" />}
+                renderValue={(selected) => selected.join(', ')}
+                MenuProps={MenuProps}
+                >
+                {skills.map((skill) => (
+                    <MenuItem key={skill.Skill_Name} value={skill.Skill_Name}>
+                    <Checkbox checked={listSkillChosen.indexOf(skill.Skill_Name) > -1}/>
+                    <ListItemText primary={skill.Skill_Name} />
+                    </MenuItem>
+                ))}
             </Select>
         </FormControl>
+
         <FormControl sx={{ m: 1, width: 300 }}>
             <InputLabel id="demo-simple-select-label">City</InputLabel>
                 <Select
@@ -135,7 +151,6 @@ export const Filter = ({listCity,SetWorkingForm,setCity,setDistrict, listSkills,
                     </MenuItem>
                     
                 ))}
-                
             </Select>
         </FormControl>
         <FormControl sx={{ m: 1, width: 300 }} disabled={city?false:true}>
@@ -154,7 +169,44 @@ export const Filter = ({listCity,SetWorkingForm,setCity,setDistrict, listSkills,
                     }
                 </Select>
         </FormControl>
-        
+            <FormControl sx={{ m: 1, minWidth: 120 }}>
+            <InputLabel id="demo-multiple-checkbox-label">Type Job</InputLabel>
+            <Select 
+                labelId="demo-multiple-checkbox-label"
+                id="demo-multiple-checkbox"
+                multiple
+                value={jobType}
+                onChange={handleChangeTypeJob}
+                input={<OutlinedInput label="Type Job" />}
+                renderValue={(selected) => selected.join(', ')}
+                >
+                {
+                    types.map((job) => {
+                        return (
+                            <div>
+                                <ListSubheader>
+                                    {job.Job_Name}
+                                </ListSubheader>  
+                                {
+                                    job.jobtype.map((type) => {
+                                        return (
+                                            <MenuItem key = {type.Type_Name} value={type.Type_Name}>
+                                            <Checkbox checked={jobType.indexOf(type.Type_Name) > -1}/>
+                                            <ListItemText primary={type.Type_Name} />
+                                            </MenuItem>
+                                            
+                                        )
+                                        
+                                    })
+                                }
+                            </div>
+                        )
+                            
+                    })
+                }
+            </Select>
+        </FormControl>
+            
         
         </div>
     );
@@ -193,7 +245,7 @@ const CreateJobForm = () => {
         {
             withCredentials: true
         }).then((res)=>{
-            console.log(res)
+            // console.log(res)
             getTypeJob(res.data.jobs)
         })
     },[])
