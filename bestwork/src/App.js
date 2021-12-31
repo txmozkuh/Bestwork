@@ -13,6 +13,7 @@ import JobDetail from "./components/JobDetail";
 import Login from "./components/Login";
 import SignUp from "./components/SignUp";
 import Profile from "./components/Profile";
+import CreateJobForm from "./components/CreateJobForm";
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 
 function App() {
@@ -23,7 +24,7 @@ function App() {
     window.scrollTo({top:0,left:0,behavior:'smooth'})
   }
   window.onscroll=()=>{
-    if(window.pageYOffset == 0){
+    if(window.pageYOffset === 0){
       document.querySelector('.scroll_top_btn').style.display="none"
     }
     else{
@@ -44,6 +45,7 @@ function App() {
             <Route path="/sign-in" element={<Login/>}/>   
             <Route path="/sign-up" element={<SignUp/>}/>   
             <Route path="/profile" element={<Profile/>}/>   
+            <Route path="/job-add" element={<CreateJobForm/>}/>   
         </Routes>
         <Footer/> 
       </Router>

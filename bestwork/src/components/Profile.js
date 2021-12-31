@@ -3,7 +3,7 @@ import './css/Profile.css'
 import axios from 'axios'
 import {useParams} from 'react-router-dom'
 import CircularProgress from '@mui/material/CircularProgress';
-
+import Rating from '@mui/material/Rating';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -40,7 +40,6 @@ const Profile = () => {
             })
         }
     },[])
-    
     return (
         <>
         {
@@ -198,7 +197,7 @@ export const ListSkillsForUser = ({userSkill, listSkillID, SetListSkillID}) => {
     
     
     const [listSkill, setListSkill] = React.useState([]);
-
+    const [SkillRate, setSkillRate] = React.useState([]);
     const handleChange = (event) => {
         const {
         target: { value },
@@ -238,6 +237,35 @@ export const ListSkillsForUser = ({userSkill, listSkillID, SetListSkillID}) => {
             ))}
             </Select>
         </FormControl>
+        {
+            listSkill.map((skill)=>{
+                return <>
+                    <div>{skill}
+                    <Rating name="customized-10" defaultValue={0} onChange={(e, value)=>{
+                        if(listSkill.length<=SkillRate.length){
+                            // SkillRate.map((item)=>{
+                            //     listSkill.includes(item)?console.log("true"):console.log(item)
+                            // })
+                            var temp_list = SkillRate
+                            temp_list.map((item)=>{
+                                return item.name==skill?item.rate=value:item.rate
+                            })
+                            setSkillRate(temp_list)
+                        }
+                        else{
+                            setSkillRate([...SkillRate,{
+                                "name":skill,
+                                "rate":value
+                            }])
+                        }
+                    }} max={5} />
+                    </div>
+                    <div className="click" onClick={()=>{
+                        console.log(SkillRate)
+                    }}>Click</div>
+                    </>
+            })
+        }
         </div>
     );
 }
@@ -254,8 +282,6 @@ export const ListJobType = ({userJobType, listJobTypeID, SetListJobTypeID}) => {
         },
     },
     };
-    
-    
     const [listJobType, setListJobType] = React.useState([]);
 
     const handleChange = (event) => {

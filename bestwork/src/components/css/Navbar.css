@@ -176,6 +176,7 @@ box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, rgba(0, 0, 0, 0.1) 0px 2px 4px
     margin: 0 20px;
     display: flex;
     align-items: center;
+    height: 100%;
 }
 .navbar .dropdown:hover .dropdown_box{
     display: block
@@ -185,7 +186,7 @@ box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, rgba(0, 0, 0, 0.1) 0px 2px 4px
     position: absolute;
     background-color: white;
     z-index: 100;
-    bottom: -80px;
+    bottom: -70px;
 }
 .navbar .dropdown .dropdown_box .item a{
     padding:10px 30px;
