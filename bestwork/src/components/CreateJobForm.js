@@ -22,7 +22,9 @@ export const Filter = ({listCity,SetWorkingForm,setCity,setDistrict, listSkills,
 
     const cities = listCity
     const skills = listSkills
+    console.log(skills)
     const types = Type
+    console.log(types)
     const ITEM_HEIGHT = 40;
     const ITEM_PADDING_TOP = 8;
     const MenuProps = {
@@ -33,21 +35,16 @@ export const Filter = ({listCity,SetWorkingForm,setCity,setDistrict, listSkills,
         },
     },
     };
-    const [listType, setListType] = React.useState([]);
+    const [FormWorking, setFormWorking] = React.useState("");
     const [jobType, setJobType] = React.useState([]);
     const [listSkillChosen, setListSkillChosen] = React.useState([]);
     const [city, setCityChosen] = React.useState('');
     const [district, setDistrictChosen] = React.useState('');
     const [curDistricts,setCurDistricts] = React.useState([])
     const handleChangeWorkingForm = (event) => {
-        const {
-        target: { value },
-        } = event;
-        setListType(
-        typeof value === 'string' ? value.split(',') : value,
-        );
+        setFormWorking(event.target.value)
     };
-    SetWorkingForm(listType.join(', '))
+    SetWorkingForm(FormWorking)
     const handleChangeCity = (event) => {
         setCityChosen(event.target.value);
         
@@ -61,6 +58,7 @@ export const Filter = ({listCity,SetWorkingForm,setCity,setDistrict, listSkills,
         setDistrictChosen(event.target.value);
     };
     setDistrict(district)
+    console.log(district)
     const handleChangeSkill = (event) => {
         const {
         target: { value },
@@ -79,15 +77,7 @@ export const Filter = ({listCity,SetWorkingForm,setCity,setDistrict, listSkills,
         setListSkillsID(result)
     };
     const handleChangeTypeJob = (event) => {
-        
-        const {
-            target: { value },
-            } = event;
-            setJobType(
-            // On autofill we get a stringified value.
-            typeof value === 'string' ? value.split(',') : value,
-            );
-        console.log(event)
+        setJobType(event.target.value)
     }
     return (
         <div>
@@ -95,27 +85,23 @@ export const Filter = ({listCity,SetWorkingForm,setCity,setDistrict, listSkills,
             <InputLabel id="demo-multiple-checkbox-label">Working Form</InputLabel>
             <Select
                 labelId="demo-multiple-checkbox-label"
-                id="demo-multiple-checkbox"
-                multiple
-                value={listType}
+                id="demo-simple-select"
+                value={FormWorking}
                 onChange={handleChangeWorkingForm}
                 input={<OutlinedInput label="Working Form" />}
-                renderValue={(selected) => selected.join(', ')}
-                MenuProps={MenuProps}
                 >
                 {working_form.map((item) => (
                     <MenuItem key={item} value={item}>
-                    <Checkbox checked={listType.indexOf(item) > -1}/>
-                    <ListItemText primary={item} />
+                        {item}
                     </MenuItem>
                 ))}
             </Select>
         </FormControl>
 
         <FormControl sx={{ m: 1, width: 300 }}>
-            <InputLabel id="demo-multiple-checkbox-label">Kỹ Năng</InputLabel>
+            <InputLabel id="demo-simple-select-label">Kỹ Năng</InputLabel>
             <Select
-                labelId="demo-multiple-checkbox-label"
+                labelId="demo-simple-select-label"
                 id="demo-multiple-checkbox"
                 multiple
                 value={listSkillChosen}
@@ -168,44 +154,31 @@ export const Filter = ({listCity,SetWorkingForm,setCity,setDistrict, listSkills,
                 </Select>
         </FormControl>
             <FormControl sx={{ m: 1, minWidth: 120 }}>
-            <InputLabel id="demo-multiple-checkbox-label">Type Job</InputLabel>
+            <InputLabel id="demo-simple-select-label">Type Job</InputLabel>
             <Select 
-                labelId="demo-multiple-checkbox-label"
-                id="demo-multiple-checkbox"
-                multiple
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
                 value={jobType}
                 onChange={handleChangeTypeJob}
                 input={<OutlinedInput label="Type Job" />}
-                renderValue={(selected) => selected.join(', ')}
                 >
                 {
                     types.map((job) => {
                         return (
-                            <div>
-                                <ListSubheader>
-                                    {job.Job_Name}
-                                </ListSubheader>  
-                                {
-                                    job.jobtype.map((type) => {
-                                        return (
-                                            <MenuItem key = {type.Type_Name} value={type.Type_Name}>
-                                            <Checkbox checked={jobType.indexOf(type.Type_Name) > -1}/>
-                                            <ListItemText primary={type.Type_Name} />
-                                            </MenuItem>
+                            job.jobtype.map((type) => {
+                                return (
+                                    <MenuItem id={type.Type_ID} value={type.Type_Name}>
+                                        {type.Type_Name}
+                                    </MenuItem>
+                                )
                                             
-                                        )
-                                        
-                                    })
-                                }
-                            </div>
+                            })
                         )
-                            
+                        
                     })
                 }
             </Select>
         </FormControl>
-            
-        
         </div>
     );
 }
@@ -253,7 +226,6 @@ const CreateJobForm = () => {
             console.log('job:' , res)
         })
     },[])
-
     const handleCreateJob = () => {
         if(jobName&&salary&&startDate&&endDate&&district&&city.name&&workingForm&&recruimentQuantity&&listSkillsID){
             axios.post('http://localhost:3001/recruiter/job-create',{
@@ -273,7 +245,6 @@ const CreateJobForm = () => {
             {
                 withCredentials: true
             }).then((res)=>{
-                console.log('rrr')
                 console.log(res)
             })
         }
@@ -282,6 +253,7 @@ const CreateJobForm = () => {
         }
         
     }
+
     return (
         <div className='create_job_container'>
                     <table class="styled-table">
@@ -320,6 +292,12 @@ const CreateJobForm = () => {
                                 <td>Số lượng tuyển</td>
                                 <input type="text" name='recruitment-quantity' defaultValue={'...'} onChange={(e) => {
                                     setRecruitmentQuantity(e.target.value)
+                                }}></input>
+                            </tr>
+                            <tr>
+                                <td>Kinh nghiệm</td>
+                                <input type="text" name='years-of-experience' defaultValue={'...'} onChange={(e) => {
+                                    setYearExperience(e.target.value)
                                 }}></input>
                             </tr>
                         </tbody>
