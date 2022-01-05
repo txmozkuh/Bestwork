@@ -446,12 +446,6 @@ export const UpdateForm = (props) => {
     const [skills,setSkills] = React.useState([])
     const [interests,setInterest] = React.useState([])
 
-    if(Gender === 'Nam'){
-        SetGender("1")
-    }
-    else{
-        SetGender("0")
-    }
     React.useEffect(()=>{
         setUserType(localStorage.getItem('user_status'))
         axios.get('http://localhost:3001/get/interest',
