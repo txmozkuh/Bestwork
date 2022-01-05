@@ -131,7 +131,11 @@ export const ListSkillsForUser = ({userSkill,SetListSkillID,setRank}) => {
             listSkill.map((skill)=>{
                 return <>
                     <div>{skill}
-                    <Rating name="customized-10" defaultValue={0} onChange={(e, value)=>{
+                    <Rating name="customized-10" defaultValue={0} onClick={() => {
+                        setRank(SkillRate.map(item=>{
+                            return item.rate
+                        }))
+                    }} onChange={(e, value)=>{
                         if(listSkill.length<=SkillRate.length){
                             // SkillRate.map((item)=>{
                             //     listSkill.includes(item)?console.log("true"):console.log(item)
@@ -148,9 +152,7 @@ export const ListSkillsForUser = ({userSkill,SetListSkillID,setRank}) => {
                                 "rate":value
                             }])
                         }
-                        setRank(SkillRate.map(item=>{
-                            return item.rate
-                        }))
+                        
                     }} max={5} />
                     </div>
                     </>
@@ -360,7 +362,7 @@ export const UpdateFormCandidate = (props) => {
             SetJobType(res.data.jobs)
         })
     },[])
-
+    console.log(rank)
     const handleUpdate = () => {
         if(userType === 'candidate'){
             console.log(listSkillID)
@@ -373,7 +375,8 @@ export const UpdateFormCandidate = (props) => {
                 'apply-position':listJobTypeID,
                 'working-form':WorkingForm,
                 'interest-id':listInterestID,
-                'skill-id':listSkillID
+                'skill-id':listSkillID,
+                'rank': [5,4,3]
             },
             {
             withCredentials: true

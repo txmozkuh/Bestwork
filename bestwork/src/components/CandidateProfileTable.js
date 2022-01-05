@@ -42,16 +42,21 @@ export const TableInfoCandidate = (props) =>{
                             </tr>
                             <tr>
                                 <td>Kỹ năng</td>
-                                <td>{props.skill.Skill_Name}</td>
+
+                                <td>{props.skill.map((item) =>{
+                                    return <div>{item.Skill_Name} </div>
+                                })}</td>
                             </tr>
                             <tr>
                                 <td>Sở thích</td>
-                                <td>{props.interest.Interest_Name}</td>
+                                <td>{props.interest.map((item) => {
+                                    return <div>{item.Interest_Name} </div>
+                                })}</td>
                             </tr>
                         </tbody>
                     </table>
                     <div className="button" onClick={()=>setUpdate(true)}>
-                        Update profiles
+                        Update profile
                     </div></>
                     :
                     <UpdateFormCandidate info={props} />

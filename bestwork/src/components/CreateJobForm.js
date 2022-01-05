@@ -13,7 +13,7 @@ import Checkbox from '@mui/material/Checkbox';
 
 
 
-export const Filter = ({listCity,SetWorkingForm,setCity,setDistrict, listSkills, setListSkillsID,Type}) => {
+export const Filter = ({listCity,SetWorkingForm,setCity,setDistrict, listSkills, setListSkillsID,Type,setTypeJobID}) => {
     const working_form = [
         'Full-Time',
         'Part-Time',
@@ -76,8 +76,26 @@ export const Filter = ({listCity,SetWorkingForm,setCity,setDistrict, listSkills,
         setListSkillsID(result)
     };
     const handleChangeTypeJob = (event) => {
-        setJobType(event.target.value)
+        const {
+            target: { value },
+            } = event;
+            setJobType(
+            // On autofill we get a stringified value.
+            typeof value === 'string' ? value.split(',') : value,
+            );
+            var tempListJobType = typeof value === 'string' ? value.split(',') : value
+            var result = tempListJobType.map(name => {
+                var result = types.map((i_job) => {
+                    var result_check = i_job.jobtype.find((i_name) => {
+                        return i_name.Type_Name === name
+                    })
+                    return result_check.Type_ID
+                })
+                
+            })
+            setTypeJobID(result)
     }
+    console.log(jobType)
     return (
         <div>
         <FormControl sx={{ m: 1, width: 300 }}>
@@ -153,13 +171,16 @@ export const Filter = ({listCity,SetWorkingForm,setCity,setDistrict, listSkills,
                 </Select>
         </FormControl>
             <FormControl sx={{ m: 1, minWidth: 120 }}>
-            <InputLabel id="demo-simple-select-label">Type Job</InputLabel>
+            <InputLabel id="demo-multiple-checkbox-label">Type Job</InputLabel>
             <Select 
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
+                labelId="demo-multiple-checkbox-label"
+                id="demo-multiple-checkbox"
+                multiple
                 value={jobType}
                 onChange={handleChangeTypeJob}
                 input={<OutlinedInput label="Type Job" />}
+                renderValue={(selected) => selected.join(', ')}
+                MenuProps={MenuProps}
                 >
                 {
                     types.map((job) => {
@@ -167,7 +188,8 @@ export const Filter = ({listCity,SetWorkingForm,setCity,setDistrict, listSkills,
                             job.jobtype.map((type) => {
                                 return (
                                     <MenuItem id={type.Type_ID} value={type.Type_Name}>
-                                        {type.Type_Name}
+                                    <Checkbox checked={jobType.indexOf(type.Type_Name) > -1}/>
+                                    <ListItemText primary={type.Type_Name} />
                                     </MenuItem>
                                 )
                                             
@@ -192,7 +214,7 @@ const CreateJobForm = () => {
     const [recruimentQuantity, setRecruitmentQuantity] = React.useState('')
     const [remote, setRemote] = React.useState('')
     const [yearExperience, setYearExperience] = React.useState('')
-    const [typeJob, setTypeJob] = React.useState([])
+    const [typeJob, setTypeJobID] = React.useState([])
     const [listSkillsID, setListSkillsID] = React.useState([])
 
     const [listCity, getListCity] = React.useState([])
@@ -225,6 +247,7 @@ const CreateJobForm = () => {
             console.log('job:' , res)
         })
     },[])
+    console.log(typeJob)
     const handleCreateJob = () => {
         if(jobName&&salary&&startDate&&endDate&&district&&city.name&&workingForm&&recruimentQuantity&&listSkillsID){
             axios.post('http://localhost:3001/recruiter/job-create',{
@@ -301,7 +324,7 @@ const CreateJobForm = () => {
                             </tr>
                         </tbody>
                     </table>
-                    <Filter listCity = {listCity} Type = {Type} SetWorkingForm = {SetWorkingForm} setCity = {setCity} setDistrict = {setDistrict} listSkills={listSkills} setListSkillsID = {setListSkillsID}/>
+                    <Filter listCity = {listCity} Type = {Type} SetWorkingForm = {SetWorkingForm} setCity = {setCity} setDistrict = {setDistrict} listSkills={listSkills} setListSkillsID = {setListSkillsID} setTypeJobID={setTypeJobID}/>
                     <div className="button" onClick={handleCreateJob}>
                         Create Job
                     </div>
