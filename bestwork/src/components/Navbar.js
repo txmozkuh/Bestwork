@@ -15,15 +15,37 @@ import ListItem from '@mui/material/ListItem';
 import axios from "axios"
 
 const Header = () => {    
-
+    
     //HANDLE CHECK LOGIN OR NOT?
     const [userStatus, setUserStatus] = React.useState("")
     React.useEffect(()=>{
         setUserStatus(localStorage.getItem('user_status'))
-        console.log(userStatus)
+       
     },[])
-    const [isLogin,setLogin]=React.useState(false)
-
+    let navbarElements={
+        logo:"images/logonew.png",
+        links:[
+            {
+                'title':'Home',
+                'link':'/'
+            },
+            {
+                'title':userStatus==="recruiter"?'Create':'Job',
+                'link':userStatus==="recruiter"?'/job-add':'/job'
+            }
+            ,
+            {
+                'title':'About us',
+                'link':'/about-us'
+            }
+            ,
+            {
+                'title':'Contact',
+                'link':'/contact'
+            }
+            
+        ]
+    }
     const handleLogOut = () =>{
         axios.get('http://localhost:3001/auth/logout',
         {
@@ -70,34 +92,7 @@ const Header = () => {
         </List>
         </Box>
       );
-    const navbarElements={
-        logo:"images/logonew.png",
-        links:[
-            {
-                'title':'Home',
-                'link':'/'
-            },
-            {
-                'title':'Job',
-                'link':'/job'
-            }
-            ,
-            {
-                'title':'Create',
-                'link':'/job-add'
-            }
-            ,
-            {
-                'title':'About us',
-                'link':'/about-us'
-            }
-            ,
-            {
-                'title':'Contact',
-                'link':'/contact'
-            }
-        ]
-    }
+    
     return ( 
         <div className = "navbar" >
             <div className="logo_container"><Link to = "/" className = 'logo' > < img src = {navbarElements.logo} alt = "" /></Link>BestWork</div>
