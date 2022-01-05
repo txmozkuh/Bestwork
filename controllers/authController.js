@@ -12,6 +12,7 @@ class authController {
                     res.send({message : 'Successfully Authentication !!',
                         user: {
                             Email : user.Email,
+                            Name : user.name,
                             Type: user.User_Type
                         }});
                     console.log("User log in: ");
