@@ -3,20 +3,12 @@ import './css/Profile.css'
 import UpdateForm from './FormUpdateCandidateInfo'
 
 export const TableInfo = (props) =>{
-    let update=false
-    const handleUpdateProfile = () => {
-        update=!update
-        console.log(update)
-    }
-    const [show,setShow] = React.useState(false)
-    
+    const [update,setUpdate] = React.useState(false)
     return (
         <div className='profile_container'>
-                    {
-                        show===true?
-                        <UpdateForm/>
-                        :
-                        <table class="styled-table">
+            {
+                        !update?
+                        <><table class="styled-table">
                         <thead>
                             <tr>
                                 <th>Thông tin cá nhân</th>
@@ -58,11 +50,12 @@ export const TableInfo = (props) =>{
                             </tr>
                         </tbody>
                     </table>
-                    }
-                    <UpdateForm info={props} />
-                    <div className="button" onClick={()=>setShow(false)}>
+                    <div className="button" onClick={()=>setUpdate(true)}>
                         Update profiles
-                    </div>
+                    </div></>
+                    :
+                    <UpdateForm info={props} />
+            }
         </div>
     )
 }

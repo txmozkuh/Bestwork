@@ -24,12 +24,10 @@ export const ListInterestsForUser = ({userInterest, listInterestID, SetListInter
         },
     },
     };
-    
-    
+
     const [listInterest, setListInterest] = React.useState([]);
 
     const handleChange = (event) => {
-
         const {
         target: { value },
         } = event;
@@ -153,12 +151,16 @@ export const ListSkillsForUser = ({userSkill,SetListSkillID,setRank}) => {
                         }
                     }} max={5} />
                     </div>
-                    <div className="click" onClick={()=>{
-                        console.log(SkillRate)
-                    }}>Click</div>
                     </>
             })
         }
+        <div className="click" onClick={(e)=>{
+                        e.preventDefault()
+                        var arr=SkillRate.map(item=>{
+                            return item.rate
+                        })
+                        console.log(arr)
+                    }}>Click</div>
         </div>
     );
 }
@@ -322,7 +324,6 @@ export const GenderForm = ({SetGender}) => {
 //     );
 // }
 
-
 export const UpdateForm = (props) => {
     let curInfo=props.info.info
     const [CandidateName, SetCandidateName] = React.useState('')
@@ -429,7 +430,7 @@ export const UpdateForm = (props) => {
             <ListWorkingForm SetWorkingForm={SetWorkingForm}/>
             <GenderForm SetGender = {SetGender}/>
             <div className="button" onClick={handleUpdate}>
-                Update profile
+                Update
             </div>
         </div>
     )

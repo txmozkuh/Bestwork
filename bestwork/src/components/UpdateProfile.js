@@ -2,9 +2,6 @@ import React from 'react'
 import './css/Profile.css'
 import axios from 'axios'
 
-
-
-
 const UpdateProfile = () => {
     axios.put('http://localhost:3001/candidate/profile',{
         // candidate-name:
@@ -29,8 +26,8 @@ const UpdateProfile = () => {
     })
     return (
         
-        <div className='update_profile_container'>
-
+        <div className='update_profile_container'>  
+        
         </div>
     )
 }

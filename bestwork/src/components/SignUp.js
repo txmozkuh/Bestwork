@@ -1,15 +1,28 @@
-import { useState } from 'react';
+import { useState} from 'react';
+import React from 'react'
 import './css/SignUp.css'
 import Grid from '@mui/material/Grid';
-import {Link} from "react-router-dom";
+import CircularProgress from '@mui/material/CircularProgress';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
 import axios from 'axios';
 const SignUp = () => {
+    const [open, setOpen] = useState(false);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [passwordConfirm, setPasswordConfirm] = useState('');
     const [type, setType] = useState("candidate");
     const [code, setCode] = useState("");
-
+    const [submit, setSubmit] = React.useState(false)
+    const Alert = React.forwardRef(function Alert(props, ref) {
+        return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+      });
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+          return;
+        }
+        setOpen(false);
+      };
     const handleUserType = (e) => {
         var curActive=document.querySelector('.active').classList.remove('active')
         var user_type = e.target;
@@ -78,9 +91,14 @@ const SignUp = () => {
         }
         if(email&&password&&passwordConfirm&&type==="candidate"||email&&password&&passwordConfirm&&code&&type==="recruiter")
         {
+            setSubmit(true)
             axios.post('http://localhost:3001/register', registerInfo)
             .then((response) => {
-                        console.log(response)
+                setSubmit(false)
+                setOpen(true);
+                setTimeout(() => {
+                    window.location.href="/sign-in"
+                }, 1000); 
             });
             console.log(registerInfo)
         }
@@ -146,7 +164,12 @@ const SignUp = () => {
                             <></>
                         }
                         <div className="sign_up_btn" onClick={clickRegister}>
-                            Sign Up
+                        {
+                                submit?
+                                <CircularProgress style={{"color":"white"}}/>
+                                :
+                                <>Sign Up</>
+                            }
                         </div>
                         
                     </div>
@@ -156,7 +179,15 @@ const SignUp = () => {
                     <img src="/images/signup_bg.svg" alt=" " />
                     </div>
                 </Grid>
-                    
+                <Snackbar
+                    open={open}
+                    autoHideDuration={6000}
+                    onClose={handleClose}
+                >
+                    <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+                        Sign up successfully
+                        </Alert>
+                </Snackbar>
             </Grid>
             </div>
         </div>
