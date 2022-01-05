@@ -1,10 +1,17 @@
 import './css/Profile.css'
 import UpdateFormRecruiter from './FormUpdateRecruiterInfo'
 import React, { useEffect } from 'react'
-
+import axios from 'axios'
 export const TableInfoRecruiter = (props) =>{
     const [update,setUpdate] = React.useState(false)
-
+    useEffect(() => {
+        axios.get('http://localhost:3001/recruiter/job-list',
+        {
+            withCredentials: true
+        }).then((res)=>{
+            console.log(res)
+        })
+    },[])
     return (
         <div className='profile_container'>
                     {

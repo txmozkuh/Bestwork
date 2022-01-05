@@ -31,6 +31,7 @@ export const Filter = ({listCity,SetWorkingForm,setCity,setDistrict, listSkills,
             })
         })
     })
+    console.log(arrTypes)
     const ITEM_HEIGHT = 40;
     const ITEM_PADDING_TOP = 8;
     const MenuProps = {
@@ -64,7 +65,6 @@ export const Filter = ({listCity,SetWorkingForm,setCity,setDistrict, listSkills,
         setDistrictChosen(event.target.value);
     };
     setDistrict(district)
-    console.log(district)
     const handleChangeSkill = (event) => {
         const {
         target: { value },
@@ -99,7 +99,6 @@ export const Filter = ({listCity,SetWorkingForm,setCity,setDistrict, listSkills,
             })
             setTypeJobID(result)
     }
-    console.log(jobType)
     return (
         <div>
         <FormControl sx={{ m: 1, width: 300 }}>
@@ -187,20 +186,15 @@ export const Filter = ({listCity,SetWorkingForm,setCity,setDistrict, listSkills,
                 MenuProps={MenuProps}
                 >
                 {
-                    types.map((job) => {
+                    arrTypes.map((type) => {
                         return (
-                            arrTypes.map((type) => {
-                                return (
-                                    <MenuItem id={type.Type_ID} value={type.Type_Name}>
-                                    <Checkbox checked={jobType.indexOf(type.Type_Name) > -1}/>
-                                    <ListItemText primary={type.Type_Name} />
-                                    </MenuItem>
-                                )
-                                            
-                            })
+                            <MenuItem id={type.Type_ID} value={type.Type_Name}>
+                            <Checkbox checked={jobType.indexOf(type.Type_Name) > -1}/>
+                            <ListItemText primary={type.Type_Name} />
+                            </MenuItem>
                         )
-                        
-                    })
+                                            
+                   })
                 }
             </Select>
         </FormControl>
@@ -251,7 +245,6 @@ const CreateJobForm = () => {
             console.log('job:' , res)
         })
     },[])
-    console.log(typeJob)
     const handleCreateJob = () => {
         if(jobName&&salary&&startDate&&endDate&&district&&city.name&&workingForm&&recruimentQuantity&&listSkillsID){
             axios.post('http://localhost:3001/recruiter/job-create',{
@@ -277,6 +270,7 @@ const CreateJobForm = () => {
         else {
             alert('please fill all blank')
         }
+        console.log(typeJob)
         
     }
 
