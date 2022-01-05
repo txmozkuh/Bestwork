@@ -21,9 +21,16 @@ export const Filter = ({listCity,SetWorkingForm,setCity,setDistrict, listSkills,
 
     const cities = listCity
     const skills = listSkills
-    console.log(skills)
     const types = Type
-    console.log(types)
+    const arrTypes = []
+    types.map(item=>{
+        item.jobtype.map((i_type)=>{
+            arrTypes.push({
+                "Type_Name": i_type.Type_Name,
+                "Type_ID":i_type.Type_ID
+            })
+        })
+    })
     const ITEM_HEIGHT = 40;
     const ITEM_PADDING_TOP = 8;
     const MenuProps = {
@@ -84,14 +91,11 @@ export const Filter = ({listCity,SetWorkingForm,setCity,setDistrict, listSkills,
             typeof value === 'string' ? value.split(',') : value,
             );
             var tempListJobType = typeof value === 'string' ? value.split(',') : value
-            var result = tempListJobType.map(name => {
-                var result = types.map((i_job) => {
-                    var result_check = i_job.jobtype.find((i_name) => {
-                        return i_name.Type_Name === name
-                    })
-                    return result_check.Type_ID
+            var result=tempListJobType.map(name=>{
+                var result=arrTypes.find((i_name)=>{
+                    return i_name.Type_Name === name
                 })
-                
+                return result.Type_ID
             })
             setTypeJobID(result)
     }
@@ -185,7 +189,7 @@ export const Filter = ({listCity,SetWorkingForm,setCity,setDistrict, listSkills,
                 {
                     types.map((job) => {
                         return (
-                            job.jobtype.map((type) => {
+                            arrTypes.map((type) => {
                                 return (
                                     <MenuItem id={type.Type_ID} value={type.Type_Name}>
                                     <Checkbox checked={jobType.indexOf(type.Type_Name) > -1}/>
@@ -261,7 +265,7 @@ const CreateJobForm = () => {
                 'recruitment_quantity': recruimentQuantity,
                 'remote':true,
                 'years-of-experience':yearExperience,
-                'type-id':[1],
+                'type-id':typeJob,
                 'skill-id':listSkillsID,
             },
             {
