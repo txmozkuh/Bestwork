@@ -1,8 +1,8 @@
 import React from 'react'
 import './css/Profile.css'
-import UpdateForm from './FormUpdateCandidateInfo'
+import UpdateFormCandidate from './FormUpdateCandidateInfo'
 
-export const TableInfo = (props) =>{
+export const TableInfoCandidate = (props) =>{
     let update=false
     const handleUpdateProfile = () => {
         update=!update
@@ -14,7 +14,7 @@ export const TableInfo = (props) =>{
         <div className='profile_container'>
                     {
                         show===true?
-                        <UpdateForm/>
+                        <UpdateFormCandidate/>
                         :
                         <table class="styled-table">
                         <thead>
@@ -59,11 +59,11 @@ export const TableInfo = (props) =>{
                         </tbody>
                     </table>
                     }
-                    <UpdateForm info={props} />
+                    <UpdateFormCandidate info={props} />
                     <div className="button" onClick={()=>setShow(false)}>
                         Update profiles
                     </div>
         </div>
     )
 }
-export default TableInfo
+export default TableInfoCandidate

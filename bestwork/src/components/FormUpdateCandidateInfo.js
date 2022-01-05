@@ -323,7 +323,7 @@ export const GenderForm = ({SetGender}) => {
 // }
 
 
-export const UpdateForm = (props) => {
+export const UpdateFormCandidate = (props) => {
     let curInfo=props.info.info
     const [CandidateName, SetCandidateName] = React.useState('')
     const [DateOfBirth, SetDateOfBirth] = React.useState('')
@@ -434,4 +434,4 @@ export const UpdateForm = (props) => {
         </div>
     )
 } 
-export default UpdateForm
+export default UpdateFormCandidate
