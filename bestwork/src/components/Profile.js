@@ -326,6 +326,91 @@ export const ListJobType = ({userJobType, listJobTypeID, SetListJobTypeID}) => {
         </div>
     );
 }
+export const ListWorkingForm = ({SetWorkingForm}) => {
+    const working_form = [
+        'Full-Time',
+        'Part-Time',
+    ];
+    const ITEM_HEIGHT = 40;
+    const ITEM_PADDING_TOP = 8;
+    const MenuProps = {
+    PaperProps: {
+        style: {
+        maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+        width: 250,
+        },
+    },
+    };
+    const [FormWorking, setFormWorking] = React.useState("");
+    const handleChangeWorkingForm = (event) => {
+        setFormWorking(event.target.value)
+    };
+    SetWorkingForm(FormWorking)
+    return (
+        <div>
+        <FormControl sx={{ m: 1, width: 300 }}>
+            <InputLabel id="demo-multiple-checkbox-label">Hình thức làm việc</InputLabel>
+            <Select
+                labelId="demo-multiple-checkbox-label"
+                id="demo-simple-select"
+                value={FormWorking}
+                onChange={handleChangeWorkingForm}
+                input={<OutlinedInput label="Hình thức làm việc" />}
+                >
+                {working_form.map((item) => (
+                    <MenuItem key={item} value={item}>
+                        {item}
+                    </MenuItem>
+                ))}
+            </Select>
+        </FormControl>
+        </div>
+    );
+}
+
+export const GenderForm = ({SetGender}) => {
+    const working_form = [
+        'Nam',
+        'Nữ',
+    ];
+    const ITEM_HEIGHT = 40;
+    const ITEM_PADDING_TOP = 8;
+    const MenuProps = {
+    PaperProps: {
+        style: {
+        maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+        width: 250,
+        },
+    },
+    };
+    const [gender, setGender] = React.useState("");
+    const handleChangeGender = (event) => {
+        setGender(event.target.value)
+    };
+    SetGender(gender)
+   
+    return (
+        <div>
+        <FormControl sx={{ m: 1, width: 300 }}>
+            <InputLabel id="demo-multiple-checkbox-label">Giới tính</InputLabel>
+            <Select
+                labelId="demo-multiple-checkbox-label"
+                id="demo-simple-select"
+                value={gender}
+                onChange={handleChangeGender}
+                input={<OutlinedInput label="Giới tính" />}
+                >
+                {working_form.map((item) => (
+                    <MenuItem key={item} value={item}>
+                        {item}
+                    </MenuItem>
+                ))}
+            </Select>
+        </FormControl>
+        </div>
+    );
+}
+
 
 // export const TableJobApplied = () => {
 //     const [jobApplied, setJobApplied] = React.useState([]);
@@ -359,9 +444,14 @@ export const UpdateForm = (props) => {
     const [listSkillID, SetListSkillID] = React.useState([])
     const [userType,setUserType] = React.useState('')
     const [skills,setSkills] = React.useState([])
-
     const [interests,setInterest] = React.useState([])
 
+    if(Gender === 'Nam'){
+        SetGender("1")
+    }
+    else{
+        SetGender("0")
+    }
     React.useEffect(()=>{
         setUserType(localStorage.getItem('user_status'))
         axios.get('http://localhost:3001/get/interest',
@@ -386,6 +476,7 @@ export const UpdateForm = (props) => {
             SetJobType(res.data.jobs)
         })
     },[])
+
     const handleUpdate = () => {
         if(userType === 'candidate'){
             console.log(listSkillID)
@@ -396,74 +487,114 @@ export const UpdateForm = (props) => {
                 'phone-number':PhoneNumber,
                 about:About,
                 'apply-position':listJobTypeID,
-                'working-form':'not',
+                'working-form':WorkingForm,
                 'interest-id':listInterestID,
                 'skill-id':listSkillID
             },
             {
             withCredentials: true
             }).then((res)=>{
-    
+                console.log(res)
             })
         }
     }
+    console.log(Gender)
     return(
-        <div className='profile_container'>
-                    <table class="styled-table">
-                        <thead>
-                            <tr>
-                                <th>Thông tin cá nhân</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Email</td>
-                                <td>{curInfo.Email}</td>
-                            </tr>
-                            <tr>
-                                <td>Họ và tên</td>
-                                <td>{curInfo.Candidate_Name}</td>
-                                <input type="text" name='candidate-name' defaultValue={curInfo.Candidate_Name} onChange={(e) => {
-                                    SetCandidateName(e.target.value)
-                                }}></input>
-                            </tr>
-                            <tr>
-                                <td>Điện thoại</td>
-                                <td>{curInfo.Phone_Number}</td>
-                                <input type="text" name='phone-number' defaultValue={curInfo.Phone_Number} onChange={(e) => {
-                                    SetPhoneNumber(e.target.value)
-                                }}></input>
-                            </tr>
-                            <tr>
-                                <td>Ngày sinh</td>
-                                <td>{curInfo.Date_Of_Birth}</td>
-                                <input type="text" name='date-of-birth' defaultValue={curInfo.Date_Of_Birth} onChange={(e) => {
-                                    SetDateOfBirth(e.target.value)
-                                }}></input>
-                            </tr>
-                            <tr>
-                                <td>Giới tính</td>
-                                <td>{curInfo.Gender}</td>
-                                <input type="text" name='gender' defaultValue={curInfo.Gender} onChange={(e) => {
-                                    SetGender(e.target.value)
-                                }}></input>
-                            </tr>
-                            <tr>
-                                <td>Về bản thân</td>
-                                <td>{curInfo.about}</td>
-                                <input type="text" name='about' defaultValue={curInfo.About} onChange={(e) => {
-                                    SetAbout(e.target.value)
-                                }}></input>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <ListInterestsForUser userInterest = {interests} listInterestID = {listInterestID} SetListInterestID = {SetListInterestID} />
-                    <ListSkillsForUser userSkill = {skills}  listSkillID = {listSkillID} SetListSkillID = {SetListSkillID}/>
-                    <ListJobType userJobType = {JobType}  listJobTypeID = {listJobTypeID} SetListJobTypeID = {SetListJobTypeID}/>
-                    <div className="button" onClick={handleUpdate}>
-                        Update profile
-                    </div>
+        <div class="profile_container">
+            <label class="field field_v3">
+                <input class='field__input' type="text" name='candidate-name' placeholder={curInfo.Candidate_Name} onChange={(e) => {
+                    SetCandidateName(e.target.value)
+                }}></input>
+                <span class="field__label-wrap">
+                    <span class="field__label">Họ và tên</span>
+                </span>
+            </label>
+
+            <label class="field field_v3">
+                <input class='field__input' type="text" name='phone-number' placeholder={curInfo.Phone_Number} onChange={(e) => {
+                    SetPhoneNumber(e.target.value)
+                }}></input>
+                <span class="field__label-wrap">
+                    <span class="field__label">Số điện thoại</span>
+                </span>
+            </label>
+
+            <label class="field field_v3">
+                <input class='field__input' type="text" name='gender' placeholder={curInfo.Gender} onChange={(e) => {
+                    SetGender(e.target.value)
+                }}></input>
+                <span class="field__label-wrap">
+                    <span class="field__label">Giới tính</span>
+                </span>
+            </label>
+
+            <label class="field field_v3">
+                <input class='field__input' type="text" name='about' placeholder={curInfo.About} onChange={(e) => {
+                    SetAbout(e.target.value)
+                }}></input>
+                <span class="field__label-wrap">
+                    <span class="field__label">Về bản thân</span>
+                </span>
+            </label>
+            <ListInterestsForUser userInterest = {interests} listInterestID = {listInterestID} SetListInterestID = {SetListInterestID} />
+            <ListSkillsForUser userSkill = {skills}  listSkillID = {listSkillID} SetListSkillID = {SetListSkillID}/>
+            <ListJobType userJobType = {JobType}  listJobTypeID = {listJobTypeID} SetListJobTypeID = {SetListJobTypeID}/>
+            <ListWorkingForm SetWorkingForm={SetWorkingForm}/>
+            <GenderForm SetGender = {SetGender}/>
+            <div className="button" onClick={handleUpdate}>
+                Update profile
+            </div>
         </div>
     )
 } 
+{/* <div className='profile_container'>
+            
+<table class="styled-table">
+    <thead>
+        <tr>
+            <th>Thông tin cá nhân</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Email</td>
+            <td>{curInfo.Email}</td>
+        </tr>
+        <tr>
+            <td>Họ và tên</td>
+            <td>{curInfo.Candidate_Name}</td>
+            <input type="text" name='candidate-name' defaultValue={curInfo.Candidate_Name} onChange={(e) => {
+                SetCandidateName(e.target.value)
+            }}></input>
+        </tr>
+        <tr>
+            <td>Điện thoại</td>
+            <td>{curInfo.Phone_Number}</td>
+            <input type="text" name='phone-number' defaultValue={curInfo.Phone_Number} onChange={(e) => {
+                SetPhoneNumber(e.target.value)
+            }}></input>
+        </tr>
+        <tr>
+            <td>Ngày sinh</td>
+            <td>{curInfo.Date_Of_Birth}</td>
+            <input type="text" name='date-of-birth' defaultValue={curInfo.Date_Of_Birth} onChange={(e) => {
+                SetDateOfBirth(e.target.value)
+            }}></input>
+        </tr>
+        <tr>
+            <td>Giới tính</td>
+            <td>{curInfo.Gender}</td>
+            <input type="text" name='gender' defaultValue={curInfo.Gender} onChange={(e) => {
+                SetGender(e.target.value)
+            }}></input>
+        </tr>
+        <tr>
+            <td>Về bản thân</td>
+            <td>{curInfo.about}</td>
+            <input type="text" name='about' defaultValue={curInfo.About} onChange={(e) => {
+                SetAbout(e.target.value)
+            }}></input>
+        </tr>
+    </tbody>
+</table> */}
