@@ -1,16 +1,15 @@
 import React from 'react'
 import './css/Profile.css'
-import TableInfo from './CandidateProfileTable'
+import TableInfoCandidate from './CandidateProfileTable'
+import TableInfoReCruiter from './RecruiterProfile'
 import axios from 'axios'
 import CircularProgress from '@mui/material/CircularProgress';
 const Profile = () => {
     const [UserInfo,setInfo] = React.useState({})
     const [UserSkill,setUserSkill] = React.useState([])
     const [UserInterest,setUserInterest] = React.useState([])
-
+    const userType =localStorage.getItem('user_status')
     React.useEffect(() => {
-        const userType = localStorage.getItem('user_status')
-        console.log(userType)
         if (userType === 'candidate'){
             axios.get('http://localhost:3001/candidate/profile',
             {
@@ -38,7 +37,7 @@ const Profile = () => {
             Object.keys(UserInfo).length === 0 && UserInfo.constructor === Object?
             <div className='profile_container'><CircularProgress style={{"color":"rgb(238,125,52)"}}/></div>
             :
-            <TableInfo info={UserInfo} skill ={UserSkill} interest = {UserInterest} />
+            userType==='candidate'?<TableInfoCandidate info={UserInfo} skill ={UserSkill} interest = {UserInterest} />:<TableInfoReCruiter info={UserInfo}/>
         }
         </>
     )

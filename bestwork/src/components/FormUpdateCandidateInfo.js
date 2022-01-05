@@ -86,7 +86,6 @@ export const ListSkillsForUser = ({userSkill,SetListSkillID,setRank}) => {
     },
     };
     
-    
     const [listSkill, setListSkill] = React.useState([]);
     const [SkillRate, setSkillRate] = React.useState([]);
     const handleChange = (event) => {
@@ -149,18 +148,14 @@ export const ListSkillsForUser = ({userSkill,SetListSkillID,setRank}) => {
                                 "rate":value
                             }])
                         }
+                        setRank(SkillRate.map(item=>{
+                            return item.rate
+                        }))
                     }} max={5} />
                     </div>
                     </>
             })
         }
-        <div className="click" onClick={(e)=>{
-                        e.preventDefault()
-                        var arr=SkillRate.map(item=>{
-                            return item.rate
-                        })
-                        console.log(arr)
-                    }}>Click</div>
         </div>
     );
 }
@@ -324,7 +319,8 @@ export const GenderForm = ({SetGender}) => {
 //     );
 // }
 
-export const UpdateForm = (props) => {
+
+export const UpdateFormCandidate = (props) => {
     let curInfo=props.info.info
     const [CandidateName, SetCandidateName] = React.useState('')
     const [DateOfBirth, SetDateOfBirth] = React.useState('')
@@ -435,4 +431,4 @@ export const UpdateForm = (props) => {
         </div>
     )
 } 
-export default UpdateForm
+export default UpdateFormCandidate

@@ -1,8 +1,8 @@
 import React from 'react'
 import './css/Profile.css'
-import UpdateForm from './FormUpdateCandidateInfo'
+import UpdateFormCandidate from './FormUpdateCandidateInfo'
 
-export const TableInfo = (props) =>{
+export const TableInfoCandidate = (props) =>{
     const [update,setUpdate] = React.useState(false)
     return (
         <div className='profile_container'>
@@ -54,9 +54,9 @@ export const TableInfo = (props) =>{
                         Update profiles
                     </div></>
                     :
-                    <UpdateForm info={props} />
+                    <UpdateFormCandidate info={props} />
             }
         </div>
     )
 }
-export default TableInfo
+export default TableInfoCandidate
