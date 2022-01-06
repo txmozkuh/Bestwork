@@ -13,6 +13,12 @@ export const TableInfoRecruiter = (props) =>{
         }).then((res)=>{
             setJobList(res.data.jobList)
         })
+        axios.get('http://localhost:3001/recruiter/star-cv',
+        {
+            withCredentials: true
+        }).then((res)=>{
+            console.log("star",res)
+        })
     },[])
     return (
         <div className='profile_container'>

@@ -3,25 +3,48 @@ import './css/Profile.css'
 import UpdateFormCandidate from './FormUpdateCandidateInfo'
 import axios from 'axios'
 import CandidateListAppliedJob from './CandidateListAppliedJob'
+import Box from '@mui/material/Box';
+import Switch from '@mui/material/Switch';
 export const TableInfoCandidate = (props) =>{
     const [update,setUpdate] = React.useState(true)
     const [listApplied,setListApplied] = React.useState([])
+    const [checkedRemote,setCheckedRemote] = React.useState(props.info.Public_CV);
+    const handleChangeRemote = (event) => {
+        setCheckedRemote(!checkedRemote)
+        axios.put('http://localhost:3001/candidate/profile',{
+            'public-cv':!checkedRemote
+        }).then((res)=>{
+            console.log(res)
+        })
+    };
+    console.log(checkedRemote)
     React.useEffect(() => {
         axios.get('http://localhost:3001/candidate/job-applied',
         {
         withCredentials: true
         }).then((res)=>{
             console.log(res)
+            setListApplied(res.data.list)
         })
     },[])
+    console.log("1",checkedRemote)
     return (
         <div className='profile_container'>
             {
                         !update?
-                        <><table class="styled-table">
+                        <>
+                        <Box className="remote">
+                            <span>Public:</span>
+                            <Switch
+                                checked={checkedRemote}
+                                onChange={handleChangeRemote}
+                                inputProps={{ 'aria-label': 'controlled' }}
+                            />
+                        </Box>
+                        <table class="styled-table">
                         <thead>
                             <tr>
-                                <th>Thông tin cá nhân</th>
+                                <th>Information</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -31,34 +54,34 @@ export const TableInfoCandidate = (props) =>{
                                 <td>{props.info.Email}</td>
                             </tr>
                             <tr>
-                                <td>Họ và tên</td>
+                                <td>Fullname</td>
                                 <td>{props.info.Candidate_Name}</td>
                             </tr>
                             <tr>
-                                <td>Điện thoại</td>
+                                <td>Phone number</td>
                                 <td>{props.info.Phone_Number}</td>
                             </tr>
                             <tr>
-                                <td>Ngày sinh</td>
-                                <td>{props.info.Date_Of_Birth}</td>
+                                <td>Date of birth</td>
+                                <td>{props.info.Date_Of_Birth.split('T')[0]}</td>
                             </tr>
                             <tr>
-                                <td>Giới tính</td>
-                                <td>{props.info.Gender}</td>
+                                <td>Gender</td>
+                                <td>{props.info.Gender===true?'Male':'Female'}</td>
                             </tr>
                             <tr>
-                                <td>Về bản thân</td>
+                                <td>About</td>
                                 <td>{props.info.About}</td>
                             </tr>
                             <tr>
-                                <td>Kỹ năng</td>
+                                <td>Skills</td>
 
                                 <td>{props.skill.map((item) =>{
                                     return <div>{item.Skill_Name} </div>
                                 })}</td>
                             </tr>
                             <tr>
-                                <td>Sở thích</td>
+                                <td>Interests</td>
                                 <td>{props.interest.map((item) => {
                                     return <div>{item.Interest_Name} </div>
                                 })}</td>
@@ -68,7 +91,7 @@ export const TableInfoCandidate = (props) =>{
                     <div className="button" onClick={()=>setUpdate(true)}>
                         Update
                     </div>
-                    {/* <CandidateListAppliedJob listApplied = {listApplied}/> */}
+                    <CandidateListAppliedJob listApplied = {listApplied}/>
                     </>
                     :
                     <><UpdateFormCandidate info={props} />

@@ -9,7 +9,7 @@ import FormControl from '@mui/material/FormControl';
 import ListItemText from '@mui/material/ListItemText';
 import Select from '@mui/material/Select';
 import Checkbox from '@mui/material/Checkbox';
-
+import CircularProgress from '@mui/material/CircularProgress';
 export const Filter = ({listCity, setCity,setDistrict}) => {
     const cities = listCity
     const ITEM_HEIGHT = 40;
@@ -85,6 +85,7 @@ export const UpdateFormRecruiter = (props) => {
     const [city,setCity] = React.useState("")
     const [district,setDistrict] = React.useState("")
     const [tax,setTax] = React.useState("")
+    const [submit,setSubmit] = React.useState(false)
     useEffect(() => {
         axios.get("https://provinces.open-api.vn/api/?depth=2")
         .then((response) =>{
@@ -93,7 +94,9 @@ export const UpdateFormRecruiter = (props) => {
     },[])
     
     const handleUpdate = () => {
+        setSubmit(true)
         if (recruiterName&&city&&district&&tax){
+            
             axios.put('http://localhost:3001/recruiter/profile',{
                 'recruiter-name':recruiterName,
                 district:district,
@@ -103,7 +106,10 @@ export const UpdateFormRecruiter = (props) => {
                 {
                 withCredentials: true
             }).then((res)=>{
-                console.log(res)
+                setSubmit(false)
+                setTimeout(() => {
+                    window.location.href="/profile"
+                }, 1000); 
             })
         }
         else{
@@ -132,7 +138,13 @@ export const UpdateFormRecruiter = (props) => {
             </label>
             <Filter listCity = {listCity} setCity = {setCity} setDistrict = {setDistrict}/>
             <div className="button" onClick={handleUpdate}>
-                Update profile
+                {
+                    submit?
+                    <CircularProgress style={{"color":"white"}}/>
+                    :
+                    <>Update profile</>
+                }
+                    
             </div>
         </div>
     )

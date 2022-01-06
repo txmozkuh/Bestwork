@@ -10,9 +10,51 @@ import FormControl from '@mui/material/FormControl';
 import ListItemText from '@mui/material/ListItemText';
 import Select from '@mui/material/Select';
 import Checkbox from '@mui/material/Checkbox';
-
-
-
+import Stack from '@mui/material/Stack';
+import TextField from '@mui/material/TextField';
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import DesktopDatePicker from '@mui/lab/DesktopDatePicker';
+import MuiAlert from '@mui/material/Alert';
+import Snackbar from '@mui/material/Snackbar';
+import Grid from '@mui/material/Grid';
+import CircularProgress from '@mui/material/CircularProgress';
+export const  DatePicker = ({setStartDate, setEndDate}) => {
+    const [start, setStart] = React.useState(new Date());
+    const [end, setEnd] = React.useState(new Date());
+    const handleChangeStart = (newValue) => {
+        setStart(newValue);
+    };
+    setStartDate(`${start.getUTCFullYear()}-${start.getUTCMonth()+1}-${start.getUTCDate()}`)
+    const handleChangeEnd = (newValue) => {
+        setEnd(newValue);
+    };
+    setEndDate(`${end.getUTCFullYear()}-${end.getUTCMonth()+1}-${end.getUTCDate()}`)
+    
+    return (
+      <LocalizationProvider dateAdapter={AdapterDateFns}>
+        <Stack spacing={3}>
+          <DesktopDatePicker
+            label="Ngày bắt đầu tuyển dụng"
+            inputFormat="MM/dd/yyyy"
+            value={start}
+            onChange={handleChangeStart}
+            renderInput={(params) => <TextField {...params} />}
+          />
+          </Stack>
+        <br></br>
+          <Stack spacing={3}>
+          <DesktopDatePicker
+            label="Ngày kết thúc tuyển dụng"
+            inputFormat="MM/dd/yyyy"
+            value={end}
+            onChange={handleChangeEnd}
+            renderInput={(params) => <TextField {...params} />}
+          />
+          </Stack>
+    </LocalizationProvider>
+  );
+}
 export const Filter = ({listCity,SetWorkingForm,setCity,setDistrict, listSkills, setListSkillsID,Type,setTypeJobID}) => {
     const working_form = [
         'Full-Time',
@@ -207,7 +249,22 @@ const CreateJobForm = () => {
     const [listCity, getListCity] = React.useState([])
     const [Type, getTypeJob] = React.useState([])
     const [listSkills, getListSkills] = React.useState([])
-
+    const [submit,setSubmit] = React.useState(false)
+    const [open, setOpen] = React.useState(false);
+    const [description,setDescription] = React.useState("");
+    var arrDescription = []
+    description.split('\n').map(item=>{
+        arrDescription.push(item)
+    })
+    const Alert = React.forwardRef(function Alert(props, ref) {
+        return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+      });
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+          return;
+        }
+        setOpen(false);
+      };
     React.useEffect(() => {
         axios.get("https://provinces.open-api.vn/api/?depth=2")
         .then((response) =>{
@@ -235,6 +292,7 @@ const CreateJobForm = () => {
         })
     },[])
     const handleCreateJob = () => {
+        setSubmit(true)
         if(jobName&&salary&&startDate&&endDate&&district&&city.name&&workingForm&&recruimentQuantity&&listSkillsID){
             axios.post('http://localhost:3001/recruiter/job-create',{
                 'job-name': jobName,
@@ -249,11 +307,16 @@ const CreateJobForm = () => {
                 'years-of-experience':yearExperience,
                 'type-id':typeJob,
                 'skill-id':listSkillsID,
+                description: arrDescription
             },
             {
                 withCredentials: true
             }).then((res)=>{
-                console.log(res)
+                setSubmit(false)
+                setOpen(true);
+                setTimeout(() => {
+                    window.location.href="/profile"
+                }, 1000); 
             })
         }
         else {
@@ -284,24 +347,6 @@ const CreateJobForm = () => {
             </label>
             <br></br>
             <label class="field field_v3">
-                <input class='field__input' type="text" name='start-date' placeholder={"e.g: 1/1/2022"} onChange={(e) => {
-                    setStartDate(e.target.value)
-                }}></input>
-                <span class="field__label-wrap">
-                    <span class="field__label">Ngày bắt đầu tuyển</span>
-                </span>
-            </label>
-            <br></br>
-            <label class="field field_v3">
-                <input class='field__input' type="text" name='end-date' placeholder={"e.g: 3/1/2022"} onChange={(e) => {
-                    setEndDate(e.target.value)
-                }}></input>
-                <span class="field__label-wrap">
-                    <span class="field__label">Ngày kết thúc tuyển</span>
-                </span>
-            </label>
-            <br></br>
-            <label class="field field_v3">
                 <input class='field__input' type="text" name='recruitment_quantity' placeholder={"e.g: 2"} onChange={(e) => {
                     setRecruitmentQuantity(e.target.value)
                 }}></input>
@@ -318,10 +363,32 @@ const CreateJobForm = () => {
                     <span class="field__label">Kinh nghiệm làm việc</span>
                 </span>
             </label>
+            <br></br>
+            <label for="w3review">Description</label>
+            <textarea id="w3review" name="description" rows="4" cols="50" onChange={(e)=>{
+                setDescription(e.target.value)
+            }}>
+            </textarea>
+            <br></br>
+            <DatePicker setStartDate = {setStartDate} setEndDate = {setEndDate}/>
             <Filter listCity = {listCity} Type = {Type} SetWorkingForm = {SetWorkingForm} setCity = {setCity} setDistrict = {setDistrict} listSkills={listSkills} setListSkillsID = {setListSkillsID} setTypeJobID={setTypeJobID}/>
             <div className="button" onClick={handleCreateJob}>
-                Create Job
+                {
+                    submit?
+                    <CircularProgress style={{"color":"white"}}/>
+                    :
+                    <>Create Job</>
+                }
             </div>
+                <Snackbar
+                    open={open}
+                    autoHideDuration={6000}
+                    onClose={handleClose}
+                >
+                    <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+                        Create job successfully
+                        </Alert>
+                </Snackbar>
         </div>
     )
 }

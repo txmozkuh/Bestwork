@@ -25,8 +25,8 @@ const RecruiterJobList = ({jobList}) => {
                                     <th>{job.Working_Form}</th>
                                     <th>{job.District + " " + job.city}</th>
                                     <th>{job.Status}</th>
-                                    <th>{job.Start_Date}</th>
-                                    <th>{job.End_Date}</th>
+                                    <th>{job.Start_Date.split('T')[0]}</th>
+                                    <th>{job.End_Date.split('T')[0]}</th>
                                 </tr>
                             })
                         }

@@ -83,7 +83,7 @@ exports.updateProfile = async (req, res) => {
 exports.setPublic = async (req, res) => {
     const pool = await connect;
     const request = pool.request();
-
+    console.log(req)
     //-------------------------- Candidate --------------------------------\\
     let sqlString = `UPDATE Candidate 
                      SET Public_CV = '${req.body['public-cv']}'
