@@ -4,7 +4,7 @@ import UpdateFormCandidate from './FormUpdateCandidateInfo'
 import axios from 'axios'
 import CandidateListAppliedJob from './CandidateListAppliedJob'
 export const TableInfoCandidate = (props) =>{
-    const [update,setUpdate] = React.useState(false)
+    const [update,setUpdate] = React.useState(true)
     const [listApplied,setListApplied] = React.useState([])
     React.useEffect(() => {
         axios.get('http://localhost:3001/candidate/job-applied',
@@ -66,14 +66,17 @@ export const TableInfoCandidate = (props) =>{
                         </tbody>
                     </table>
                     <div className="button" onClick={()=>setUpdate(true)}>
-                        Update profile
+                        Update
                     </div>
-                    <CandidateListAppliedJob listApplied = {listApplied}/>
+                    {/* <CandidateListAppliedJob listApplied = {listApplied}/> */}
                     </>
-                    
                     :
-                    <UpdateFormCandidate info={props} />
+                    <><UpdateFormCandidate info={props} />
+                    <div className="button" onClick={()=>setUpdate(false)}>
+                        Profile
+                    </div></>
             }
+            
         </div>
     )
 }

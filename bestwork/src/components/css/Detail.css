@@ -23,7 +23,7 @@
     border-radius: 50%;
 }
 .detail_container .comp_info img{
-    width: 100%;
+    width: 90%;
 }
 .detail_container .comp_info .name{
     font-size: 2rem;

@@ -63,11 +63,10 @@ const Login = () => {
             {
                 withCredentials:true
             }).then((res) => {
-                
                 console.log(res)
                 if(res.data.message === "Successfully Authentication !!"){
-                    console.log(res.data.user.Type.replace(/\s/g, ""))
                     localStorage.setItem("user_status",res.data.user.Type.replace(/\s/g, ""))
+                    localStorage.setItem("user_name",res.data.user.Name)
                     setSubmit(false)
                     handleClick()
                     setTimeout(() => {
@@ -96,16 +95,7 @@ const Login = () => {
             }
         }
     }
-    const clickProfile = () => {
 
-        axios.get('http://localhost:3001/candidate/profile',
-        {
-            withCredentials: true
-        }).then((res)=>{
-            console.log(res.data)
-        })
-    }
-    
     return (
         <div className="login_container">
             <div className="login_box">
@@ -129,7 +119,7 @@ const Login = () => {
                         <div className="sign_in_btn" onClick={clickLogin}>
                             {
                                 submit?
-                                <CircularProgress style={{"color":"white"}}/>
+                                <CircularProgress size={28} style={{"color":"white"}}/>
                                 :
                                 <>Sign In</>
                             }

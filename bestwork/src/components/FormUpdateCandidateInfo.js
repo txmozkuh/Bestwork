@@ -24,9 +24,7 @@ export const ListInterestsForUser = ({userInterest, listInterestID, SetListInter
         },
     },
     };
-
     const [listInterest, setListInterest] = React.useState([]);
-
     const handleChange = (event) => {
         const {
         target: { value },
@@ -45,8 +43,6 @@ export const ListInterestsForUser = ({userInterest, listInterestID, SetListInter
         SetListInterestID(result)
 
     };
-    
-
     return (
         <div>
         <FormControl sx={{ m: 1, width: 300 }}>

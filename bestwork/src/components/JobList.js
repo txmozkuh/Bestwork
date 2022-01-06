@@ -18,7 +18,8 @@ import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import axios from "axios"
-
+import Skeleton from '@mui/material/Skeleton';
+import Stack from '@mui/material/Stack';
 const JobList = () => {
     return (
         <div className="joblist_container">
@@ -149,6 +150,7 @@ export const Filter = () => {
 }
 
 export const List = () => {
+    const [loaded, setLoaded] = React.useState(true)
     const [listJob,setListJob] = useState([]);
     useEffect(() => {   
         axios.get('http://localhost:3001/candidate/job-list',
@@ -156,9 +158,9 @@ export const List = () => {
             withCredentials: true
         }).then((res)=>{
             setListJob(res.data.list)
+            setLoaded(false)
         })
     },[])
-    console.log(listJob)
     const [page,setPage]=React.useState(1)
     const itemPerPage=10
     const totalPage=Math.ceil(listJob.length/itemPerPage)
@@ -169,10 +171,21 @@ export const List = () => {
         <div className="list_container"> 
             <Pagination style={{"color":"white"}} count={totalPage} page={page} onChange={handleChangePage}/>
             {
-                listJob.slice((page-1)*10,(page-1)*10+10).map((item)=>{
-                    return <JobItem item={item}/>
-                })
-            }
+                loaded?
+                    <Stack spacing={1}>
+                    <Skeleton variant="rectangular" height={190} />
+                    <Skeleton variant="rectangular" height={190} />        
+                    <Skeleton variant="rectangular" height={190} />        
+                    <Skeleton variant="rectangular" height={190} />        
+                    <Skeleton variant="rectangular" height={190} />        
+                    <Skeleton variant="rectangular" height={190} />                
+                    </Stack>
+                    :
+                    
+                        listJob.slice((page-1)*10,(page-1)*10+10).map((item)=>{
+                            return <JobItem item={item}/>
+                        })
+                    }
         </div>
     )
     
@@ -192,18 +205,17 @@ export const JobItem = (props) =>{
         else{
             navigate('/sign-in')
         }
-        
     }
     return(
             <div className="item" onClick={handleClick}>
-                <img src={JobItem.img} alt="" />
-                <div className="info">
-                    <div className="name">{`${JobItem.Job_Name} [ ${JobItem.required} ]`}</div>
-                    <div className="company"><BusinessIcon/>{JobItem.Recruiter_Name}</div>
-                    <div className="salary"><CreditCardSharpIcon/>{`${JobItem.Salary}$`}</div>
-                    <div className="address"><RoomIcon fontSize={"small"}/>{JobItem.District} {JobItem.city}</div>
-                    <div className="description"><NotesIcon/>{JobItem.Working_Form}</div>
-                </div>
+                    <img src="/images/company.png" alt="" />
+                    <div className="info">
+                        <div className="name item_attribute">{`${JobItem.Job_Name}`}</div>
+                        <div className="company item_attribute"><BusinessIcon/>  &nbsp;{JobItem.Recruiter_Name}</div>
+                        <div className="salary item_attribute"><CreditCardSharpIcon/>  &nbsp;{`${JobItem.Salary}$`}</div>
+                        <div className="address item_attribute"><RoomIcon fontSize={"small"}/>  &nbsp;{JobItem.District} {JobItem.city}</div>
+                        <div className="description item_attribute"><NotesIcon/> &nbsp;{JobItem.Working_Form}</div>
+                    </div>
             </div>
     )
 }
