@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@mui/material": "^5.2.7",
     "js-cookie": "^3.0.1",
     "react-dropdown": "^1.9.2",
     "universal-cookie": "^4.0.4"

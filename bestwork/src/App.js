@@ -40,6 +40,7 @@ function App() {
         <Navbar/>
         <Routes>
             <Route path="/" exact element={<Home/>}/>
+            <Route path="/job/:searchValue" element={<JobList/>}/>
             <Route path="/job" element={<JobList/>}/>
             <Route path="/job/item/:id" element={<JobDetail/>}/>   
             <Route path="/sign-in" element={<Login/>}/>   

@@ -6,7 +6,7 @@ const candidateRouter = require('./candidate');
 const recruiterRouter = require('./recruiter');
 const guestRouter = require('./guest');
 const getRouter = require('./get');
-
+const searchRouter = require('./search');
 
 function route(app){
   app.use('/candidate',loggedInGuard.candidate, candidateRouter);
@@ -15,7 +15,7 @@ function route(app){
   app.use('/register', registerRouter);
   app.use('/get', getRouter);
   app.use('/auth', authRouter);
-
+  app.use('/search', searchRouter);
   app.use('/guest', guestRouter);
 
 // catch 404 and forward to error handler

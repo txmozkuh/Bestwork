@@ -2,7 +2,6 @@ import React, { useEffect } from 'react'
 import './css/CreateJobForm.css'
 import axios from 'axios'
 
-
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';

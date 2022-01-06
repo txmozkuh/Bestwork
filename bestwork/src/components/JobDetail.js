@@ -2,9 +2,6 @@ import React from 'react'
 import {useParams} from 'react-router-dom'
 import './css/Detail.css'
 import Grid from '@mui/material/Grid';
-import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
-import AvTimerIcon from '@mui/icons-material/AvTimer';
-import MilitaryTechIcon from '@mui/icons-material/MilitaryTech';
 import SendIcon from '@mui/icons-material/Send';
 import axios from 'axios';
 import Skeleton from '@mui/material/Skeleton';

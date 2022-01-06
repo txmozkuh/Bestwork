@@ -53,7 +53,7 @@ const Header = () => {
             withCredentials: true
         }).then((res)=>{
             console.log(res)
-            localStorage.removeItem('user_status')
+            localStorage.clear()
             window.location.href="/"
         })
     }
@@ -136,14 +136,20 @@ const Header = () => {
         </div>      
     )
 }
-
 export default Header
 
 export const SearchBar=()=>{
+    const [searchValue, setSearchValue] = React.useState("")
+    const handleSearch = (e) =>{
+        if(e.key==="Enter")
+        {
+            window.location.href=`/job/${searchValue}`
+        }
+    }
     return (
         <div className="searchBar">
             <SearchIcon/>
-            <input type="text" placeholder="Looking for a business?" />
+            <input type="text" onChange={(e)=>{setSearchValue(e.target.value)}} placeholder="Looking for a business?" onKeyPress={handleSearch}/>
         </div>
         
     )

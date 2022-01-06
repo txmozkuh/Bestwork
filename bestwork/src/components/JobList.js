@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './css/JobList.scss'
-import JobDetail from './JobDetail.js'
-import {
-    Link
-} from "react-router-dom";
+import {useParams} from 'react-router-dom'
 import { useNavigate } from 'react-router-dom';
 import Slider from '@mui/material/Slider';
 import Box from '@mui/material/Box';
@@ -25,7 +22,7 @@ const JobList = () => {
         <div className="joblist_container">
             <div className="bg"/>
             <div className="box">
-                <List/>
+                <List filter={localStorage.getItem("filter")}/>
                 <Filter/>
             </div>
         </div>
@@ -34,7 +31,7 @@ const JobList = () => {
 export default JobList
 
 export const Filter = () => {
-    const [salaryRange, setsalaryRange] = React.useState([20, 37]);
+    const [salaryRange, setsalaryRange] = React.useState([0, 100000000]);
     const [checkedRemote, setCheckedRemote] = React.useState(false);
     const [type, setType] = React.useState('')
     const [city, setCity]= React.useState('')
@@ -62,6 +59,14 @@ export const Filter = () => {
     const handleChangeDistrict = event => {
         setDistrict(event.target.value)
     }
+    const handleFilter = () => {
+        localStorage.setItem("filter",JSON.stringify({
+            "min": salaryRange[0],
+            "max": salaryRange[1],
+            "remote": checkedRemote
+        }))
+        window.location.reload()
+    }
     const fakeJobType=["IT","IT1","IT2","IT3"]
     var cities=[]
     function callApi(){
@@ -70,16 +75,17 @@ export const Filter = () => {
             for(var i in response.data.results){
                 cities[i]= response.data.results[i]
             }
-
         });
     }   
-    
     return (
         <div className="filter_container">
             Salary:
             <Box sx={{ width: 300 }}>   
             <Slider
                 getAriaLabel={() => 'Salary range'}
+                min={0}
+                max={100000000}
+                step={100000}
                 value={salaryRange}
                 onChange={handleChangeSalary}
                 valueLabelDisplay="auto"
@@ -145,33 +151,77 @@ export const Filter = () => {
                 </Select>
                 </FormControl>
             </Box>
+            <div className="filter_btn" onClick={handleFilter}>Search</div>
         </div>
     )
 }
 
 export const List = () => {
+    const {searchValue} = useParams();
+    const [filter, setFilter] = React.useState(JSON.parse(localStorage.getItem("filter")))
+    const [noResult, setNoResult] = React.useState(false)
     const [loaded, setLoaded] = React.useState(true)
     const [listJob,setListJob] = useState([]);
     const userType =localStorage.getItem('user_status')
     useEffect(() => {
-        console.log(userType)
-        if(userType ==='candidate'){
-            axios.get('http://localhost:3001/candidate/job-list',
+        if(searchValue)
+        {
+            //Search request
+            axios.get(`http://localhost:3001/search?job-name=${searchValue}&district=6&city=&salary=0&salary=28000000&remote=`,
             {
                 withCredentials: true
             }).then((res)=>{
-                setListJob(res.data.list)
+                if(res.data.list.length==0)
+                {
+                    setNoResult(true)
+                }
+                else{
+                    setListJob(res.data.list)
+                }
                 setLoaded(false)
             })
         }
-        else{
-            axios.get('http://localhost:3001/guest/job-list',
+        if(filter)
+        {
+            console.log(filter)
+            //Search request
+            axios.get(`http://localhost:3001/search?job-name=&district=&city=&salary=${filter.min}&salary=${filter.max}&remote=`,
             {
                 withCredentials: true
             }).then((res)=>{
-                setListJob(res.data.list)
+                if(res.data.list.length==0)
+                {
+                    setNoResult(true)
+                }
+                else{
+                    setListJob(res.data.list)
+                }
+                localStorage.clear("filter")
                 setLoaded(false)
             })
+        }
+        else
+        {
+            //request as candidate
+            if(userType ==='candidate'){
+                axios.get('http://localhost:3001/candidate/job-list',
+                {
+                    withCredentials: true
+                }).then((res)=>{
+                    setListJob(res.data.list)
+                    setLoaded(false)
+                })
+            }
+            else{
+            //request as guest
+                axios.get('http://localhost:3001/guest/job-list',
+                {
+                    withCredentials: true
+                }).then((res)=>{
+                    setListJob(res.data.list)
+                    setLoaded(false)
+                })
+            }
         }
         
     },[])
@@ -183,7 +233,7 @@ export const List = () => {
     };
     return (
         <div className="list_container"> 
-            <Pagination style={{"color":"white"}} count={totalPage} page={page} onChange={handleChangePage}/>
+            {noResult?<></>:<Pagination style={{"color":"white"}} count={totalPage} page={page} onChange={handleChangePage}/>}
             {
                 loaded?
                     <Stack spacing={1}>
@@ -195,7 +245,9 @@ export const List = () => {
                     <Skeleton variant="rectangular" height={190} />                
                     </Stack>
                     :
-                    
+                        noResult?
+                        <EmptyPage/>
+                        :
                         listJob.slice((page-1)*10,(page-1)*10+10).map((item)=>{
                             return <JobItem item={item}/>
                         })
@@ -204,7 +256,6 @@ export const List = () => {
     )
     
 }
-
 export const JobItem = (props) =>{
     const [userstatus, setUserStatus] = React.useState("")
     React.useEffect(()=>{
@@ -221,10 +272,20 @@ export const JobItem = (props) =>{
                     <div className="info">
                         <div className="name item_attribute">{`${JobItem.Job_Name}`}</div>
                         <div className="company item_attribute"><BusinessIcon/>  &nbsp;{JobItem.Recruiter_Name}</div>
-                        <div className="salary item_attribute"><CreditCardSharpIcon/>  &nbsp;{`${JobItem.Salary}$`}</div>
+                        <div className="salary item_attribute"><CreditCardSharpIcon/>  &nbsp;{`${JobItem.Salary.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} VND`}</div>
                         <div className="address item_attribute"><RoomIcon fontSize={"small"}/>  &nbsp;{JobItem.District} {JobItem.city}</div>
                         <div className="description item_attribute"><NotesIcon/> &nbsp;{JobItem.Working_Form}</div>
+                        
                     </div>
             </div>
+    )
+}
+
+export const EmptyPage = () =>{
+    return (
+        <div className="empty_container">
+            <h1>NO RESULT for what you you're looking for</h1>
+            <img src="./images/no_result.png"/>
+        </div>
     )
 }
