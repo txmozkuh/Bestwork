@@ -48,10 +48,6 @@
     font-size: 1.4rem;
 }
 
-.navbar .link_container a:hover {
-    
-
-}
 .navbar .link_container li:not(:last-child)::after {
     content:"";
     height: 6px;
