@@ -31,7 +31,6 @@ exports.getProfile = async (req, res) => {
                                                 on Candidate_Interest.Interest_ID = Interest.Interest_ID 
                                          WHERE Candidate_Interest.Candidate_ID = '${candidate_id}'`);
     const interest = result4.recordset;
-    console.log(profile)
     return {
         profile,
         apply_position,
@@ -122,8 +121,8 @@ exports.jobList = async (req,res) => {
 
     const result = await request
         .query(`SELECT Recruiter.Recruiter_Name, Recruiter_Job.Recruiter_Job_ID, Recruiter_Job.Job_Name, 
-                Recruiter_Job.District, Recruiter_Job.city, Recruiter_Job.Salary, Recruiter_Job.Start_Date, 
-                Recruiter_Job.End_Date, Recruiter_Job.Status, Recruiter_Job.Working_Form
+                       Recruiter_Job.District, Recruiter_Job.city, Recruiter_Job.Salary, Recruiter_Job.Start_Date, 
+                       Recruiter_Job.End_Date, Recruiter_Job.Status, Recruiter_Job.Working_Form
                 FROM Recruiter_Job join Recruiter on Recruiter_Job.Recruiter_ID = Recruiter.Recruiter_ID
                 WHERE Recruiter_Job.Status = 'available'`);
     return result.recordset;
@@ -145,9 +144,10 @@ exports.jobDescription = async (req, res) => {
 
     //-------------------------- Get Recruiter  --------------------------------\\
     result = await request.query(`SELECT * 
-    FROM Recruiter
-    WHERE Recruiter_ID='${description.Recruiter_ID}'`);
+                                  FROM Recruiter
+                                  WHERE Recruiter_ID='${description.Recruiter_ID}'`);
     const recruiter = result.recordset[0];
+
     //-------------------------- Get Job Type --------------------------------\\
     result = await request.query(`SELECT Job.Job_Name, Job_Type.Type_Name
                                   FROM Job_Type join Job on Job_Type.Job_ID = Job.Job_ID

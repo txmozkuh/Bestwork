@@ -362,7 +362,7 @@ export const UpdateFormCandidate = (props) => {
             SetJobType(res.data.jobs)
         })
     },[])
-
+    console.log(rank)
     const handleUpdate = () => {
         if(userType === 'candidate'){
             console.log(listSkillID)
@@ -375,7 +375,8 @@ export const UpdateFormCandidate = (props) => {
                 'apply-position':listJobTypeID,
                 'working-form':WorkingForm,
                 'interest-id':listInterestID,
-                'skill-id':listSkillID
+                'skill-id':listSkillID,
+                'rank': [5,4,3]
             },
             {
             withCredentials: true
@@ -434,13 +435,3 @@ export const UpdateFormCandidate = (props) => {
     )
 } 
 export default UpdateFormCandidate
-
-
-var result = tempListJobType.map(name =>{
-    types.map(i_job=>{
-        var value = i_job.jobtype.find(i_name=>{
-            return i_name.Type_Name===name
-        })
-        return value.Type_ID
-    })
-})

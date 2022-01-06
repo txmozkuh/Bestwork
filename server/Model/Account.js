@@ -26,24 +26,24 @@ class Account{
             return{
                 account_id:account_id,
                 email: req.body.email,
-                type:req.body.type
+                type:req.body.type,
+                name: req.body.name
             }
         }
     }
 
-    async createInfo(user) {
+    async createInfo(user, req) {
         const pool = await connect;
 
         if(user.type === 'candidate'){
-            let sqlString = `INSERT INTO Candidate (Account_ID, Email, Public_CV, Created_Date) 
-                                        VALUES(${user.account_id}, '${user.email}', '0', CURRENT_TIMESTAMP) `;
+            let sqlString = `INSERT INTO Candidate (Account_ID, Candidate_Name, Email, Public_CV, Created_Date) 
+                                        VALUES(${user.account_id}, '${req.body.name}', '${user.email}', '0', CURRENT_TIMESTAMP) `;
             await pool.request().query(sqlString);
         } else if(user.type === 'recruiter'){
-            let sqlString = `INSERT INTO Recruiter (Account_ID, Email, Status, Created_Date) 
-                                        VALUES(${user.account_id}, '${user.email}', '0', CURRENT_TIMESTAMP)`;
+            let sqlString = `INSERT INTO Recruiter (Account_ID, Recruiter_Name, Email, Status, Created_Date) 
+                                        VALUES(${user.account_id}, '${req.body.name}','${user.email}', '0', CURRENT_TIMESTAMP)`;
             await pool.request().query(sqlString);
         }
-
     }
 }
 module.exports = new Account();

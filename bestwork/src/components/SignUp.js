@@ -12,7 +12,7 @@ const SignUp = () => {
     const [password, setPassword] = useState('');
     const [passwordConfirm, setPasswordConfirm] = useState('');
     const [type, setType] = useState("candidate");
-    const [code, setCode] = useState("");
+    const [name, setName] = useState("");
     const [submit, setSubmit] = React.useState(false)
     const Alert = React.forwardRef(function Alert(props, ref) {
         return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -72,11 +72,11 @@ const SignUp = () => {
             document.querySelector('.error_mess_repass').innerHTML="Confirm password must the same to password"
         }
     }
-    const validateCompanyCode = e => {
-        let compCode=e.target.value
-        if(compCode.length>0){
+    const validateName = e => {
+        let name_check=e.target.value
+        if(name_check.length>0){
             document.querySelector('.error_mess_code').innerHTML=""
-            setCode(compCode)
+            setName(name_check)
         }
     }
     const clickRegister = () => {
@@ -84,12 +84,10 @@ const SignUp = () => {
             email: email,
             password: password,
             passwordConfirm: passwordConfirm,
-            type: type
+            type: type,
+            name: name
         }
-        if(type=="recruiter"){
-            registerInfo.code=code
-        }
-        if(email&&password&&passwordConfirm&&type==="candidate"||email&&password&&passwordConfirm&&code&&type==="recruiter")
+        if(email&&password&&passwordConfirm&&name&&type==="candidate"||email&&password&&passwordConfirm&&name&&type==="recruiter")
         {
             setSubmit(true)
             axios.post('http://localhost:3001/register', registerInfo)
@@ -115,8 +113,8 @@ const SignUp = () => {
                     if(i==="passwordConfirm"){
                         document.querySelector('.error_mess_repass').innerHTML="Please enter confirm password"
                     }
-                    if(i==="code"&&type==="recruiter"){
-                        document.querySelector('.error_mess_code').innerHTML="Please enter code"
+                    if(i==="name"){
+                        document.querySelector('.error_mess_code').innerHTML="Please enter name"
                     }
 
                 }
@@ -155,13 +153,17 @@ const SignUp = () => {
                         </div>
                         {
                             type==="recruiter"?
-                            <><span >Company Code</span>
+                            <><span >Company Name</span>
                             <div className="input_field" >
-                                    <input type="text" name="code" id="code" placeholder="code" onChange={validateCompanyCode}/>
+                                    <input type="text" name="name" id="name" placeholder="Company Name" onChange={validateName}/>
                                     <div className="error_mess_code error_mess"></div>
                             </div></>
                             :
-                            <></>
+                            <><span >Candidate Name</span>
+                            <div className="input_field" >
+                                    <input type="text" name="name" id="name" placeholder="Candidate Name" onChange={validateName}/>
+                                    <div className="error_mess_code error_mess"></div>
+                            </div></>
                         }
                         <div className="sign_up_btn" onClick={clickRegister}>
                         {

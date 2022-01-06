@@ -18,14 +18,23 @@ const JobDetail = () => {
         {
             withCredentials: true
         }).then((res)=>{
-            console.log(res.data)
+            console.log(res)
             setJobDescription(res.data.job.description)
             setJobRequirement(res.data.job.experience_require)
             setJobType(res.data.job.job_type)
             setJobRecruiter(res.data.job.recruiter)
         })
-    },[])
-    console.log(jobRequirement)
+    },[id])
+    const handleSendCv = () =>{
+        axios.post('http://localhost:3001/candidate/apply',{
+            'recruiter-job-id': id
+        },
+        {
+            withCredentials:true
+        }).then((res) => {
+            console.log(res)
+        })
+    }
     return (
         <div className='detail_container'>
             <Grid container>
@@ -90,7 +99,7 @@ const JobDetail = () => {
                         
                     </div>
                     
-                    <div className="send_cv_btn">
+                    <div className="send_cv_btn" onClick={handleSendCv}>
                         Send CV &nbsp;&nbsp; <SendIcon/>
                     </div>
                 </Grid>

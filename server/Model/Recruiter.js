@@ -43,7 +43,7 @@ exports.createJob = async (req, res) => {
                                                 Years_Of_Experience, Type_ID) 
                     VALUES(${user.user_id}, N'${body['job-name']}', '${body.salary}', '${body['start-date']}',
                      '${body['end-date']}', N'${body.district}', N'${body.city}', N'${body['working-form']}', 
-                     '${body['recruitment_quantity']}', N'pending', '${body.remote}', '${body['years-of-experience']}',
+                     '${body['recruitment_quantity']}', N'available', '${body.remote}', '${body['years-of-experience']}',
                      '${body['type-id']}')
                     SELECT SCOPE_IDENTITY() AS Job_ID`;
 
@@ -79,15 +79,16 @@ exports.getJobDescription = async (req, res) => {
 
     //-------------------------- Get Recruiter Job --------------------------------\\
     result = await request.query(`SELECT * 
-                                    FROM Recruiter_Job join Recruiter on Recruiter_Job.Recruiter_ID = Recruiter.Recruiter_ID
-                                    WHERE Recruiter_Job_ID='${job_id}'`);
+                                  FROM Recruiter_Job join Recruiter on Recruiter_Job.Recruiter_ID = Recruiter.Recruiter_ID
+                                  WHERE Recruiter_Job_ID='${job_id}'`);
     const description = result.recordset[0];
 
     //-------------------------- Get Recruiter  --------------------------------\\
     result = await request.query(`SELECT * 
-                                   FROM Recruiter
-                                   WHERE Recruiter_ID='${description.Recruiter_ID}'`);
-     const recruiter = result.recordset[0];
+                                  FROM Recruiter
+                                  WHERE Recruiter_ID='${description.Recruiter_ID}'`);
+    const recruiter = result.recordset[0];
+
     //-------------------------- Get Job Type --------------------------------\\
     result = await request.query(`SELECT Job.Job_Name, Job_Type.Type_Name
                                   FROM Job_Type join Job on Job_Type.Job_ID = Job.Job_ID

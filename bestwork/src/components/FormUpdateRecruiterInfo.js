@@ -41,12 +41,12 @@ export const Filter = ({listCity, setCity,setDistrict}) => {
     return (
         <div>
         <FormControl sx={{ m: 1, width: 300 }}>
-            <InputLabel id="demo-simple-select-label">City</InputLabel>
+            <InputLabel id="demo-simple-select-label">Thành phố</InputLabel>
                 <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 value={city}
-                input={<OutlinedInput label="City" />}
+                input={<OutlinedInput label="Thành phố" />}
                 onChange={handleChangeCity}
                 
                 >
@@ -59,12 +59,12 @@ export const Filter = ({listCity, setCity,setDistrict}) => {
             </Select>
         </FormControl>
         <FormControl sx={{ m: 1, width: 300 }} disabled={city?false:true}>
-            <InputLabel id="demo-simple-select-label">District</InputLabel>
+            <InputLabel id="demo-simple-select-label">Quận</InputLabel>
                 <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
                     value={district}
-                    input={<OutlinedInput label="District" />}
+                    input={<OutlinedInput label="Quận" />}
                     onChange={handleChangeDistrict}
                     >
                     {curDistricts &&
@@ -91,12 +91,13 @@ export const UpdateFormRecruiter = (props) => {
             getListCity(response.data)
         });
     },[])
+    
     const handleUpdate = () => {
         if (recruiterName&&city&&district&&tax){
             axios.put('http://localhost:3001/recruiter/profile',{
                 'recruiter-name':recruiterName,
                 district:district,
-                city:city,
+                city:city.name,
                 tax: tax
                 },
                 {
@@ -123,7 +124,7 @@ export const UpdateFormRecruiter = (props) => {
 
             <label class="field field_v3">
                 <input class='field__input' type="text" name='tax' placeholder={curInfo.Tax} onChange={(e) => {
-                    setRecruiterName(e.target.value)
+                    setTax(e.target.value)
                 }}></input>
                 <span class="field__label-wrap">
                     <span class="field__label">Thuế</span>
