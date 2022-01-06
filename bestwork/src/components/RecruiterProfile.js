@@ -11,6 +11,7 @@ export const TableInfoRecruiter = (props) =>{
         {
             withCredentials: true
         }).then((res)=>{
+            console.log("test",res)
             setJobList(res.data.jobList)
         })
         axios.get('http://localhost:3001/recruiter/star-cv',

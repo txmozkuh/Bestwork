@@ -6,7 +6,7 @@ import CandidateListAppliedJob from './CandidateListAppliedJob'
 import Box from '@mui/material/Box';
 import Switch from '@mui/material/Switch';
 export const TableInfoCandidate = (props) =>{
-    const [update,setUpdate] = React.useState(true)
+    const [update,setUpdate] = React.useState(false)
     const [listApplied,setListApplied] = React.useState([])
     const [checkedRemote,setCheckedRemote] = React.useState(props.info.Public_CV);
     const handleChangeRemote = (event) => {
@@ -23,11 +23,10 @@ export const TableInfoCandidate = (props) =>{
         {
         withCredentials: true
         }).then((res)=>{
-            console.log(res)
+            console.log("t",res)
             setListApplied(res.data.list)
         })
     },[])
-    console.log("1",checkedRemote)
     return (
         <div className='profile_container'>
             {

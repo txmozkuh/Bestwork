@@ -6,6 +6,8 @@ import SendIcon from '@mui/icons-material/Send';
 import axios from 'axios';
 import Skeleton from '@mui/material/Skeleton';
 import Stack from '@mui/material/Stack';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
 const JobDetail = () => {
     const [jobDescription, setJobDescription] = React.useState([])
     const [jobRequirement, setJobRequirement] = React.useState([])
@@ -13,7 +15,21 @@ const JobDetail = () => {
     const [jobRecruiter, setJobRecruiter] =  React.useState([])
     const [loaded, setLoaded] = React.useState(true)
     const {id} = useParams();
+    const [open, setOpen] = React.useState(false);
     const userType =localStorage.getItem('user_status')
+    const Alert = React.forwardRef(function Alert(props, ref) {
+        return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+      });
+      const handleClick = () => {
+        setOpen(true);
+      };
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+          return;
+        }
+    
+        setOpen(false);
+      };
     React.useEffect(() => {
         
         if(userType==='candidate'){
@@ -53,6 +69,10 @@ const JobDetail = () => {
                 withCredentials:true
             }).then((res) => {
                 console.log(res)
+                handleClick()
+                setTimeout(() => {
+                    window.location.href="/profile"
+                }, 1000); 
             })
         }
         else{
@@ -124,8 +144,10 @@ const JobDetail = () => {
                         </>
                         }
                     </div>
-                   
-                    <div className="send_cv_btn" onClick={handleSendCv}>
+                    {
+                        userType==='recruiter'?<></>
+                        :
+                        <div className="send_cv_btn" onClick={handleSendCv}>
                         {
                             loaded?
                             <Stack spacing={1}>
@@ -134,8 +156,18 @@ const JobDetail = () => {
                             :
                             <>Send CV &nbsp;&nbsp; <SendIcon/></>
                         }
-                        
+                        <Snackbar
+                            open={open}
+                            autoHideDuration={6000}
+                            onClose={handleClose}
+                        >
+                            <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+                                Send CV successfully
+                                </Alert>
+                        </Snackbar>
                     </div>
+                    }
+                    
                 </Grid>
                 
             </Grid>
