@@ -79,15 +79,16 @@ exports.getJobDescription = async (req, res) => {
 
     //-------------------------- Get Recruiter Job --------------------------------\\
     result = await request.query(`SELECT * 
-                                    FROM Recruiter_Job join Recruiter on Recruiter_Job.Recruiter_ID = Recruiter.Recruiter_ID
-                                    WHERE Recruiter_Job_ID='${job_id}'`);
+                                  FROM Recruiter_Job join Recruiter on Recruiter_Job.Recruiter_ID = Recruiter.Recruiter_ID
+                                  WHERE Recruiter_Job_ID='${job_id}'`);
     const description = result.recordset[0];
 
     //-------------------------- Get Recruiter  --------------------------------\\
     result = await request.query(`SELECT * 
-                                   FROM Recruiter
-                                   WHERE Recruiter_ID='${description.Recruiter_ID}'`);
-     const recruiter = result.recordset[0];
+                                  FROM Recruiter
+                                  WHERE Recruiter_ID='${description.Recruiter_ID}'`);
+    const recruiter = result.recordset[0];
+
     //-------------------------- Get Job Type --------------------------------\\
     result = await request.query(`SELECT Job.Job_Name, Job_Type.Type_Name
                                   FROM Job_Type join Job on Job_Type.Job_ID = Job.Job_ID

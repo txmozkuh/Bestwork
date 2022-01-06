@@ -10,10 +10,11 @@ class authController {
                 req.logIn(user, err => {
                     if (err) throw err;
                     res.send({message : 'Successfully Authentication !!',
-                         user: {
-                             Email : user.Email,
-                             Type: user.User_Type
-                         }});
+                        user: {
+                            Email : user.Email,
+                            Name : user.name,
+                            Type: user.User_Type
+                        }});
                     console.log("User log in: ");
                     console.log(req.user);
                 })

@@ -26,18 +26,20 @@ passport.use(new LocalStrategy({
         }
 
         if(user.User_Type.trim() === 'candidate'){
-            sqlString = `SELECT Candidate_ID FROM Candidate
+            sqlString = `SELECT * FROM Candidate
                          WHERE Account_ID = '${user.Account_ID}'`;
 
             const result = await pool.request().query(sqlString);
             user.user_id = result.recordset[0].Candidate_ID;
+            user.name = result.recordset[0].Candidate_Name;
 
         } else if (user.User_Type.trim() === 'recruiter'){
-            sqlString = `SELECT Recruiter_ID FROM Recruiter
+            sqlString = `SELECT * FROM Recruiter
                          WHERE Account_ID = '${user.Account_ID}'`;
 
             const result = await pool.request().query(sqlString);
             user.user_id = result.recordset[0].Recruiter_ID;
+            user.name = result.recordset[0].Recruiter_Name;
         }
 
         return done(null, user);
@@ -48,6 +50,7 @@ passport.serializeUser(function(user, done) {
     done(null, {
         account_id: user.Account_ID,
         user_id: user.user_id,
+        name: user.name,
         email : user.Email,
         type: user.User_Type
     });
