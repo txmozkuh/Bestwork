@@ -50,11 +50,58 @@ exports.createJob = async (req, res) => {
     const result = await request.query(sqlString);
     const job_id = result.recordset[0].Job_ID;
 
+    //------------------------- Description--------------------------------\\
+    for(const description of body.description){
+        await request.query(`INSERT INTO Description (Recruiter_Job_ID, Content)
+                                  VALUES ('${job_id}', '${description}')`);
+    }
+
     //-------------------------- Experience_Require --------------------------------\\
     for(const skill of body['skill-id']){
         await request.query(`INSERT INTO Experience_Require (Recruiter_Job_ID, Skill_ID)
                                   VALUES ('${job_id}', '${skill}')`);
     }
+}
+
+exports.updateJob = async (req, res) => {
+    const job_id = req.params.jobId;
+    const body = req.body;
+
+    const pool = await connect;
+    const request = pool.request();
+
+    await request.query(`UPDATE Recruiter_Job 
+                         SET Job_Name = N'${body['job-name']}',
+                             Salary = '${body.salary}',
+                             Start_Date = '${body['start-date']}',
+                             End_Date = '${body['end-date']}',
+                             District = N'${body.district}',
+                             City = N'${body.city}',
+                             Working_Form = N'${body['working-form']}',
+                             Recruitment_Quantity = '${body['recruitment_quantity']}',
+                             Remote = '${body.remote}',
+                             Years_Of_Experience = '${body['years-of-experience']}',
+                             Type_ID = '${body['type-id']}'
+                         WHERE Recruiter_Job_ID = '${job_id}'`);
+
+    //------------------------- Description--------------------------------\\
+    await request.query(`DELETE FROM Description 
+                         WHERE Recruiter_Job_ID = '${job_id}'`);
+
+    for(const description of body.description){
+        await request.query(`INSERT INTO Description (Recruiter_Job_ID, Content)
+                                  VALUES ('${job_id}', '${description}')`);
+    }
+
+    //------------------------- Experience_Require --------------------------------\\
+    await request.query(`DELETE FROM Experience_Require 
+                         WHERE Recruiter_Job_ID = '${job_id}'`);
+
+    for(const skill_id of body['skill-id']){
+        await request.query(`INSERT INTO Experience_Require (Recruiter_Job_ID, Skill_ID)
+                                        VALUES('${job_id}', '${skill_id}')`);
+    }
+
 }
 
 exports.getCreatedJobs = async (req, res) => {
@@ -79,14 +126,14 @@ exports.getJobDescription = async (req, res) => {
 
     //-------------------------- Get Recruiter Job --------------------------------\\
     result = await request.query(`SELECT * 
-                                  FROM Recruiter_Job join Recruiter on Recruiter_Job.Recruiter_ID = Recruiter.Recruiter_ID
+                                  FROM Recruiter_Job
                                   WHERE Recruiter_Job_ID='${job_id}'`);
     const description = result.recordset[0];
 
     //-------------------------- Get Recruiter  --------------------------------\\
-    result = await request.query(`SELECT * 
+    result = await request.query(`SELECT *
                                   FROM Recruiter
-                                  WHERE Recruiter_ID='${description.Recruiter_ID}'`);
+                                  WHERE Recruiter_ID='${req.user.user_id}'`);
     const recruiter = result.recordset[0];
 
     //-------------------------- Get Job Type --------------------------------\\
@@ -95,44 +142,19 @@ exports.getJobDescription = async (req, res) => {
                                   WHERE Type_ID='${description.Type_ID}'`);
     const job_type = result.recordset[0];
 
-    //-------------------------- Skill requirement --------------------------------\\
+    // //-------------------------- Skill requirement --------------------------------\\
     result = await request.query(`SELECT Skill.Skill_name
                                   FROM Experience_Require join Skill on Experience_Require.Skill_ID = Skill.Skill_ID
                                   WHERE Recruiter_Job_ID='${description.Recruiter_Job_ID}'`);
     const experience_require = result.recordset;
 
+    // //-------------------------- Description --------------------------------\\
+    result = await request.query(`SELECT Content
+                                  FROM Description
+                                  WHERE Recruiter_Job_ID='${description.Recruiter_Job_ID}'`);
+    description.discription = result.recordset;
+
     return {description, recruiter, job_type, experience_require}
-}
-
-exports.updateJob = async (req, res) => {
-    const job_id = req.params.jobId;
-    const body = req.body;
-
-    const pool = await connect;
-    const request = pool.request();
-
-    await request.query(`UPDATE Recruiter_Job 
-                         SET Job_Name = N'${body['job-name']}',
-                             Salary = '${body.salary}',
-                             Start_Date = '${body['start-date']}',
-                             End_Date = '${body['end-date']}',
-                             District = N'${body.district}',
-                             City = N'${body.city}',
-                             Working_Form = N'${body['working-form']}',
-                             Recruitment_Quantity = '${body['recruitment_quantity']}',
-                             Remote = '${body.remote}',
-                             Years_Of_Experience = '${body['years-of-experience']}',
-                             Type_ID = '${body['type-id']}'
-                         WHERE Recruiter_Job_ID = '${job_id}'`);
-
-    await request.query(`DELETE FROM Experience_Require 
-                         WHERE Recruiter_Job_ID = '${job_id}'`);
-
-    for(const skill_id of body['skill-id']){
-        await request.query(`INSERT INTO Experience_Require (Recruiter_Job_ID, Skill_ID)
-                                        VALUES('${job_id}', '${skill_id}')`);
-    }
-
 }
 
 exports.getAppliedList = async (req, res) => {
