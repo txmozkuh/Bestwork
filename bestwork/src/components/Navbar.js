@@ -24,7 +24,7 @@ const Header = () => {
         setUserName(localStorage.getItem('user_name'))
     },[])
     let navbarElements={
-        logo:"images/logonew.png",
+        logo:"images/bwlogo.png",
         links:[
             {
                 'title':'Home',
@@ -96,7 +96,7 @@ const Header = () => {
     
     return ( 
         <div className = "navbar" >
-            <div className="logo_container"><Link to = "/" className = 'logo' > < img src = {navbarElements.logo} alt = "" /></Link>BestWork</div>
+            <div className="logo_container"><Link to = "/" className = 'logo' > < img src = {navbarElements.logo} alt = "" /></Link></div>
             <SearchBar/>
             <ul className = "link_container">
                 {
