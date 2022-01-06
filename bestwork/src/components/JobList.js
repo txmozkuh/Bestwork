@@ -152,14 +152,28 @@ export const Filter = () => {
 export const List = () => {
     const [loaded, setLoaded] = React.useState(true)
     const [listJob,setListJob] = useState([]);
-    useEffect(() => {   
-        axios.get('http://localhost:3001/candidate/job-list',
-        {
-            withCredentials: true
-        }).then((res)=>{
-            setListJob(res.data.list)
-            setLoaded(false)
-        })
+    const userType =localStorage.getItem('user_status')
+    useEffect(() => {
+        console.log(userType)
+        if(userType ==='candidate'){
+            axios.get('http://localhost:3001/candidate/job-list',
+            {
+                withCredentials: true
+            }).then((res)=>{
+                setListJob(res.data.list)
+                setLoaded(false)
+            })
+        }
+        else{
+            axios.get('http://localhost:3001/guest/job-list',
+            {
+                withCredentials: true
+            }).then((res)=>{
+                setListJob(res.data.list)
+                setLoaded(false)
+            })
+        }
+        
     },[])
     const [page,setPage]=React.useState(1)
     const itemPerPage=10
@@ -199,12 +213,7 @@ export const JobItem = (props) =>{
     const JobItem=props.item
     const navigate = useNavigate();
     function handleClick() {
-        if(userstatus){
-            navigate(`/job/item/${JobItem.Recruiter_Job_ID}`);
-        }
-        else{
-            navigate('/sign-in')
-        }
+        navigate(`/job/item/${JobItem.Recruiter_Job_ID}`);
     }
     return(
             <div className="item" onClick={handleClick}>

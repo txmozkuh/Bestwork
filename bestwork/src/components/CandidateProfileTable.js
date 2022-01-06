@@ -41,7 +41,7 @@ export const TableInfoCandidate = (props) =>{
                             </tr>
                             <tr>
                                 <td>Date of birth</td>
-                                <td>{props.info.Date_Of_Birth}</td>
+                                <td>{props.info.Date_Of_Birth.split('T')[0]}</td>
                             </tr>
                             <tr>
                                 <td>Gender</td>
@@ -69,7 +69,7 @@ export const TableInfoCandidate = (props) =>{
                     <div className="button" onClick={()=>setUpdate(true)}>
                         Update
                     </div>
-                    {/* <CandidateListAppliedJob listApplied = {listApplied}/> */}
+                    <CandidateListAppliedJob listApplied = {listApplied}/>
                     </>
                     :
                     <><UpdateFormCandidate info={props} />
