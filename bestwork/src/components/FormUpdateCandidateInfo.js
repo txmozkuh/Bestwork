@@ -12,6 +12,12 @@ import ListItemText from '@mui/material/ListItemText';
 import Select from '@mui/material/Select';
 import Checkbox from '@mui/material/Checkbox';
 import { Tab, typographyClasses } from '@mui/material';
+import Stack from '@mui/material/Stack';
+import TextField from '@mui/material/TextField';
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import DesktopDatePicker from '@mui/lab/DesktopDatePicker';
+import { set } from 'date-fns';
 export const ListInterestsForUser = ({userInterest, listInterestID, SetListInterestID}) => {
     const interests = userInterest
     const ITEM_HEIGHT = 40;
@@ -50,14 +56,14 @@ export const ListInterestsForUser = ({userInterest, listInterestID, SetListInter
     return (
         <div>
         <FormControl sx={{ m: 1, width: 300 }}>
-            <InputLabel id="demo-multiple-checkbox-label">Sở Thích</InputLabel>
+            <InputLabel id="demo-multiple-checkbox-label">Interests</InputLabel>
             <Select
             labelId="demo-multiple-checkbox-label"
             id="demo-multiple-checkbox"
             multiple
             value={listInterest}
             onChange={handleChange}
-            input={<OutlinedInput label="Sở Thích" />}
+            input={<OutlinedInput label="Interests" />}
             renderValue={(selected) => selected.join(', ')}
             MenuProps={MenuProps}
             >
@@ -108,14 +114,14 @@ export const ListSkillsForUser = ({userSkill,SetListSkillID,setRank}) => {
     return (
         <div>
         <FormControl sx={{ m: 1, width: 300 }}>
-            <InputLabel id="demo-multiple-checkbox-label">Kỹ Năng</InputLabel>
+            <InputLabel id="demo-multiple-checkbox-label">Skills</InputLabel>
             <Select
             labelId="demo-multiple-checkbox-label"
             id="demo-multiple-checkbox"
             multiple
             value={listSkill}
             onChange={handleChange}
-            input={<OutlinedInput label="Kỹ Năng" />}
+            input={<OutlinedInput label="Skills" />}
             renderValue={(selected) => selected.join(', ')}
             MenuProps={MenuProps}
             >
@@ -162,8 +168,9 @@ export const ListSkillsForUser = ({userSkill,SetListSkillID,setRank}) => {
     );
 }
 
-export const ListJobType = ({userJobType, listJobTypeID, SetListJobTypeID}) => {
+export const ListJobType = ({userJobType, SetJobTypeID}) => {
     const jobTypes = userJobType
+    console.log(jobTypes)
     const ITEM_HEIGHT = 40;
     const ITEM_PADDING_TOP = 8;
     const MenuProps = {
@@ -174,43 +181,32 @@ export const ListJobType = ({userJobType, listJobTypeID, SetListJobTypeID}) => {
         },
     },
     };
-    const [listJobType, setListJobType] = React.useState([]);
+    const [listJobType, setListJobType] = React.useState("");
 
     const handleChange = (event) => {
-        const {
-        target: { value },
-        } = event;
-        setListJobType(
-        // On autofill we get a stringified value.
-        typeof value === 'string' ? value.split(',') : value,
-        );
-        var tempListJobType = typeof value === 'string' ? value.split(',') : value
-        var result=tempListJobType.map(name=>{
-            var result_check=jobTypes.find((i_name)=>{
-                return i_name.Job_Name === name
-            })
-            return result_check.Job_ID
+        setListJobType(event.target.value)
+        jobTypes.map(item=>{
+            if(item.Job_Name === event.target.value ){
+                SetJobTypeID(item.Job_ID)
+            }
         })
-        SetListJobTypeID(result)
     };
+    
+    console.log(listJobType)
     return (
         <div>
         <FormControl sx={{ m: 1, width: 300 }}>
-            <InputLabel id="demo-multiple-checkbox-label">Công việc</InputLabel>
+            <InputLabel id="demo-simple-select-label">Job Type</InputLabel>
             <Select
-            labelId="demo-multiple-checkbox-label"
-            id="demo-multiple-checkbox"
-            multiple
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
             value={listJobType}
             onChange={handleChange}
-            input={<OutlinedInput label="Công việc" />}
-            renderValue={(selected) => selected.join(', ')}
-            MenuProps={MenuProps}
+            input={<OutlinedInput label="Job Type" />}
             >
             {jobTypes.map((jobType) => (
-                <MenuItem key={jobType.Job_Name} value={jobType.Job_Name}>
-                <Checkbox checked={listJobType.indexOf(jobType.Job_Name) > -1}/>
-                <ListItemText primary={jobType.Job_Name} />
+                <MenuItem value={jobType.Job_Name}>
+                    {jobType.Job_Name}
                 </MenuItem>
             ))}
             </Select>
@@ -241,13 +237,13 @@ export const ListWorkingForm = ({SetWorkingForm}) => {
     return (
         <div>
         <FormControl sx={{ m: 1, width: 300 }}>
-            <InputLabel id="demo-multiple-checkbox-label">Hình thức làm việc</InputLabel>
+            <InputLabel id="demo-multiple-checkbox-label">Working form</InputLabel>
             <Select
                 labelId="demo-multiple-checkbox-label"
                 id="demo-simple-select"
                 value={FormWorking}
                 onChange={handleChangeWorkingForm}
-                input={<OutlinedInput label="Hình thức làm việc" />}
+                input={<OutlinedInput label="Working form" />}
                 >
                 {working_form.map((item) => (
                     <MenuItem key={item} value={item}>
@@ -262,8 +258,8 @@ export const ListWorkingForm = ({SetWorkingForm}) => {
 
 export const GenderForm = ({SetGender}) => {
     const working_form = [
-        'Nam',
-        'Nữ',
+        'Male',
+        'Female',
     ];
     const ITEM_HEIGHT = 40;
     const ITEM_PADDING_TOP = 8;
@@ -284,13 +280,13 @@ export const GenderForm = ({SetGender}) => {
     return (
         <div>
         <FormControl sx={{ m: 1, width: 300 }}>
-            <InputLabel id="demo-multiple-checkbox-label">Giới tính</InputLabel>
+            <InputLabel id="demo-multiple-checkbox-label">Gender</InputLabel>
             <Select
                 labelId="demo-multiple-checkbox-label"
                 id="demo-simple-select"
                 value={gender}
                 onChange={handleChangeGender}
-                input={<OutlinedInput label="Giới tính" />}
+                input={<OutlinedInput label="Gender" />}
                 >
                 {working_form.map((item) => (
                     <MenuItem key={item} value={item}>
@@ -303,25 +299,27 @@ export const GenderForm = ({SetGender}) => {
     );
 }
 
-
-// export const TableJobApplied = () => {
-//     const [jobApplied, setJobApplied] = React.useState([]);
-//     React.useEffect(() => {
-//         axios.get('http://localhost:3001/candidate/job-applied',
-//         {
-//             withCredentials: true
-//         }).then((res)=>{
-//             setJobApplied(res.data.list)
-//         })
-//     },[])
-//     return(
-//         <div>
-//             hee
-//         </div>
-//     );
-// }
-
-
+export const  DatePicker = ({SetDateOfBirth}) => {
+    const [start, setStart] = React.useState(new Date());
+    const handleChangeStart = (newValue) => {
+        setStart(newValue);
+    };
+    SetDateOfBirth(`${start.getUTCFullYear()}-${start.getUTCMonth()+1}-${start.getUTCDate()}`)
+    
+    return (
+      <LocalizationProvider dateAdapter={AdapterDateFns}>
+        <Stack spacing={3}>
+          <DesktopDatePicker
+            label="Data of birth"
+            inputFormat="MM/dd/yyyy"
+            value={start}
+            onChange={handleChangeStart}
+            renderInput={(params) => <TextField {...params} />}
+          />
+          </Stack>
+    </LocalizationProvider>
+  );
+}
 export const UpdateFormCandidate = (props) => {
     let curInfo=props.info.info
     const [CandidateName, SetCandidateName] = React.useState('')
@@ -332,13 +330,14 @@ export const UpdateFormCandidate = (props) => {
     const [JobType, SetJobType] = React.useState([])
     const [WorkingForm, SetWorkingForm] = React.useState('')
     const [listInterestID , SetListInterestID] = React.useState([])
-    const [listJobTypeID , SetListJobTypeID ] = React.useState([])
+    const [listJobTypeID , SetJobTypeID ] = React.useState([])
     const [listSkillID, SetListSkillID] = React.useState([])
     const [userType,setUserType] = React.useState('')
     const [skills,setSkills] = React.useState([])
     const [interests,setInterest] = React.useState([])
     const [rank,setRank] = React.useState([])
-
+    const [submit, setSubmit] = React.useState(false)
+    console.log(listJobTypeID)
     React.useEffect(()=>{
         setUserType(localStorage.getItem('user_status'))
         axios.get('http://localhost:3001/get/interest',
@@ -362,26 +361,28 @@ export const UpdateFormCandidate = (props) => {
             SetJobType(res.data.jobs)
         })
     },[])
-    console.log(rank)
+    
     const handleUpdate = () => {
         if(userType === 'candidate'){
-            console.log(listSkillID)
             axios.put('http://localhost:3001/candidate/profile',{
                 'candidate-name':CandidateName,
                 'date-of-birth':DateOfBirth,
-                gender:Gender,
+                gender:Gender==='Male'?true:false,
                 'phone-number':PhoneNumber,
                 about:About,
                 'apply-position':listJobTypeID,
                 'working-form':WorkingForm,
                 'interest-id':listInterestID,
-                'skill-id':listSkillID,
+                'skill-id':[1,2,3],
                 'rank': [5,4,3]
             },
             {
             withCredentials: true
             }).then((res)=>{
-                console.log(res)
+                setSubmit(true)
+                setTimeout(() => {
+                    window.location.href="/profile"
+                }, 1000); 
             })
         }
     }
@@ -392,7 +393,7 @@ export const UpdateFormCandidate = (props) => {
                     SetCandidateName(e.target.value)
                 }}></input>
                 <span class="field__label-wrap">
-                    <span class="field__label">Họ và tên</span>
+                    <span class="field__label">Fullname</span>
                 </span>
             </label>
 
@@ -401,17 +402,7 @@ export const UpdateFormCandidate = (props) => {
                     SetPhoneNumber(e.target.value)
                 }}></input>
                 <span class="field__label-wrap">
-                    <span class="field__label">Số điện thoại</span>
-                </span>
-            </label>
-
-
-            <label class="field field_v3">
-                <input class='field__input' type="text" name='date-of-birth' placeholder={curInfo.DateOfBirth} onChange={(e) => {
-                    SetDateOfBirth(e.target.value)
-                }}></input>
-                <span class="field__label-wrap">
-                    <span class="field__label">Ngày sinh</span>
+                    <span class="field__label">Phone number</span>
                 </span>
             </label>
 
@@ -420,16 +411,24 @@ export const UpdateFormCandidate = (props) => {
                     SetAbout(e.target.value)
                 }}></input>
                 <span class="field__label-wrap">
-                    <span class="field__label">Về bản thân</span>
+                    <span class="field__label">About yourself</span>
                 </span>
             </label>
+            <br></br>
+            <DatePicker SetDateOfBirth ={SetDateOfBirth} />
             <ListInterestsForUser userInterest = {interests} listInterestID = {listInterestID} SetListInterestID = {SetListInterestID} />
             <ListSkillsForUser userSkill = {skills}  listSkillID = {listSkillID} SetListSkillID = {SetListSkillID} setRank={setRank}/>
-            <ListJobType userJobType = {JobType}  listJobTypeID = {listJobTypeID} SetListJobTypeID = {SetListJobTypeID}/>
+            <ListJobType userJobType = {JobType} SetJobTypeID = {SetJobTypeID}/>
             <ListWorkingForm SetWorkingForm={SetWorkingForm}/>
             <GenderForm SetGender = {SetGender}/>
             <div className="button" onClick={handleUpdate}>
-                Update
+                {
+                    submit?
+                    <CircularProgress style={{"color":"white"}}/>
+                    :
+                    <>Update</>
+                }
+                    
             </div>
         </div>
     )

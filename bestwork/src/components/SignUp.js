@@ -98,7 +98,6 @@ const SignUp = () => {
                     window.location.href="/sign-in"
                 }, 1000); 
             });
-            console.log(registerInfo)
         }
         else{
             for(var i in registerInfo){

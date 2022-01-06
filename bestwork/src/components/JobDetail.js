@@ -62,9 +62,9 @@ const JobDetail = () => {
                         <div className="requirements">
                             <h1>Vị trí ứng tuyển</h1>
                             {
-                                jobType.map((item) => {
+                                jobRequirement.map((item) => {
                                     return <p>
-                                        • {item.Job_Name}
+                                        • {item.Skill_name}
                                     </p>
                                 })
                             }
