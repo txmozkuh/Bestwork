@@ -31,6 +31,7 @@ exports.getProfile = async (req, res) => {
                                                 on Candidate_Interest.Interest_ID = Interest.Interest_ID 
                                          WHERE Candidate_Interest.Candidate_ID = '${candidate_id}'`);
     const interest = result4.recordset;
+
     return {
         profile,
         apply_position,
@@ -40,7 +41,6 @@ exports.getProfile = async (req, res) => {
 }
 
 exports.updateProfile = async (req, res) => {
-    console.log(req.body['candidate-name'])
     const body = req.body;
     const user = req.user;
     const skill_IDs = body['skill-id'];
