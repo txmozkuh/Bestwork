@@ -21,6 +21,12 @@ const RecruiterJobList = ({jobList}) => {
                 <tbody>
                     <tr>
                         {
+                            jobList.map(item=>{
+                                return <>
+                                    <th>{item.Job_Name}</th>
+                                </>
+                                
+                            })
                         }
                     </tr>
                 </tbody>
