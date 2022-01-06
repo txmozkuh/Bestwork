@@ -2,14 +2,16 @@ import './css/Profile.css'
 import UpdateFormRecruiter from './FormUpdateRecruiterInfo'
 import React, { useEffect } from 'react'
 import axios from 'axios'
+import RecruiterJobList from './RecruiterJobList'
 export const TableInfoRecruiter = (props) =>{
     const [update,setUpdate] = React.useState(false)
+    const [jobList, setJobList] = React.useState([])
     useEffect(() => {
         axios.get('http://localhost:3001/recruiter/job-list',
         {
             withCredentials: true
         }).then((res)=>{
-            console.log(res)
+            setJobList(res.data.jobList)
         })
     },[])
     return (
@@ -41,7 +43,8 @@ export const TableInfoRecruiter = (props) =>{
                         </table>
                         <div className="button" onClick={() => setUpdate(true)}>
                             Update profiles
-                        </div>
+                        </div>  
+                        <RecruiterJobList jobList = {jobList}/>
                         </>
                         :
                         <UpdateFormRecruiter info={props} />

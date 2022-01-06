@@ -31,7 +31,6 @@ export const Filter = ({listCity,SetWorkingForm,setCity,setDistrict, listSkills,
             })
         })
     })
-    console.log(arrTypes)
     const ITEM_HEIGHT = 40;
     const ITEM_PADDING_TOP = 8;
     const MenuProps = {
@@ -83,22 +82,14 @@ export const Filter = ({listCity,SetWorkingForm,setCity,setDistrict, listSkills,
         setListSkillsID(result)
     };
     const handleChangeTypeJob = (event) => {
-        const {
-            target: { value },
-            } = event;
-            setJobType(
-            // On autofill we get a stringified value.
-            typeof value === 'string' ? value.split(',') : value,
-            );
-            var tempListJobType = typeof value === 'string' ? value.split(',') : value
-            var result=tempListJobType.map(name=>{
-                var result=arrTypes.find((i_name)=>{
-                    return i_name.Type_Name === name
-                })
-                return result.Type_ID
-            })
-            setTypeJobID(result)
+        setJobType(event.target.value)
+        arrTypes.map(item=>{
+            if(item.Type_Name === event.target.value){
+                setTypeJobID(item.Type_ID)
+            }
+        })
     }
+
     return (
         <div>
         <FormControl sx={{ m: 1, width: 300 }}>
@@ -117,7 +108,7 @@ export const Filter = ({listCity,SetWorkingForm,setCity,setDistrict, listSkills,
                 ))}
             </Select>
         </FormControl>
-
+        <br></br>
         <FormControl sx={{ m: 1, width: 300 }}>
             <InputLabel id="demo-simple-select-label">Kỹ Năng</InputLabel>
             <Select
@@ -138,7 +129,7 @@ export const Filter = ({listCity,SetWorkingForm,setCity,setDistrict, listSkills,
                 ))}
             </Select>
         </FormControl>
-
+        <br></br>
         <FormControl sx={{ m: 1, width: 300 }}>
             <InputLabel id="demo-simple-select-label">City</InputLabel>
                 <Select
@@ -157,6 +148,7 @@ export const Filter = ({listCity,SetWorkingForm,setCity,setDistrict, listSkills,
                 ))}
             </Select>
         </FormControl>
+        <br></br>
         <FormControl sx={{ m: 1, width: 300 }} disabled={city?false:true}>
             <InputLabel id="demo-simple-select-label">District</InputLabel>
                 <Select
@@ -173,24 +165,21 @@ export const Filter = ({listCity,SetWorkingForm,setCity,setDistrict, listSkills,
                     }
                 </Select>
         </FormControl>
-            <FormControl sx={{ m: 1, minWidth: 120 }}>
-            <InputLabel id="demo-multiple-checkbox-label">Type Job</InputLabel>
+        <br></br>
+            <FormControl sx={{ m: 1, width: 300 }}>
+            <InputLabel id="demo-simple-select-label">Type Job</InputLabel>
             <Select 
-                labelId="demo-multiple-checkbox-label"
-                id="demo-multiple-checkbox"
-                multiple
+                labelId="demo-simple-select-label"
+                id="demo-simple-checkbox"
                 value={jobType}
                 onChange={handleChangeTypeJob}
                 input={<OutlinedInput label="Type Job" />}
-                renderValue={(selected) => selected.join(', ')}
-                MenuProps={MenuProps}
                 >
                 {
                     arrTypes.map((type) => {
                         return (
-                            <MenuItem id={type.Type_ID} value={type.Type_Name}>
-                            <Checkbox checked={jobType.indexOf(type.Type_Name) > -1}/>
-                            <ListItemText primary={type.Type_Name} />
+                            <MenuItem value={type.Type_Name}>
+                                {type.Type_Name}
                             </MenuItem>
                         )
                                             
@@ -276,56 +265,63 @@ const CreateJobForm = () => {
 
     return (
         <div className='create_job_container'>
-                    <table class="styled-table">
-                        <thead>
-                            <tr>
-                                <th>Tạo công việc</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Tên công việc</td>
-                                <input type="text" name='job-name' defaultValue={'...'} onChange={(e) => {
-                                    setJobName(e.target.value)
-                                }}></input>
-                            </tr>
-                            <tr>
-                                <td>Mức Lương</td>
-                                <input type="text" name='phone-number' defaultValue={'...'} onChange={(e) => {
-                                    setSalary(e.target.value)
-                                }}></input>
-                            </tr>
-                            <tr>
-                                <td>Ngày bắt đầu tuyển dụng</td>
-                                <input type="text" name='startDate' defaultValue={'...'} onChange={(e) => {
-                                    setStartDate(e.target.value)
-                                }}></input>
-                            </tr>
-                            <tr>
-                                <td>Ngày kết thúc tuyển dụng</td>
-                                <input type="text" name='endDate' defaultValue={'...'} onChange={(e) => {
-                                    setEndDate(e.target.value)
-                                }}></input>
-                            </tr>
-                            <tr>
-                                <td>Số lượng tuyển</td>
-                                <input type="text" name='recruitment-quantity' defaultValue={'...'} onChange={(e) => {
-                                    setRecruitmentQuantity(e.target.value)
-                                }}></input>
-                            </tr>
-                            <tr>
-                                <td>Kinh nghiệm</td>
-                                <input type="text" name='years-of-experience' defaultValue={'...'} onChange={(e) => {
-                                    setYearExperience(e.target.value)
-                                }}></input>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <Filter listCity = {listCity} Type = {Type} SetWorkingForm = {SetWorkingForm} setCity = {setCity} setDistrict = {setDistrict} listSkills={listSkills} setListSkillsID = {setListSkillsID} setTypeJobID={setTypeJobID}/>
-                    <div className="button" onClick={handleCreateJob}>
-                        Create Job
-                    </div>
+            <label class="field field_v3">
+                <input class='field__input' type="text" name='job-name' placeholder={"e.g: Data Science"} onChange={(e) => {
+                    setJobName(e.target.value)
+                }}></input>
+                <span class="field__label-wrap">
+                    <span class="field__label">Tên công việc</span>
+                </span>
+            </label>
+            <br></br>
+            <label class="field field_v3">
+                <input class='field__input' type="text" name='salary' placeholder={"e.g: 15000000"} onChange={(e) => {
+                    setSalary(e.target.value)
+                }}></input>
+                <span class="field__label-wrap">
+                    <span class="field__label">Tiền lương</span>
+                </span>
+            </label>
+            <br></br>
+            <label class="field field_v3">
+                <input class='field__input' type="text" name='start-date' placeholder={"e.g: 1/1/2022"} onChange={(e) => {
+                    setStartDate(e.target.value)
+                }}></input>
+                <span class="field__label-wrap">
+                    <span class="field__label">Ngày bắt đầu tuyển</span>
+                </span>
+            </label>
+            <br></br>
+            <label class="field field_v3">
+                <input class='field__input' type="text" name='end-date' placeholder={"e.g: 3/1/2022"} onChange={(e) => {
+                    setEndDate(e.target.value)
+                }}></input>
+                <span class="field__label-wrap">
+                    <span class="field__label">Ngày kết thúc tuyển</span>
+                </span>
+            </label>
+            <br></br>
+            <label class="field field_v3">
+                <input class='field__input' type="text" name='recruitment_quantity' placeholder={"e.g: 2"} onChange={(e) => {
+                    setRecruitmentQuantity(e.target.value)
+                }}></input>
+                <span class="field__label-wrap">
+                    <span class="field__label">Số lượng tuyển</span>
+                </span>
+            </label>
+            <br></br>
+            <label class="field field_v3">
+                <input class='field__input' type="text" name='years-of-experience' placeholder={"e.g: 2"} onChange={(e) => {
+                    setYearExperience(e.target.value)
+                }}></input>
+                <span class="field__label-wrap">
+                    <span class="field__label">Kinh nghiệm làm việc</span>
+                </span>
+            </label>
+            <Filter listCity = {listCity} Type = {Type} SetWorkingForm = {SetWorkingForm} setCity = {setCity} setDistrict = {setDistrict} listSkills={listSkills} setListSkillsID = {setListSkillsID} setTypeJobID={setTypeJobID}/>
+            <div className="button" onClick={handleCreateJob}>
+                Create Job
+            </div>
         </div>
     )
 }

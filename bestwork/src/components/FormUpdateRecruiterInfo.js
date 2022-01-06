@@ -107,10 +107,6 @@ export const UpdateFormRecruiter = (props) => {
             })
         }
         else{
-            console.log(city)
-            console.log(district)
-            console.log(tax)
-            console.log(recruiterName)
             alert("Please fill all blank")
         }
         

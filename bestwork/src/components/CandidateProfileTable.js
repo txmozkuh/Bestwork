@@ -1,9 +1,19 @@
 import React from 'react'
 import './css/Profile.css'
 import UpdateFormCandidate from './FormUpdateCandidateInfo'
-
+import axios from 'axios'
+import CandidateListAppliedJob from './CandidateListAppliedJob'
 export const TableInfoCandidate = (props) =>{
     const [update,setUpdate] = React.useState(false)
+    const [listApplied,setListApplied] = React.useState([])
+    React.useEffect(() => {
+        axios.get('http://localhost:3001/candidate/job-applied',
+        {
+        withCredentials: true
+        }).then((res)=>{
+            console.log(res)
+        })
+    },[])
     return (
         <div className='profile_container'>
             {
@@ -57,7 +67,10 @@ export const TableInfoCandidate = (props) =>{
                     </table>
                     <div className="button" onClick={()=>setUpdate(true)}>
                         Update profile
-                    </div></>
+                    </div>
+                    <CandidateListAppliedJob listApplied = {listApplied}/>
+                    </>
+                    
                     :
                     <UpdateFormCandidate info={props} />
             }
