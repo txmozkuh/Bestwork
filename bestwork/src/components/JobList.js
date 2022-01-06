@@ -246,7 +246,7 @@ export const List = () => {
                     </Stack>
                     :
                         noResult?
-                        <EmptyPage/>
+                        <EmptyPage searchValue={searchValue}/>
                         :
                         listJob.slice((page-1)*10,(page-1)*10+10).map((item)=>{
                             return <JobItem item={item}/>
@@ -281,10 +281,10 @@ export const JobItem = (props) =>{
     )
 }
 
-export const EmptyPage = () =>{
+export const EmptyPage = (props) =>{
     return (
         <div className="empty_container">
-            <h1>NO RESULT for what you you're looking for</h1>
+            <h1>NO RESULT for "{props.searchValue}"</h1>
             <img src="./images/no_result.png"/>
         </div>
     )
