@@ -8,7 +8,21 @@ export const TableInfoCandidate = (props) =>{
         <div className='profile_container'>
             {
                         !update?
-                        <><table class="styled-table">
+                        <><Table info={props.info}/>
+                    <div className="button" onClick={()=>setUpdate(true)}>
+                        Update profiles
+                    </div></>
+                    :
+                    <UpdateFormCandidate info={props} />
+            }
+        </div>
+    )
+}
+export default TableInfoCandidate
+
+export const Table = (props) =>{
+    return (
+        <table class="styled-table">
                         <thead>
                             <tr>
                                 <th>Thông tin cá nhân</th>
@@ -50,13 +64,5 @@ export const TableInfoCandidate = (props) =>{
                             </tr>
                         </tbody>
                     </table>
-                    <div className="button" onClick={()=>setUpdate(true)}>
-                        Update profiles
-                    </div></>
-                    :
-                    <UpdateFormCandidate info={props} />
-            }
-        </div>
     )
 }
-export default TableInfoCandidate

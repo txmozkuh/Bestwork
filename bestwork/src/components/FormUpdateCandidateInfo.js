@@ -11,7 +11,7 @@ import FormControl from '@mui/material/FormControl';
 import ListItemText from '@mui/material/ListItemText';
 import Select from '@mui/material/Select';
 import Checkbox from '@mui/material/Checkbox';
-import { Tab } from '@mui/material';
+import { Tab, typographyClasses } from '@mui/material';
 export const ListInterestsForUser = ({userInterest, listInterestID, SetListInterestID}) => {
     const interests = userInterest
     const ITEM_HEIGHT = 40;
@@ -131,7 +131,11 @@ export const ListSkillsForUser = ({userSkill,SetListSkillID,setRank}) => {
             listSkill.map((skill)=>{
                 return <>
                     <div>{skill}
-                    <Rating name="customized-10" defaultValue={0} onChange={(e, value)=>{
+                    <Rating name="customized-10" defaultValue={0} onClick={()=>{
+                        setRank(SkillRate.map(item=>{
+                            return item.rate
+                        }))
+                    }} onChange={(e, value)=>{
                         if(listSkill.length<=SkillRate.length){
                             // SkillRate.map((item)=>{
                             //     listSkill.includes(item)?console.log("true"):console.log(item)
@@ -148,9 +152,7 @@ export const ListSkillsForUser = ({userSkill,SetListSkillID,setRank}) => {
                                 "rate":value
                             }])
                         }
-                        setRank(SkillRate.map(item=>{
-                            return item.rate
-                        }))
+                        
                     }} max={5} />
                     </div>
                     </>
@@ -432,3 +434,13 @@ export const UpdateFormCandidate = (props) => {
     )
 } 
 export default UpdateFormCandidate
+
+
+var result = tempListJobType.map(name =>{
+    types.map(i_job=>{
+        var value = i_job.jobtype.find(i_name=>{
+            return i_name.Type_Name===name
+        })
+        return value.Type_ID
+    })
+})
