@@ -3,9 +3,21 @@ import './css/Profile.css'
 import UpdateFormCandidate from './FormUpdateCandidateInfo'
 import axios from 'axios'
 import CandidateListAppliedJob from './CandidateListAppliedJob'
+import Box from '@mui/material/Box';
+import Switch from '@mui/material/Switch';
 export const TableInfoCandidate = (props) =>{
     const [update,setUpdate] = React.useState(true)
     const [listApplied,setListApplied] = React.useState([])
+    const [checkedRemote,setCheckedRemote] = React.useState(props.info.Public_CV);
+    const handleChangeRemote = (event) => {
+        setCheckedRemote(!checkedRemote)
+        axios.put('http://localhost:3001/candidate/profile',{
+            'public-cv':!checkedRemote
+        }).then((res)=>{
+            console.log(res)
+        })
+    };
+    console.log(checkedRemote)
     React.useEffect(() => {
         axios.get('http://localhost:3001/candidate/job-applied',
         {
@@ -15,11 +27,21 @@ export const TableInfoCandidate = (props) =>{
             setListApplied(res.data.list)
         })
     },[])
+    console.log("1",checkedRemote)
     return (
         <div className='profile_container'>
             {
                         !update?
-                        <><table class="styled-table">
+                        <>
+                        <Box className="remote">
+                            <span>Public:</span>
+                            <Switch
+                                checked={checkedRemote}
+                                onChange={handleChangeRemote}
+                                inputProps={{ 'aria-label': 'controlled' }}
+                            />
+                        </Box>
+                        <table class="styled-table">
                         <thead>
                             <tr>
                                 <th>Information</th>

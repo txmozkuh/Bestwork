@@ -333,7 +333,6 @@ export const UpdateFormCandidate = (props) => {
     const [interests,setInterest] = React.useState([])
     const [rank,setRank] = React.useState([])
     const [submit, setSubmit] = React.useState(false)
-    console.log(listJobTypeID)
     React.useEffect(()=>{
         setUserType(localStorage.getItem('user_status'))
         axios.get('http://localhost:3001/get/interest',
