@@ -167,7 +167,7 @@ const SignUp = () => {
                         <div className="sign_up_btn" onClick={clickRegister}>
                         {
                                 submit?
-                                <CircularProgress style={{"color":"white"}}/>
+                                <CircularProgress size={28} style={{"color":"white"}}/>
                                 :
                                 <>Sign Up</>
                             }

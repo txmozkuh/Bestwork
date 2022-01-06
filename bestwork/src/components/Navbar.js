@@ -18,12 +18,13 @@ const Header = () => {
     
     //HANDLE CHECK LOGIN OR NOT?
     const [userStatus, setUserStatus] = React.useState("")
+    const [userName, setUserName] = React.useState("")
     React.useEffect(()=>{
         setUserStatus(localStorage.getItem('user_status'))
-       
+        setUserName(localStorage.getItem('user_name'))
     },[])
     let navbarElements={
-        logo:"images/logonew.png",
+        logo:"images/bwlogo.png",
         links:[
             {
                 'title':'Home',
@@ -95,7 +96,7 @@ const Header = () => {
     
     return ( 
         <div className = "navbar" >
-            <div className="logo_container"><Link to = "/" className = 'logo' > < img src = {navbarElements.logo} alt = "" /></Link>BestWork</div>
+            <div className="logo_container"><Link to = "/" className = 'logo' > < img src = {navbarElements.logo} alt = "" /></Link></div>
             <SearchBar/>
             <ul className = "link_container">
                 {
@@ -107,7 +108,7 @@ const Header = () => {
             {
                 (userStatus==="candidate" || userStatus==="recruiter")?
                 <div className="dropdown">
-                    <Link to={'/profile'}><h1>User Name</h1></Link>
+                    <Link to={'/profile'}><h1>{userName}</h1></Link>
                     <div className='dropdown_box'>
                     <div className='item'><Link to={'/profile'}>Profile</Link></div>
                     <div className='item' onClick={handleLogOut}><Link to={'/'}>Log Out</Link></div>

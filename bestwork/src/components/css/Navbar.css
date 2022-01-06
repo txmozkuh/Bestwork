@@ -12,6 +12,7 @@
     box-shadow: rgba(0, 0, 0, 0.45) 0px 25px 20px -20px;
 }
 .navbar .logo_container{
+    height: 100%;
     font-family: 'Montserrat', sans-serif;
     display: flex;
     justify-content: start;
@@ -21,9 +22,10 @@
     font-size: 3rem;
     margin: 0;
     padding: 0;
+    overflow: hidden;
 }
 .navbar .logo img{
-    width: 90px;
+    height: 150px
 }
 
 .navbar .link_container {
@@ -46,10 +48,6 @@
     font-size: 1.4rem;
 }
 
-.navbar .link_container a:hover {
-    
-
-}
 .navbar .link_container li:not(:last-child)::after {
     content:"";
     height: 6px;
