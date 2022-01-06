@@ -156,6 +156,7 @@ export const List = () => {
             withCredentials: true
         }).then((res)=>{
             setListJob(res.data.list)
+            console.log(res.data.list)
         })
     },[])
     console.log(listJob)
@@ -198,9 +199,9 @@ export const JobItem = (props) =>{
             <div className="item" onClick={handleClick}>
                 <img src={JobItem.img} alt="" />
                 <div className="info">
-                    <div className="name">{`${JobItem.Job_Name} [ ${JobItem.required} ]`}</div>
+                    <div className="name">{`${JobItem.Job_Name}`}</div>
                     <div className="company"><BusinessIcon/>{JobItem.Recruiter_Name}</div>
-                    <div className="salary"><CreditCardSharpIcon/>{`${JobItem.Salary}$`}</div>
+                    <div className="salary"><CreditCardSharpIcon/>{`${JobItem.Salary}VNĐ`}</div>
                     <div className="address"><RoomIcon fontSize={"small"}/>{JobItem.District} {JobItem.city}</div>
                     <div className="description"><NotesIcon/>{JobItem.Working_Form}</div>
                 </div>

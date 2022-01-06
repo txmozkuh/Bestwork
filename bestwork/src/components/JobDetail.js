@@ -60,11 +60,11 @@ const JobDetail = () => {
                             <h1>Description</h1>
                         </div>
                         <div className="requirements">
-                            <h1>Yêu cầu</h1>
+                            <h1>Vị trí ứng tuyển</h1>
                             {
-                                jobRequirement.map((item) => {
+                                jobType.map((item) => {
                                     return <p>
-                                        • {item.Skill_name}
+                                        • {item.Job_Name}
                                     </p>
                                 })
                             }
@@ -79,24 +79,7 @@ const JobDetail = () => {
                                 })
                             }
                         </div>
-                        <div className="benefit">
-                            <h1>Benefit</h1>
-                            <div className="salary b_box">
-                                <AttachMoneyIcon/>
-                                Price Bonus  
-                            </div>
-                            <div className="time b_box">
-                                <AvTimerIcon/>
-                                Working time benefit
-                            </div>
-                            <div className="award b_box">
-                                <MilitaryTechIcon/>
-                                Achievement and bonus
-                            </div>
-                            
-                            
-                        </div>
-                        
+
                     </div>
                     
                     <div className="send_cv_btn" onClick={handleSendCv}>

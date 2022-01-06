@@ -9,26 +9,27 @@ const RecruiterJobList = ({jobList}) => {
             <table class="styled-table">
                 <thead>
                     <tr>
-                        <th>Tên công việc</th>
-                        <th>Thời gian làm việc</th>
-                        <th>Thời gian làm việc</th>
-                        <th>Địa chỉ</th>
-                        <th>Trạng thái</th>
-                        <th>Ngày bắt đầu tuyển</th>
-                        <th>Ngày kết thúc tuyển</th>
+                        <th>Name</th>
+                        <th>Working Type</th>
+                        <th>Destination</th>
+                        <th>Status</th>
+                        <th>Start date</th>
+                        <th>End date</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
                         {
-                            jobList.map(item=>{
-                                return <>
-                                    <th>{item.Job_Name}</th>
-                                </>
-                                
+                            jobList.map(job=>{
+                                return <tr>
+                                    <th>{job.Job_Name}</th>
+                                    <th>{job.Working_Form}</th>
+                                    <th>{job.District + " " + job.city}</th>
+                                    <th>{job.Status}</th>
+                                    <th>{job.Start_Date.split('T')[0]}</th>
+                                    <th>{job.End_Date.split('T')[0]}</th>
+                                </tr>
                             })
                         }
-                    </tr>
                 </tbody>
             </table>
         </div>
