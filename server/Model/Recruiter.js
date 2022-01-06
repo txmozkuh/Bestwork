@@ -43,7 +43,7 @@ exports.createJob = async (req, res) => {
                                                 Years_Of_Experience, Type_ID) 
                     VALUES(${user.user_id}, N'${body['job-name']}', '${body.salary}', '${body['start-date']}',
                      '${body['end-date']}', N'${body.district}', N'${body.city}', N'${body['working-form']}', 
-                     '${body['recruitment_quantity']}', N'pending', '${body.remote}', '${body['years-of-experience']}',
+                     '${body['recruitment_quantity']}', N'available', '${body.remote}', '${body['years-of-experience']}',
                      '${body['type-id']}')
                     SELECT SCOPE_IDENTITY() AS Job_ID`;
 

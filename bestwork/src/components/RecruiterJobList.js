@@ -3,7 +3,7 @@ import './css/Profile.css'
 import axios from 'axios'
 import CircularProgress from '@mui/material/CircularProgress';
 const RecruiterJobList = ({jobList}) => {
-
+    console.log(jobList)
     return (
         <div>
             <table class="styled-table">
