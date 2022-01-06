@@ -18,6 +18,8 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DesktopDatePicker from '@mui/lab/DesktopDatePicker';
 import { set } from 'date-fns';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
 export const ListInterestsForUser = ({userInterest, listInterestID, SetListInterestID}) => {
     const interests = userInterest
     const ITEM_HEIGHT = 40;
@@ -333,6 +335,22 @@ export const UpdateFormCandidate = (props) => {
     const [interests,setInterest] = React.useState([])
     const [rank,setRank] = React.useState([])
     const [submit, setSubmit] = React.useState(false)
+
+    const [open, setOpen] = React.useState(false);
+
+    const Alert = React.forwardRef(function Alert(props, ref) {
+        return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+      });
+    const handleClick = () => {
+      setOpen(true);
+    };
+    const handleClose = (event, reason) => {
+      if (reason === 'clickaway') {
+        return;
+      }
+  
+      setOpen(false);
+    };
     React.useEffect(()=>{
         setUserType(localStorage.getItem('user_status'))
         axios.get('http://localhost:3001/get/interest',
@@ -358,6 +376,7 @@ export const UpdateFormCandidate = (props) => {
     },[])
     
     const handleUpdate = () => {
+        setSubmit(true)
         if(userType === 'candidate'){
             axios.put('http://localhost:3001/candidate/profile',{
                 'candidate-name':CandidateName,
@@ -374,7 +393,8 @@ export const UpdateFormCandidate = (props) => {
             {
             withCredentials: true
             }).then((res)=>{
-                setSubmit(true)
+                handleClick()
+                setSubmit(false)
                 setTimeout(() => {
                     window.location.href="/profile"
                 }, 1000); 
@@ -423,7 +443,15 @@ export const UpdateFormCandidate = (props) => {
                     :
                     <>Update</>
                 }
-                    
+                <Snackbar
+                    open={open}
+                    autoHideDuration={6000}
+                    onClose={handleClose}
+                >
+                    <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+                        Update successfully
+                        </Alert>
+                </Snackbar>
             </div>
         </div>
     )

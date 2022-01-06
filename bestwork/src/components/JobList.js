@@ -160,6 +160,7 @@ export const List = () => {
             {
                 withCredentials: true
             }).then((res)=>{
+                console.log(res.data.list)
                 setListJob(res.data.list)
                 setLoaded(false)
             })

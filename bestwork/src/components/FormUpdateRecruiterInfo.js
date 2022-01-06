@@ -10,6 +10,8 @@ import ListItemText from '@mui/material/ListItemText';
 import Select from '@mui/material/Select';
 import Checkbox from '@mui/material/Checkbox';
 import CircularProgress from '@mui/material/CircularProgress';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
 export const Filter = ({listCity, setCity,setDistrict}) => {
     const cities = listCity
     const ITEM_HEIGHT = 40;
@@ -25,6 +27,7 @@ export const Filter = ({listCity, setCity,setDistrict}) => {
     const [city, setCityChosen] = React.useState('');
     const [district, setDistrictChosen] = React.useState('');
     const [curDistricts,setCurDistricts] = React.useState([])
+    
     const handleChangeCity = (event) => {
         setCityChosen(event.target.value);
         
@@ -86,6 +89,21 @@ export const UpdateFormRecruiter = (props) => {
     const [district,setDistrict] = React.useState("")
     const [tax,setTax] = React.useState("")
     const [submit,setSubmit] = React.useState(false)
+    const [open, setOpen] = React.useState(false);
+
+    const Alert = React.forwardRef(function Alert(props, ref) {
+        return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+      });
+    const handleClick = () => {
+      setOpen(true);
+    };
+    const handleClose = (event, reason) => {
+      if (reason === 'clickaway') {
+        return;
+      }
+  
+      setOpen(false);
+    };
     useEffect(() => {
         axios.get("https://provinces.open-api.vn/api/?depth=2")
         .then((response) =>{
@@ -106,10 +124,13 @@ export const UpdateFormRecruiter = (props) => {
                 {
                 withCredentials: true
             }).then((res)=>{
+                handleClick()
                 setSubmit(false)
+                localStorage.setItem("user_name",recruiterName)
                 setTimeout(() => {
                     window.location.href="/profile"
-                }, 1000); 
+                }, 1000);
+
             })
         }
         else{
@@ -144,7 +165,15 @@ export const UpdateFormRecruiter = (props) => {
                     :
                     <>Update profile</>
                 }
-                    
+                <Snackbar
+                    open={open}
+                    autoHideDuration={6000}
+                    onClose={handleClose}
+                >
+                    <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+                        Update successfully
+                        </Alert>
+                </Snackbar>
             </div>
         </div>
     )

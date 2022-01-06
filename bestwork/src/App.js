@@ -15,6 +15,7 @@ import SignUp from "./components/SignUp";
 import Profile from "./components/Profile";
 import CreateJobForm from "./components/CreateJobForm";
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import EditJob from "./components/EditJob"
 
 function App() {
   React.useEffect(()=>{
@@ -45,7 +46,8 @@ function App() {
             <Route path="/sign-in" element={<Login/>}/>   
             <Route path="/sign-up" element={<SignUp/>}/>   
             <Route path="/profile" element={<Profile/>}/>   
-            <Route path="/job-add" element={<CreateJobForm/>}/>   
+            <Route path="/job-add" element={<CreateJobForm/>}/>
+            <Route path="/job-edit/:id" element={<EditJob/>}/>      
         </Routes>
         <Footer/> 
       </Router>
