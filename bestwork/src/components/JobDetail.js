@@ -15,6 +15,7 @@ const JobDetail = () => {
     const [jobRecruiter, setJobRecruiter] =  React.useState([])
     const [loaded, setLoaded] = React.useState(true)
     const {id} = useParams();
+    console.log(id)
     const [open, setOpen] = React.useState(false);
     const userType =localStorage.getItem('user_status')
     const [checkUpdate,setCheckUpdate] = React.useState([])
@@ -32,6 +33,7 @@ const JobDetail = () => {
     
         setOpen(false);
       };
+     
     React.useEffect(() => {
         
         if(userType==='candidate'){
