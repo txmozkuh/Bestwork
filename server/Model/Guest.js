@@ -44,6 +44,11 @@ exports.jobDescription = async (req, res) => {
                                   FROM Experience_Require join Skill on Experience_Require.Skill_ID = Skill.Skill_ID
                                   WHERE Recruiter_Job_ID='${description.Recruiter_Job_ID}'`);
     const experience_require = result.recordset;
+    //------------------------- Description --------------------------------\\
+    result = await request.query(`SELECT Content
+                                  FROM Description
+                                  WHERE Recruiter_Job_ID='${description.Recruiter_Job_ID}'`);
+    description.discription = result.recordset;
 
     return {description, recruiter, job_type, experience_require}
 

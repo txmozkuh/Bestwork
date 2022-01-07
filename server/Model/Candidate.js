@@ -40,7 +40,7 @@ exports.getProfile = async (req, res) => {
     }
 }
 
-exports.updateProfile = async (req, res) => {
+exports.updateProfile = async (req, res) =>     {
     const body = req.body;
     const user = req.user;
     const skill_IDs = body['skill-id'];
@@ -105,7 +105,7 @@ exports.appliedList = async(req,res) => {
     const request = pool.request();
 
     const result = await request
-        .query(`SELECT Recruiter_Job.Recruiter_Job_ID, Recruiter.Recruiter_Name, Recruiter_Job.Job_Name, Recruiter_Job.District,
+        .query(`SELECT Recruiter.Recruiter_Name, Recruiter_Job.Job_Name, Recruiter_Job.District,
                        Recruiter_Job.city, Recruiter_Job.Salary, Recruiter_Job.Start_Date, 
                        Recruiter_Job.End_Date, Recruiter_Job.Status
                 FROM (Recruiter_Job join Application on Recruiter_Job.Recruiter_Job_ID = Application.Recruiter_Job_ID)
