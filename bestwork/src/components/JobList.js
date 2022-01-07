@@ -198,7 +198,7 @@ export const List = () => {
                 else{
                     setListJob(res.data.list)
                 }
-                localStorage.clear("filter")
+                localStorage.removeItem("filter")
                 setLoaded(false)
             })
         }
@@ -287,7 +287,7 @@ export const EmptyPage = (props) =>{
     return (
         <div className="empty_container">
             <h1>NO RESULT for "{props.searchValue}"</h1>
-            <img src="./images/no_result.png"/>
+            <img src="./no_result.jpg" alt="No result"/>
         </div>
     )
 }

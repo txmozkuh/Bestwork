@@ -21,7 +21,6 @@ const Header = () => {
         setUserStatus(localStorage.getItem('user_status'))
         setUserName(localStorage.getItem('user_name'))
     },[])
-    console.log(userStatus)
     let navbarElements={
         logo:"images/bwlogo.png",
         links:[
