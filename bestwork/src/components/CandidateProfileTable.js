@@ -27,7 +27,8 @@ export const TableInfoCandidate = (props) =>{
             withCredentials:true
         }
         ).then((res)=>{
-            alert(res.data.message)
+            alert("Change status to starCV")
+            
         })
     };
 
