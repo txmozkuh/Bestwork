@@ -134,6 +134,7 @@ export const UpdateFormRecruiter = (props) => {
             })
         }
         else{
+            setSubmit(false)
             alert("Please fill all blank")
         }
         

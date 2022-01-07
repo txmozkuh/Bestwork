@@ -101,7 +101,7 @@ export const Filter = () => {
                     }
                 </Select>
                 </FormControl>
-                <FormControl sx={{width:300}} disabled={city?false:true}>
+                {/* <FormControl sx={{width:300}} disabled={city?false:true}>
                 <InputLabel id="demo-simple-select-label">District</InputLabel>
                 <Select
                     labelId="demo-simple-select-label"
@@ -116,7 +116,7 @@ export const Filter = () => {
                         })
                     }
                 </Select>
-                </FormControl>
+                </FormControl> */}
             Salary:
             <Box sx={{ width: 300 }}>   
             <Slider
