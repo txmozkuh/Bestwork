@@ -92,11 +92,20 @@ const SignUp = () => {
             setSubmit(true)
             axios.post('http://localhost:3001/register', registerInfo)
             .then((response) => {
-                setSubmit(false)
-                setOpen(true);
-                setTimeout(() => {
-                    window.location.href="/sign-in"
-                }, 1000); 
+                console.log(response)
+                if(response.data.message == 'Email is existing !!!'){
+                    setSubmit(false)
+                    alert('Existing Email')
+                    
+                }
+                else{
+                    setSubmit(false)
+                    setOpen(true);
+                    setTimeout(() => {
+                        window.location.href="/sign-in"
+                    }, 1000); 
+                }
+                
             });
         }
         else{
