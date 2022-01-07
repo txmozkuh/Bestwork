@@ -18,6 +18,8 @@ import MuiAlert from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
 import Grid from '@mui/material/Grid';
 import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
+import Switch from '@mui/material/Switch';
 export const  DatePicker = ({setStartDate, setEndDate}) => {
     const [start, setStart] = React.useState(new Date());
     const [end, setEnd] = React.useState(new Date());
@@ -240,7 +242,6 @@ const CreateJobForm = () => {
     const [city, setCity] = React.useState('')
     const [workingForm, SetWorkingForm] = React.useState('')
     const [recruimentQuantity, setRecruitmentQuantity] = React.useState('')
-    const [remote, setRemote] = React.useState('')
     const [yearExperience, setYearExperience] = React.useState('')
     const [typeJob, setTypeJobID] = React.useState([])
     const [listSkillsID, setListSkillsID] = React.useState([])
@@ -251,6 +252,10 @@ const CreateJobForm = () => {
     const [submit,setSubmit] = React.useState(false)
     const [open, setOpen] = React.useState(false);
     const [description,setDescription] = React.useState("");
+    const [checkedRemote,setCheckedRemote] = React.useState(false);
+    const handleChangeRemote = (event) => {
+        setCheckedRemote(!checkedRemote)
+    };
     var arrDescription = []
     description.split('\n').map(item=>{
         arrDescription.push(item)
@@ -306,7 +311,7 @@ const CreateJobForm = () => {
                 city: city.name,
                 'working-form': workingForm,
                 'recruitment_quantity': recruimentQuantity,
-                'remote':true,
+                'remote':checkedRemote,
                 'years-of-experience':yearExperience,
                 'type-id':typeJob,
                 'skill-id':listSkillsID,
@@ -331,6 +336,17 @@ const CreateJobForm = () => {
 
     return (
         <div className='create_job_container'>
+            <Box className="remote">
+                <span>Remote:</span>
+                <Switch
+                    checked={checkedRemote}
+                    onChange={handleChangeRemote}
+                    inputProps={{ 'aria-label': 'controlled' }}
+                />
+            </Box>
+            {
+                console.log(checkedRemote)
+            }
             <label class="field field_v3">
                 <input class='field__input' type="text" name='job-name' placeholder={"e.g: Data Science"} onChange={(e) => {
                     setJobName(e.target.value)

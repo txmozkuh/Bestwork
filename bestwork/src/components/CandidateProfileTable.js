@@ -9,6 +9,7 @@ export const TableInfoCandidate = (props) =>{
     const [update,setUpdate] = React.useState(false)
     const [listApplied,setListApplied] = React.useState([])
     const [checkedRemote,setCheckedRemote] = React.useState(props.info.Public_CV);
+    console.log(checkedRemote)
     React.useEffect(() => {
         axios.get('http://localhost:3001/candidate/job-applied',
         {
@@ -21,9 +22,12 @@ export const TableInfoCandidate = (props) =>{
         setCheckedRemote(!checkedRemote)
         axios.patch('http://localhost:3001/candidate/profile',{
             'public-cv':!checkedRemote
+        },
+        {
+            withCredentials:true
         }
         ).then((res)=>{
-            console.log(res)
+            alert(res.data.message)
         })
     };
 

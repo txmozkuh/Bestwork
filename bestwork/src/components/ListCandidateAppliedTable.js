@@ -15,8 +15,8 @@ const ListCandidateAppliedTable = ({jobList}) => {
         {
         withCredentials: true
         }).then((res)=>{
-            console.log(res.data.list)
-            SetListCandidate(res.data.list)
+            console.log(res.data)
+            SetListCandidate(res.data)
         })
     },[])
     return (
@@ -32,19 +32,17 @@ const ListCandidateAppliedTable = ({jobList}) => {
                 </thead>
                 <tbody>
                         {
-                            Object.keys(listCandidate).length === 0?
-                            <div className='profile_container'><CircularProgress style={{"color":"rgb(238,125,52)"}}/></div>
+                            Object.keys(listCandidate).length === 1?
+                            <div className='profile_container'><CircularProgress style={{"color":"rgb(238,125,52)"}}/>No result</div>
                             :
                             <>
                             {
                                 // listCandidate.map(candidate=>{
                                 //     return <tr>
-                                //         <th style={{"cursor":"pointer"}} onClick={()=>{
-
-                                //         }}>{candidate.Candidate_Name}</th>
-                                //         <th>{candidate.Apply_Time.split('T')[0]}</th>
-                                //         <th>{candidate.Phone_Number}</th>
-                                //         <th>{candidate.Email}</th>
+                                //         <th>{candidate.list.Candidate_Name}</th>
+                                //         <th>{candidate.list.Apply_Time.split('T')[0]}</th>
+                                //         <th>{candidate.list.Phone_Number}</th>
+                                //         <th>{candidate.list.Email}</th>
                                 //     </tr>
                                 // })
                                 console.log(listCandidate)

@@ -19,6 +19,7 @@ import EditJob from "./components/EditJob"
 import ListCandidateAppliedTable from './components/ListCandidateAppliedTable'
 import UpdateFormRecruiter from './components/FormUpdateRecruiterInfo'
 import UpdateFormCandidate from './components/FormUpdateCandidateInfo'
+import StarCV from './components/StarCV'
 
 function App() {
   React.useEffect(()=>{
@@ -55,6 +56,7 @@ function App() {
             <Route path="/job-candidate/:id" element={<ListCandidateAppliedTable/>}/>  
             <Route path="/update/candidate" element={<UpdateFormCandidate/>}/>
             <Route path="/update/candidate" element={<UpdateFormRecruiter/>}/>
+            <Route path="/star-cv" element={<StarCV/>}/>
             
              
         </Routes>

@@ -17,6 +17,7 @@ export const TableInfoRecruiter = (props) =>{
         {
             withCredentials: true
         }).then((res)=>{
+            console.log(res)
         })
     },[])
     return (
