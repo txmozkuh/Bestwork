@@ -6,7 +6,7 @@ const candidateController = require('../controllers/candidateController');
 
 router.get('/profile', candidateController.get);
 router.put('/profile', candidateController.update);
-router.put('/profile', candidateController.setPublic);
+router.patch('/profile', candidateController.setPublic);
 
 router.post('/apply', candidateController.apply);
 router.get('/job-applied', candidateController.appliedList);

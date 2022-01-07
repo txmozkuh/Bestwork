@@ -92,7 +92,6 @@ const SignUp = () => {
             setSubmit(true)
             axios.post('http://localhost:3001/register', registerInfo)
             .then((response) => {
-                console.log(response)
                 if(response.data.message == 'Email is existing !!!'){
                     setSubmit(false)
                     alert('Existing Email')
@@ -111,7 +110,6 @@ const SignUp = () => {
         else{
             for(var i in registerInfo){
                 if(!registerInfo[i]){
-                    console.log(i)
                     if(i==="email"){
                         document.querySelector('.error_mess_email').innerHTML="Please enter email"
                     }

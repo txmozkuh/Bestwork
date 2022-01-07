@@ -72,22 +72,17 @@ export const Filter = () => {
     function callApi(){
         axios.get("https://provinces.open-api.vn/api/?depth=2")
         .then((response) =>{
-            console.log(response.data)
             getCities(response.data)
         });
         axios.get('http://localhost:3001/get/job',
         {
             withCredentials: true
         }).then((res)=>{
-            console.log(res)
             getJobType(res.data.jobs)
         })
     }   
     return (
         <div className="filter_container">
-            {
-                console.log(jobType)
-            }
             Salary:
             <Box sx={{ width: 300 }}>   
             <Slider
@@ -191,7 +186,6 @@ export const List = () => {
         }
         if(filter)
         {
-            console.log(filter)
             //Search request
             axios.get(`http://localhost:3001/search?job-name=&district=&city=&salary=${filter.min}&salary=${filter.max}&remote=`,
             {

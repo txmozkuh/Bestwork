@@ -4,7 +4,6 @@ import axios from 'axios'
 import CircularProgress from '@mui/material/CircularProgress';
 import { useNavigate } from 'react-router-dom';
 const CandidateListAppliedJob = ({listApplied}) => {
-    console.log(listApplied)
     const navigate = useNavigate();
     return (
         <div className="item" >

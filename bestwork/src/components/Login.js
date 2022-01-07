@@ -63,7 +63,6 @@ const Login = () => {
             {
                 withCredentials:true
             }).then((res) => {
-                console.log(res)
                 if(res.data.message === "Successfully Authentication !!"){
                     localStorage.setItem("user_status",res.data.user.Type.replace(/\s/g, ""))
                     localStorage.setItem("user_name",res.data.user.Name)
@@ -84,7 +83,6 @@ const Login = () => {
         else{
             for(var i in loginInfo){
                 if(!loginInfo[i]){
-                    console.log(i)
                     if(i==="email"){
                         document.querySelector('.error_mess_email').innerHTML="Please enter email"
                     }

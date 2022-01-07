@@ -141,9 +141,6 @@ export const ListSkillsForUser = ({userSkill,SetListSkillID,setRank}) => {
                         }))
                     }} onChange={(e, value)=>{
                         if(listSkill.length<=SkillRate.length){
-                            // SkillRate.map((item)=>{
-                            //     listSkill.includes(item)?console.log("true"):console.log(item)
-                            // })
                             var temp_list = SkillRate
                             temp_list.map((item)=>{
                                 return item.name==skill?item.rate=value:item.rate
@@ -168,7 +165,6 @@ export const ListSkillsForUser = ({userSkill,SetListSkillID,setRank}) => {
 
 export const ListJobType = ({userJobType, SetJobTypeID}) => {
     const jobTypes = userJobType
-    console.log(jobTypes)
     const ITEM_HEIGHT = 40;
     const ITEM_PADDING_TOP = 8;
     const MenuProps = {
@@ -190,7 +186,6 @@ export const ListJobType = ({userJobType, SetJobTypeID}) => {
         })
     };
     
-    console.log(listJobType)
     return (
         <div>
         <FormControl sx={{ m: 1, width: 300 }}>

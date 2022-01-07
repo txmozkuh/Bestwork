@@ -21,7 +21,6 @@ import Grid from '@mui/material/Grid';
 import CircularProgress from '@mui/material/CircularProgress';
 import { useParams } from 'react-router-dom';
 export const  DatePicker = ({setStartDate, setEndDate,current}) => {
-    console.log("date",current)
     const [start, setStart] = React.useState(new Date(current.description.Start_Date));
     const [end, setEnd] = React.useState(new Date(current.description.End_Date));
     const handleChangeStart = (newValue) => {
@@ -122,8 +121,6 @@ export const Filter = ({listCity,SetWorkingForm,setCity,setDistrict, listSkills,
     const handleChangeDistrict = (event) => {
         setDistrictChosen(event.target.value);
     };
-    console.log(city)
-    console.log(district)
     setDistrict(district)
     const handleChangeSkill = (event) => {
         const {
@@ -142,7 +139,6 @@ export const Filter = ({listCity,SetWorkingForm,setCity,setDistrict, listSkills,
         })
         setListSkillsID(result)
     };
-    console.log(listSkillChosen)
     const handleChangeTypeJob = (event) => {
         setJobType(event.target.value)
         arrTypes.map(item=>{
@@ -304,19 +300,15 @@ const EditJob = ({info}) => {
         {
             withCredentials: true
         }).then((res)=>{
-            // console.log(res)
             getTypeJob(res.data.jobs)
         })
         axios.get(`http://localhost:3001/recruiter/job-description/${id}`,
         {
         withCredentials: true
         }).then((res)=>{
-            console.log(res)
-            console.log(res.data.job)
             setCurrent(res.data.job)
         })
     },[id])
-    console.log(jobName)
     const handleCreateJob = () => {
         if(parseInt(salary)<0 || isNaN(Number(salary))|| parseInt(recruimentQuantity)<0 || isNaN(Number(recruimentQuantity))|parseInt(yearExperience)<0 || isNaN(Number(yearExperience))){
             setSubmit(false)

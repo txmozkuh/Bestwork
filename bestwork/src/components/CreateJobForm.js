@@ -280,7 +280,6 @@ const CreateJobForm = () => {
         {
             withCredentials: true
         }).then((res)=>{
-            // console.log(res)
             getTypeJob(res.data.jobs)
         })
         axios.get('http://localhost:3001/recruiter/job-list',
@@ -327,15 +326,11 @@ const CreateJobForm = () => {
             setSubmit(false)
             alert('please fill all blank')
         }
-        console.log(typeJob)
         
     }
 
     return (
         <div className='create_job_container'>
-            {
-                console.log(Number(salary))
-            }
             <label class="field field_v3">
                 <input class='field__input' type="text" name='job-name' placeholder={"e.g: Data Science"} onChange={(e) => {
                     setJobName(e.target.value)
