@@ -34,7 +34,7 @@ export const  DatePicker = ({setStartDate, setEndDate}) => {
       <LocalizationProvider dateAdapter={AdapterDateFns}>
         <Stack spacing={3}>
           <DesktopDatePicker
-            label="Ngày bắt đầu tuyển dụng"
+            label="Start date"
             inputFormat="MM/dd/yyyy"
             value={start}
             onChange={handleChangeStart}
@@ -44,7 +44,7 @@ export const  DatePicker = ({setStartDate, setEndDate}) => {
         <br></br>
           <Stack spacing={3}>
           <DesktopDatePicker
-            label="Ngày kết thúc tuyển dụng"
+            label="End date"
             inputFormat="MM/dd/yyyy"
             value={end}
             onChange={handleChangeEnd}
@@ -336,7 +336,7 @@ const CreateJobForm = () => {
                     setJobName(e.target.value)
                 }}></input>
                 <span class="field__label-wrap">
-                    <span class="field__label">Tên công việc</span>
+                    <span class="field__label">Job Name</span>
                 </span>
             </label>
             <br></br>
@@ -345,7 +345,7 @@ const CreateJobForm = () => {
                     setSalary(e.target.value)
                 }}></input>
                 <span class="field__label-wrap">
-                    <span class="field__label">Tiền lương</span>
+                    <span class="field__label">Salary</span>
                 </span>
             </label>
             <br></br>
@@ -354,7 +354,7 @@ const CreateJobForm = () => {
                     setRecruitmentQuantity(e.target.value)
                 }}></input>
                 <span class="field__label-wrap">
-                    <span class="field__label">Số lượng tuyển</span>
+                    <span class="field__label">Recruitment quantity</span>
                 </span>
             </label>
             <br></br>
@@ -363,7 +363,7 @@ const CreateJobForm = () => {
                     setYearExperience(e.target.value)
                 }}></input>
                 <span class="field__label-wrap">
-                    <span class="field__label">Kinh nghiệm làm việc</span>
+                    <span class="field__label">Years of experience</span>
                 </span>
             </label>
             <br></br>

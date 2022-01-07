@@ -38,6 +38,7 @@ const JobDetail = () => {
             {
                 withCredentials: true
             }).then((res)=>{
+                console.log(res)
                 setJobDescription(res.data.job.description)
                 setJobRequirement(res.data.job.experience_require)
                 setJobType(res.data.job.job_type)
@@ -131,6 +132,15 @@ const JobDetail = () => {
                             </div>
                             <div className="description">
                                 <h1>Description</h1>
+                                {
+                                    jobDescription.discription.length===0?<p>No description</p>
+                                    :
+                                    jobDescription.discription.map(item=>{
+                                        return <p>
+                                            • {item.Content}
+                                        </p>
+                                    })
+                                }
                             </div>
                             <div className="requirements">
                                 <h1>Job Type</h1>
