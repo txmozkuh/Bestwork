@@ -4,7 +4,9 @@ import React, { useEffect } from 'react'
 import axios from 'axios'
 import RecruiterJobList from './RecruiterJobList'
 import CircularProgress from '@mui/material/CircularProgress';
+import { useNavigate } from 'react-router-dom';
 export const StarCV = (props) =>{
+    const navigate = useNavigate();
     const [update,setUpdate] = React.useState(false)
     const [listCandidate, setListCandidate] = React.useState([])
     useEffect(() => {
@@ -35,7 +37,11 @@ export const StarCV = (props) =>{
                                 {
                                     listCandidate.map(candidate=>{
                                         return <tr>
-                                            <th>{candidate.Candidate_Name}</th>
+                                            <th style={{"cursor":"pointer"}} onClick={()=>{
+                                                navigate(`/candidate/item/${candidate.Candidate_ID}`);
+                                            }}>
+                                                {candidate.Candidate_Name}
+                                            </th>
                                             <th>{candidate.Email}</th>
                                             <th>{candidate.Job_Name}</th>
                                             {

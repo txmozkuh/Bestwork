@@ -21,6 +21,8 @@ import UpdateFormRecruiter from './components/FormUpdateRecruiterInfo'
 import UpdateFormCandidate from './components/FormUpdateCandidateInfo'
 import StarCV from './components/StarCV'
 
+import CandidateDetail from "./components/CandidateDetail";
+
 function App() {
   React.useEffect(()=>{
     window.scrollTo(0,0)
@@ -57,8 +59,8 @@ function App() {
             <Route path="/update/candidate" element={<UpdateFormCandidate/>}/>
             <Route path="/update/candidate" element={<UpdateFormRecruiter/>}/>
             <Route path="/star-cv" element={<StarCV/>}/>
+            <Route path="/candidate/item/:id" element={<CandidateDetail/>}/> 
             
-             
         </Routes>
         <Footer/> 
       </Router>
