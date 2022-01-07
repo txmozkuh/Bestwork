@@ -40,7 +40,7 @@ exports.getProfile = async (req, res) => {
     }
 }
 
-exports.updateProfile = async (req, res) => {
+exports.updateProfile = async (req, res) =>     {
     const body = req.body;
     const user = req.user;
     const skill_IDs = body['skill-id'];

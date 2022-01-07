@@ -6,7 +6,7 @@ exports.search = async (req,res) => {
 
     const resultSet = [];
     let rs;
-
+    
     if (!(req.query['job-name'] === '')) {
         rs = await request.query(`SELECT Recruiter_Job_ID FROM RECRUITER_JOB WHERE JOB_NAME LIKE N'%${req.query['job-name']}%'`);
         resultSet.push(rs.recordset);

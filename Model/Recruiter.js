@@ -170,7 +170,7 @@ exports.getAppliedList = async (req, res) => {
                         join Candidate on Application.Candidate_ID = Candidate.Candidate_id
                 WHERE Application.Recruiter_Job_ID='${job_id}'`);
 
-    return result.recordset[0];
+    return result.recordset;
 }
 
 exports.getCandidateProfile = async (req, res) => {
