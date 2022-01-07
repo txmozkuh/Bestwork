@@ -116,7 +116,7 @@ const JobDetail = () => {
                             <>
                             <div className="basic_info">
                                 <div className="name">{jobDescription.Job_Name}</div>
-                                <div className="salary">Salary: {jobDescription.Salary}</div>
+                                <div className="salary">Salary: {`${jobDescription.Salary.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} VND`}</div>
                                 <div className="address">Address: {jobDescription.District} {jobDescription.City}</div>
                             </div>
                             <div className="time_info">

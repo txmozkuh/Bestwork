@@ -28,7 +28,7 @@ const CandidateListAppliedJob = ({listApplied}) => {
                                     <th style={{"cursor":"pointer"}} onClick={()=>{
                                         navigate(`/job/item/${job.Recruiter_Job_ID}`);
                                     }}>{job.Job_Name}</th>
-                                    <th>{job.Salary} VNĐ</th>
+                                    <th>{`${job.Salary.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} VND`}</th>
                                     <th>{job.District + " " + job.city}</th>
                                     <th>{job.Status}</th>
                                     <th>{job.Start_Date.split('T')[0]}</th>
