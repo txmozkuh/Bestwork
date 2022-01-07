@@ -309,13 +309,14 @@ const EditJob = ({info}) => {
             setCurrent(res.data.job)
         })
     },[id])
-    const handleCreateJob = () => {
+    const handleUpdateJob = () => {
+        setSubmit(true)
         if(parseInt(salary)<0 || isNaN(Number(salary))|| parseInt(recruimentQuantity)<0 || isNaN(Number(recruimentQuantity))|parseInt(yearExperience)<0 || isNaN(Number(yearExperience))){
             setSubmit(false)
             alert('Incorrect input')
         }
         if((jobName&&salary&&startDate&&endDate&&district&&city.name&&workingForm&&recruimentQuantity&&listSkillsID)&&(parseInt(salary)>0)&&(parseInt(yearExperience)>0)&&(parseInt(recruimentQuantity)>0)){
-            axios.post('http://localhost:3001/recruiter/job-create',{
+            axios.put(`http://localhost:3001/recruiter/job-description/${id}`,{
                 'job-name': jobName,
                 salary: salary,
                 'start-date': startDate,
@@ -399,7 +400,7 @@ const EditJob = ({info}) => {
                 <br></br>
                     <DatePicker setStartDate = {setStartDate} setEndDate = {setEndDate} current = {current}/>
                     <Filter listCity = {listCity} Type = {Type} SetWorkingForm = {SetWorkingForm} setCity = {setCity} setDistrict = {setDistrict} listSkills={listSkills} setListSkillsID = {setListSkillsID} setTypeJobID={setTypeJobID} current = {current}/>
-                <div className="button" onClick={handleCreateJob}>
+                <div className="button" onClick={handleUpdateJob}>
                     {
                         submit?
                         <CircularProgress style={{"color":"white"}}/>
