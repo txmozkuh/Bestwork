@@ -92,7 +92,31 @@
             margin: 10px;
             display:flex;
             flex-direction: column;
+            justify-content: space-around;
             padding: 20px;
+            .filter_btn{
+                justify-self: center;
+                border:1px solid rgb(238,125,52);
+                width:100%;
+                height: 40px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                border-radius: 4px;
+                &:hover{
+                    background-color: rgb(238,125,52);
+                    font-size: 1.1rem;
+                }
+            }
+            // .Mui-focused .MuiOutlinedInput-notchedOutline{
+            //     border-color:rgb(238,125,52);
+                
+            // }
+            // .css-1kty9di-MuiFormLabel-root-MuiInputLabel-root label{
+            //     color:rgb(238,125,52) !important
+            // }
+            
         }
     }
 }

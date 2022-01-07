@@ -17,6 +17,8 @@ import FormControl from '@mui/material/FormControl';
 import axios from "axios"
 import Skeleton from '@mui/material/Skeleton';
 import Stack from '@mui/material/Stack';
+import TextField from '@mui/material/TextField';
+import Autocomplete from '@mui/material/Autocomplete';
 const JobList = () => {
     return (
         <div className="joblist_container">
@@ -31,7 +33,9 @@ const JobList = () => {
 export default JobList
 
 export const Filter = () => {
-    const [salaryRange, setsalaryRange] = React.useState([0, 100000000]);
+    const [list, setList] = React.useState([])
+    const [jobName, setJobName] = React.useState("");
+    const [salaryRange, setsalaryRange] = React.useState([0, 50000000]);
     const [checkedRemote, setCheckedRemote] = React.useState(false);
     const [type, setType] = React.useState('')
     const [city, setCity]= React.useState('')
@@ -39,11 +43,24 @@ export const Filter = () => {
     let curDistricts=[]
     React.useEffect(()=>{
         callApi()
+            //request as guest
+        axios.get('http://localhost:3001/guest/job-list',
+        {
+            withCredentials: true
+        }).then((res)=>{
+            setList(res.data.list)
+        })
+            
     },[])
 
     function valuetext(value) {
         return `${value}$`;
       }
+    const handleJobName = (e,value) =>{
+        if(value){
+            setJobName(value)
+        }
+    }
     const handleChangeSalary = (event, newValue) => {
         setsalaryRange(newValue);
     };
@@ -61,6 +78,7 @@ export const Filter = () => {
     }
     const handleFilter = () => {
         localStorage.setItem("filter",JSON.stringify({
+            "job":jobName,
             "min": salaryRange[0],
             "max": salaryRange[1],
             "remote": checkedRemote
@@ -79,29 +97,16 @@ export const Filter = () => {
     }   
     return (
         <div className="filter_container">
-            Salary:
-            <Box sx={{ width: 300 }}>   
-            <Slider
-                getAriaLabel={() => 'Salary range'}
-                min={0}
-                max={100000000}
-                step={100000}
-                value={salaryRange}
-                onChange={handleChangeSalary}
-                valueLabelDisplay="auto"
-                getAriaValueText={valuetext}
+            <Autocomplete
+                disablePortal
+                id="combo-box-demo"
+                options={list.map(item=>{return item.Job_Name})}
+                sx={{ width: 300 }}
+                renderInput={(params) => <TextField {...params} label="Job" />}
+                onChange={handleJobName}
             />
-            </Box>
-            <Box className="remote">
-                <span>Remote:</span>
-                <Switch
-                    checked={checkedRemote}
-                    onChange={handleChangeRemote}
-                    inputProps={{ 'aria-label': 'controlled' }}
-                />
-            </Box>
-            <Box sx={{ width: 300 }}>
-                <FormControl fullWidth >
+            
+                {/* <FormControl fullWidth >
                 <InputLabel id="demo-simple-select-label">Type</InputLabel>
                 <Select
                     labelId="demo-simple-select-label"
@@ -116,8 +121,8 @@ export const Filter = () => {
                     })
                     }
                 </Select>
-                </FormControl>
-                <FormControl fullWidth>
+                </FormControl> */}
+                <FormControl sx={{width:300}}>
                 <InputLabel id="demo-simple-select-label">City</InputLabel>
                 <Select
                     labelId="demo-simple-select-label"
@@ -134,7 +139,7 @@ export const Filter = () => {
                     }
                 </Select>
                 </FormControl>
-                <FormControl fullWidth disabled={city?false:true}>
+                <FormControl sx={{width:300}} disabled={city?false:true}>
                 <InputLabel id="demo-simple-select-label">District</InputLabel>
                 <Select
                     labelId="demo-simple-select-label"
@@ -150,7 +155,28 @@ export const Filter = () => {
                     }
                 </Select>
                 </FormControl>
-            </Box>
+                <Box sx={{ width: 300 }}>   
+                Salary:
+                <Slider
+                    getAriaLabel={() => 'Salary range'}
+                    min={0}
+                    max={100000000}
+                    step={100000}
+                    value={salaryRange}
+                    onChange={handleChangeSalary}
+                    valueLabelDisplay="auto"
+                    getAriaValueText={valuetext}
+                />
+                </Box>
+                <Box className="remote">
+                    <span>Remote:</span>
+                    <Switch
+                        checked={checkedRemote}
+                        onChange={handleChangeRemote}
+                        inputProps={{ 'aria-label': 'controlled' }}
+                    />
+                </Box>
+                
             <div className="filter_btn" onClick={handleFilter}>Search</div>
         </div>
     )
@@ -171,7 +197,7 @@ export const List = () => {
             {
                 withCredentials: true
             }).then((res)=>{
-                if(res.data.list.length==0)
+                if(res.data.list.length===0)
                 {
                     setNoResult(true)
                 }
@@ -183,13 +209,12 @@ export const List = () => {
         }
         if(filter)
         {
-            console.log(filter)
             //Search request
-            axios.get(`http://localhost:3001/search?job-name=&district=&city=&salary=${filter.min}&salary=${filter.max}&remote=`,
+            axios.get(`http://localhost:3001/search?job-name=${filter.job}&district=&city=&salary=${filter.min}&salary=${filter.max}&remote=${filter.remote?1:0}`,
             {
                 withCredentials: true
             }).then((res)=>{
-                if(res.data.list.length==0)
+                if(res.data.list.length===0)
                 {
                     setNoResult(true)
                 }
@@ -285,7 +310,7 @@ export const EmptyPage = (props) =>{
     return (
         <div className="empty_container">
             <h1>NO RESULT for "{props.searchValue}"</h1>
-            <img src="./images/no_result.png"/>
+            <img src="./images/no_result.png" alt='Not found'/>
         </div>
     )
 }

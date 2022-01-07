@@ -12,7 +12,6 @@ const Login = () => {
     const [password, setPassword] = React.useState("")
     const [open, setOpen] = React.useState(false);
     const [submit, setSubmit] = React.useState(false)
-    const [typeUser,setTypeUser] = React.useState("")
     const Alert = React.forwardRef(function Alert(props, ref) {
         return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
       });
@@ -27,7 +26,7 @@ const Login = () => {
       setOpen(false);
     };
     const validateEmail = ( e ) => {
-        let re = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+        let re = /^[\w-]+@([\w-]+\.)+[\w-]{2,4}$/;
         var email=e.target.value
         if ( re.test(email) || email.length===0 ) {
             document.querySelector('.error_mess_email').innerHTML=""

@@ -1,12 +1,8 @@
 import React from 'react'
 import './css/Profile.css'
-import axios from 'axios'
-import CircularProgress from '@mui/material/CircularProgress';
 import { useNavigate } from 'react-router-dom';
-import EditJob from './EditJob';
 const RecruiterJobList = ({jobList}) => {
     const navigate = useNavigate();
-    const [id,setID] = React.useState("")
     return (
         <div>
             <table class="styled-table">

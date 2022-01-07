@@ -3,8 +3,6 @@ import {
     Link
 } from "react-router-dom";
 import './css/Navbar.css'
-import Login from './Login';
-import Tooltip from '@mui/material/Tooltip';
 import SearchIcon from '@mui/icons-material/Search';
 import ListIcon from '@mui/icons-material/List';
 import Box from "@mui/material/Box";

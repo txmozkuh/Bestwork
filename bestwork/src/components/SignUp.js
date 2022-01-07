@@ -24,7 +24,6 @@ const SignUp = () => {
         setOpen(false);
       };
     const handleUserType = (e) => {
-        var curActive=document.querySelector('.active').classList.remove('active')
         var user_type = e.target;
         user_type.classList.add('active')
         setType(user_type.getAttribute('type-value'))
@@ -34,7 +33,7 @@ const SignUp = () => {
         
     }
     const validateEmail = ( e ) => {
-        let re = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+        let re =/^[\w-]+@([\w-]+\.)+[\w-]{2,4}$/;
         var email=e.target.value
         if ( re.test(email) || email.length===0 ) {
             document.querySelector('.error_mess_email').innerHTML=""
@@ -87,7 +86,7 @@ const SignUp = () => {
             type: type,
             name: name
         }
-        if(email&&password&&passwordConfirm&&name&&type==="candidate"||email&&password&&passwordConfirm&&name&&type==="recruiter")
+        if((email&&password&&passwordConfirm&&name&&type==="candidate")||(email&&password&&passwordConfirm&&name&&type==="recruiter"))
         {
             setSubmit(true)
             axios.post('http://localhost:3001/register', registerInfo)
