@@ -2,6 +2,7 @@ import React from 'react';
 import {
     Link
 } from "react-router-dom";
+import axios from "axios"
 import './css/Navbar.css'
 import SearchIcon from '@mui/icons-material/Search';
 import ListIcon from '@mui/icons-material/List';
@@ -10,8 +11,7 @@ import Drawer from "@mui/material/Drawer";
 import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
 import ListItem from '@mui/material/ListItem';
-import axios from "axios"
-
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 const Header = () => {    
     
     //HANDLE CHECK LOGIN OR NOT?
@@ -105,7 +105,8 @@ const Header = () => {
             {
                 (userStatus==="candidate" || userStatus==="recruiter")?
                 <div className="dropdown">
-                    <Link to={'/profile'}><h1>{userName}</h1></Link>
+                    
+                    <Link to={'/profile'}><AccountCircleIcon fontSize='large'/> &nbsp;<h1>{userName}</h1></Link>
                     <div className='dropdown_box'>
                     <div className='item'><Link to={'/profile'}>Profile</Link></div>
                     <div className='item' onClick={handleLogOut}><Link to={'/'}>Log Out</Link></div>
