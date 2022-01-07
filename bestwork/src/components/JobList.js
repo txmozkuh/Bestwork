@@ -79,7 +79,7 @@ export const Filter = () => {
     }
     const handleFilter = () => {
         localStorage.setItem("filter",JSON.stringify({
-            "job":jobName,
+            "job":jobName.replace(/[^a-zA-Z ]/g, "").replace(/ /g,''),
             "min": salaryRange[0],
             "max": salaryRange[1],
             "remote": checkedRemote
@@ -213,6 +213,7 @@ export const List = () => {
         if(filter)
         {
             //Search request
+            console.log(filter)
             axios.get(`http://localhost:3001/search?job-name=${filter.job}&district=&city=&salary=${filter.min}&salary=${filter.max}&remote=${filter.remote?1:0}`,
             {
                 withCredentials: true
@@ -224,7 +225,7 @@ export const List = () => {
                 else{
                     setListJob(res.data.list)
                 }
-                localStorage.clear("filter")
+                localStorage.removeItem("filter")
                 setLoaded(false)
             })
         }
