@@ -18,6 +18,7 @@ const JobDetail = () => {
     const [open, setOpen] = React.useState(false);
     const userType =localStorage.getItem('user_status')
     const [checkUpdate,setCheckUpdate] = React.useState([])
+    const [listAppliedJob,setListAppliedJob] = React.useState([])
     const Alert = React.forwardRef(function Alert(props, ref) {
         return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
       });
@@ -50,6 +51,12 @@ const JobDetail = () => {
             }).then((res)=>{
                 setCheckUpdate(res.data.candidate.interest)
             })
+            axios.get('http://localhost:3001/candidate/job-applied',
+            {
+            withCredentials: true
+            }).then((res)=>{
+                setListAppliedJob(res.data.list)
+            })
         }
         else{
             axios.get(`http://localhost:3001/guest/job-description/${id}`,
@@ -64,28 +71,42 @@ const JobDetail = () => {
                 setLoaded(false)
             })
         }
-        
     },[])
+    var arrJobApplied = []
+    listAppliedJob.map(item=>{
+        arrJobApplied.push(item.Recruiter_Job_ID)
+    })
+    const check = arrJobApplied.includes(parseInt(id))
     const handleSendCv = () =>{
-        if(userType==='candidate' && checkUpdate.length !== 0){
-            axios.post('http://localhost:3001/candidate/apply',{
-                'recruiter-job-id': id
-            },
-            {
-                withCredentials:true
-            }).then((res) => {
-                handleClick()
-                setTimeout(() => {
-                    window.location.href="/profile"
-                }, 1000); 
-            })
+        console.log(arrJobApplied)
+        if(check === true){
+            alert('You have applied for this job')
         }
-        else if(userType==='candidate' && checkUpdate.length === 0){
-            alert("Please update your profile")
+        else {
+            if(userType==='candidate'){
+                if(checkUpdate.length !== 0){
+                    axios.post('http://localhost:3001/candidate/apply',{
+                        'recruiter-job-id': id
+                    },
+                    {
+                        withCredentials:true
+                    }).then((res) => {
+                        handleClick()
+                        setTimeout(() => {
+                            window.location.href="/profile"
+                        }, 1000); 
+                    })
+                }
+                else if(checkUpdate.length === 0){
+                    alert("Please update your profile")
+                }
+    
+            }
+            else{
+                alert("Please login with candidate")
+            }
         }
-        else{
-            alert("Please login with candidate")
-        }
+        
         
     }
     return (

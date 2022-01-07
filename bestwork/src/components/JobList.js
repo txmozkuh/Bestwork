@@ -104,7 +104,7 @@ export const Filter = () => {
             <Autocomplete
                 disablePortal
                 id="combo-box-demo"
-                options={list.map(item=>{return item.Job_Name})}
+                options={jobType.map(item=>{return item.Job_Name})}
                 sx={{ width: 300 }}
                 renderInput={(params) => <TextField {...params} label="Job" />}
                 onChange={handleJobName}
