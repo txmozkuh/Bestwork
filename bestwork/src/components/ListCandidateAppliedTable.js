@@ -5,6 +5,8 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { useNavigate } from 'react-router-dom';
 import EditJob from './EditJob';
 import { useParams } from 'react-router-dom';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
 const ListCandidateAppliedTable = ({jobList}) => {
     const navigate = useNavigate();
     const {id} = useParams()
@@ -15,12 +17,36 @@ const ListCandidateAppliedTable = ({jobList}) => {
         {
         withCredentials: true
         }).then((res)=>{
-            console.log(res.data)
-            SetListCandidate(res.data)
+            console.log(res)
+            SetListCandidate(res.data.list)
         })
     },[])
+    const [open, setOpen] = React.useState(false);
+    const [submit, setSubmit] = React.useState(false)
+    const Alert = React.forwardRef(function Alert(props, ref) {
+        return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+      });
+    const handleClick = () => {
+      setOpen(true);
+    };
+    const handleClose = (event, reason) => {
+      if (reason === 'clickaway') {
+        return;
+      }
+  
+      setOpen(false);
+    };
+    const handleProfile = () => {
+        setSubmit(true)
+        handleClick()
+        setSubmit(false)
+        setTimeout(() => {
+            window.location.href="/profile"
+        }, 1000); 
+        
+    }
     return (
-        <div>
+        <div className='profile_container'>
             <table class="styled-table">
                 <thead>
                     <tr>
@@ -32,27 +58,34 @@ const ListCandidateAppliedTable = ({jobList}) => {
                 </thead>
                 <tbody>
                         {
-                            Object.keys(listCandidate).length === 1?
-                            <div className='profile_container'><CircularProgress style={{"color":"rgb(238,125,52)"}}/>No result</div>
+                            listCandidate.length===0?
+                            <tr>No result</tr>
                             :
                             <>
                             {
-                                // listCandidate.map(candidate=>{
-                                //     return <tr>
-                                //         <th>{candidate.list.Candidate_Name}</th>
-                                //         <th>{candidate.list.Apply_Time.split('T')[0]}</th>
-                                //         <th>{candidate.list.Phone_Number}</th>
-                                //         <th>{candidate.list.Email}</th>
-                                //     </tr>
-                                // })
-                                console.log(listCandidate)
+                                listCandidate.map(candidate=>{
+                                    return <tr>
+                                        <th>{candidate.Candidate_Name}</th>
+                                        <th>{candidate.Apply_Time.split('T')[0]}</th>
+                                        <th>{candidate.Phone_Number}</th>
+                                        <th>{candidate.Email}</th>
+                                    </tr>
+                                })
                             }
-                                
                             </>
+                            
                             
                         }
                 </tbody>
             </table>
+            <div className="button"  onClick={handleProfile}>
+                {
+                    submit?
+                    <CircularProgress style={{"color":"white"}}/>
+                    :
+                    <>Back to profile</>
+                }
+            </div>
         </div>
     )
 }
