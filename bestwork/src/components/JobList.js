@@ -291,7 +291,7 @@ export const EmptyPage = (props) =>{
     return (
         <div className="empty_container">
             <h1>NO RESULT for "{props.searchValue}"</h1>
-            <img src="./images/noResult.jpg" alt="No result"/>
+            {/* <img src="./images/no_result.jpg" alt="No result"/> */}
         </div>
     )
 }
