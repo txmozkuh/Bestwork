@@ -62,6 +62,8 @@ export const Filter = () => {
     }
     const handleFilter = () => {
         localStorage.setItem("filter",JSON.stringify({
+            'city':city,
+            'district':district,
             "min": salaryRange[0],
             "max": salaryRange[1],
             "remote": checkedRemote
@@ -83,6 +85,38 @@ export const Filter = () => {
     }   
     return (
         <div className="filter_container">
+            <FormControl sx={{width:300}} >
+                <InputLabel id="demo-simple-select-label">City</InputLabel>
+                <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={city}
+                    label="City"
+                    onChange={handleChangeCity}
+                    >
+                    {
+                        cities.map( city => {
+                            return <MenuItem value={city.name}>{city.name}</MenuItem>
+                        })
+                    }
+                </Select>
+                </FormControl>
+                <FormControl sx={{width:300}} disabled={city?false:true}>
+                <InputLabel id="demo-simple-select-label">District</InputLabel>
+                <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={district}
+                    label="Age"
+                    onChange={handleChangeDistrict}
+                    >
+                    {
+                        curDistricts.map( district => {
+                            return <MenuItem value={district}>{district}</MenuItem>
+                        })
+                    }
+                </Select>
+                </FormControl>
             Salary:
             <Box sx={{ width: 300 }}>   
             <Slider
@@ -105,7 +139,7 @@ export const Filter = () => {
                 />
             </Box>
             <Box sx={{ width: 300 }}>
-                <FormControl fullWidth >
+                {/* <FormControl fullWidth >
                 <InputLabel id="demo-simple-select-label">Type</InputLabel>
                 <Select
                     labelId="demo-simple-select-label"
@@ -120,40 +154,10 @@ export const Filter = () => {
                     })
                     }
                 </Select>
-                </FormControl>
-                <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">City</InputLabel>
-                <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={city}
-                    label="City"
-                    onChange={handleChangeCity}
-                    >
-                    {
-                        cities.map( city => {
-                            return <MenuItem value={city.name}>{city.name}</MenuItem>
-                        })
-                    }
-                </Select>
-                </FormControl>
-                <FormControl fullWidth disabled={city?false:true}>
-                <InputLabel id="demo-simple-select-label">District</InputLabel>
-                <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={district}
-                    label="Age"
-                    onChange={handleChangeDistrict}
-                    >
-                    {
-                        curDistricts.map( district => {
-                            return <MenuItem value={district}>{district}</MenuItem>
-                        })
-                    }
-                </Select>
-                </FormControl>
+                </FormControl> */}
             </Box>
+                
+            
             <div className="filter_btn" onClick={handleFilter}>Search</div>
         </div>
     )
@@ -170,7 +174,7 @@ export const List = () => {
         if(searchValue)
         {
             //Search request
-            axios.get(`http://localhost:3001/search?job-name=${searchValue}&district=6&city=&salary=0&salary=28000000&remote=`,
+            axios.get(`http://localhost:3001/search?job-name=${searchValue}&district=&city=&salary=0&salary=28000000&remote=`,
             {
                 withCredentials: true
             }).then((res)=>{
@@ -187,7 +191,7 @@ export const List = () => {
         if(filter)
         {
             //Search request
-            axios.get(`http://localhost:3001/search?job-name=&district=&city=&salary=${filter.min}&salary=${filter.max}&remote=`,
+            axios.get(`http://localhost:3001/search?job-name=&district=${filter.district}&city=${filter.city}&salary=${filter.min}&salary=${filter.max}&remote=${filter.remote?1:0}`,
             {
                 withCredentials: true
             }).then((res)=>{
@@ -198,7 +202,7 @@ export const List = () => {
                 else{
                     setListJob(res.data.list)
                 }
-                localStorage.clear("filter")
+                localStorage.removeItem("filter")
                 setLoaded(false)
             })
         }
@@ -287,7 +291,7 @@ export const EmptyPage = (props) =>{
     return (
         <div className="empty_container">
             <h1>NO RESULT for "{props.searchValue}"</h1>
-            <img src="./images/no_result.png"/>
+            {/* <img src="./images/no_result.jpg" alt="No result"/> */}
         </div>
     )
 }
