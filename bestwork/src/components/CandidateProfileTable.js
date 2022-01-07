@@ -9,24 +9,24 @@ export const TableInfoCandidate = (props) =>{
     const [update,setUpdate] = React.useState(false)
     const [listApplied,setListApplied] = React.useState([])
     const [checkedRemote,setCheckedRemote] = React.useState(props.info.Public_CV);
-    const handleChangeRemote = (event) => {
-        setCheckedRemote(!checkedRemote)
-        axios.put('http://localhost:3001/candidate/profile',{
-            'public-cv':!checkedRemote
-        }).then((res)=>{
-            console.log(res)
-        })
-    };
-    console.log(checkedRemote)
     React.useEffect(() => {
         axios.get('http://localhost:3001/candidate/job-applied',
         {
         withCredentials: true
         }).then((res)=>{
-            console.log("t",res)
             setListApplied(res.data.list)
         })
     },[])
+    const handleChangeRemote = (event) => {
+        setCheckedRemote(!checkedRemote)
+        axios.patch('http://localhost:3001/candidate/profile',{
+            'public-cv':!checkedRemote
+        }
+        ).then((res)=>{
+            console.log(res)
+        })
+    };
+
     return (
         <div className='profile_container'>
             {
@@ -62,7 +62,14 @@ export const TableInfoCandidate = (props) =>{
                             </tr>
                             <tr>
                                 <td>Date of birth</td>
-                                <td>{props.info.Date_Of_Birth.split('T')[0]}</td>
+                                {
+                                    props.info.Date_Of_Birth===null?<td>
+
+                                    </td>
+                                    :
+                                    <td>{props.info.Date_Of_Birth.split('T')[0]}</td>
+                                }
+                                
                             </tr>
                             <tr>
                                 <td>Gender</td>

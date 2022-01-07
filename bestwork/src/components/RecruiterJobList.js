@@ -32,6 +32,9 @@ const RecruiterJobList = ({jobList}) => {
                                     <button onClick={()=>{
                                         navigate(`/job-edit/${job.Recruiter_Job_ID}`)
                                     }}>edit</button>
+                                    <button onClick={()=>{
+                                        navigate(`/job-candidate/${job.Recruiter_Job_ID}`)
+                                    }}>List candidate</button>
                                 </tr>
                             })
                         }

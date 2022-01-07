@@ -17,6 +17,7 @@ const JobDetail = () => {
     const {id} = useParams();
     const [open, setOpen] = React.useState(false);
     const userType =localStorage.getItem('user_status')
+    const [checkUpdate,setCheckUpdate] = React.useState([])
     const Alert = React.forwardRef(function Alert(props, ref) {
         return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
       });
@@ -37,12 +38,16 @@ const JobDetail = () => {
             {
                 withCredentials: true
             }).then((res)=>{
-                console.log(res)
                 setJobDescription(res.data.job.description)
                 setJobRequirement(res.data.job.experience_require)
                 setJobType(res.data.job.job_type)
                 setJobRecruiter(res.data.job.recruiter)
                 setLoaded(false)
+            })
+            axios.get('http://localhost:3001/candidate/profile',{
+                withCredentials:true
+            }).then((res)=>{
+                setCheckUpdate(res.data.candidate.interest)
             })
         }
         else{
@@ -61,19 +66,21 @@ const JobDetail = () => {
         
     },[])
     const handleSendCv = () =>{
-        if(userType==='candidate'){
+        if(userType==='candidate' && checkUpdate.length !== 0){
             axios.post('http://localhost:3001/candidate/apply',{
                 'recruiter-job-id': id
             },
             {
                 withCredentials:true
             }).then((res) => {
-                console.log(res)
                 handleClick()
                 setTimeout(() => {
                     window.location.href="/profile"
                 }, 1000); 
             })
+        }
+        else if(userType==='candidate' && checkUpdate.length === 0){
+            alert("Please update your profile")
         }
         else{
             alert("Please login with candidate")
@@ -116,7 +123,7 @@ const JobDetail = () => {
                             <>
                             <div className="basic_info">
                                 <div className="name">{jobDescription.Job_Name}</div>
-                                <div className="salary">Salary: {jobDescription.Salary}</div>
+                                <div className="salary">Salary: {`${jobDescription.Salary.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} VND`}</div>
                                 <div className="address">Address: {jobDescription.District} {jobDescription.City}</div>
                             </div>
                             <div className="time_info">
@@ -132,7 +139,7 @@ const JobDetail = () => {
                             </p>
                         </div>
                         <div className="requirements">
-                            <h1>Yêu cầu</h1>
+                            <h1>Requirement</h1>
                             {
                                 jobRequirement.map((item) => {
                                     return <p>

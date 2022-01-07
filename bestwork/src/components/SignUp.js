@@ -91,17 +91,24 @@ const SignUp = () => {
             setSubmit(true)
             axios.post('http://localhost:3001/register', registerInfo)
             .then((response) => {
-                setSubmit(false)
-                setOpen(true);
-                setTimeout(() => {
-                    window.location.href="/sign-in"
-                }, 1000); 
+                if(response.data.message == 'Email is existing !!!'){
+                    setSubmit(false)
+                    alert('Existing Email')
+                    
+                }
+                else{
+                    setSubmit(false)
+                    setOpen(true);
+                    setTimeout(() => {
+                        window.location.href="/sign-in"
+                    }, 1000); 
+                }
+                
             });
         }
         else{
             for(var i in registerInfo){
                 if(!registerInfo[i]){
-                    console.log(i)
                     if(i==="email"){
                         document.querySelector('.error_mess_email').innerHTML="Please enter email"
                     }

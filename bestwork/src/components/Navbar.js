@@ -50,7 +50,6 @@ const Header = () => {
         {
             withCredentials: true
         }).then((res)=>{
-            console.log(res)
             localStorage.clear()
             window.location.href="/"
         })

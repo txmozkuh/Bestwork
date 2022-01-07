@@ -40,6 +40,7 @@ export const Filter = () => {
     const [type, setType] = React.useState('')
     const [city, setCity]= React.useState('')
     const [district, setDistrict]= React.useState('')
+    const [cities, getCities]= React.useState([])
     let curDistricts=[]
     React.useEffect(()=>{
         callApi()
@@ -85,15 +86,18 @@ export const Filter = () => {
         }))
         window.location.reload()
     }
-    const fakeJobType=["IT","IT1","IT2","IT3"]
-    var cities=[]
+    const [jobType,getJobType]=React.useState([])
     function callApi(){
-        axios.get("https://api.mysupership.vn/v1/partner/areas/province")
+        axios.get("https://provinces.open-api.vn/api/?depth=2")
         .then((response) =>{
-            for(var i in response.data.results){
-                cities[i]= response.data.results[i]
-            }
+            getCities(response.data)
         });
+        axios.get('http://localhost:3001/get/job',
+        {
+            withCredentials: true
+        }).then((res)=>{
+            getJobType(res.data.jobs)
+        })
     }   
     return (
         <div className="filter_container">
@@ -116,8 +120,8 @@ export const Filter = () => {
                     onChange={handleChangeType}
                     >
                     {
-                        fakeJobType.map((type)=>{
-                            return <MenuItem value={type}>{type}</MenuItem>
+                        jobType.map((type)=>{
+                            return <MenuItem value={type.Job_Name}>{type.Job_Name}</MenuItem>
                     })
                     }
                 </Select>
@@ -132,10 +136,9 @@ export const Filter = () => {
                     onChange={handleChangeCity}
                     >
                     {
-                        // cities.map( city => {
-                        //     // return <MenuItem value={city}>{city}</MenuItem>
-                        //     console.log(city)
-                        // })
+                        cities.map( city => {
+                            return <MenuItem value={city.name}>{city.name}</MenuItem>
+                        })
                     }
                 </Select>
                 </FormControl>

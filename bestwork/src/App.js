@@ -16,6 +16,9 @@ import Profile from "./components/Profile";
 import CreateJobForm from "./components/CreateJobForm";
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import EditJob from "./components/EditJob"
+import ListCandidateAppliedTable from './components/ListCandidateAppliedTable'
+import UpdateFormRecruiter from './components/FormUpdateRecruiterInfo'
+import UpdateFormCandidate from './components/FormUpdateCandidateInfo'
 
 function App() {
   React.useEffect(()=>{
@@ -48,7 +51,12 @@ function App() {
             <Route path="/sign-up" element={<SignUp/>}/>   
             <Route path="/profile" element={<Profile/>}/>   
             <Route path="/job-add" element={<CreateJobForm/>}/>
-            <Route path="/job-edit/:id" element={<EditJob/>}/>      
+            <Route path="/job-edit/:id" element={<EditJob/>}/>  
+            <Route path="/job-candidate/:id" element={<ListCandidateAppliedTable/>}/>  
+            <Route path="/update/candidate" element={<UpdateFormCandidate/>}/>
+            <Route path="/update/candidate" element={<UpdateFormRecruiter/>}/>
+            
+             
         </Routes>
         <Footer/> 
       </Router>

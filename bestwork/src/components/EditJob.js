@@ -20,9 +20,9 @@ import Snackbar from '@mui/material/Snackbar';
 import Grid from '@mui/material/Grid';
 import CircularProgress from '@mui/material/CircularProgress';
 import { useParams } from 'react-router-dom';
-export const  DatePicker = ({setStartDate, setEndDate}) => {
-    const [start, setStart] = React.useState(new Date());
-    const [end, setEnd] = React.useState(new Date());
+export const  DatePicker = ({setStartDate, setEndDate,current}) => {
+    const [start, setStart] = React.useState(new Date(current.description.Start_Date));
+    const [end, setEnd] = React.useState(new Date(current.description.End_Date));
     const handleChangeStart = (newValue) => {
         setStart(newValue);
     };
@@ -56,14 +56,25 @@ export const  DatePicker = ({setStartDate, setEndDate}) => {
     </LocalizationProvider>
   );
 }
-export const Filter = ({listCity,SetWorkingForm,setCity,setDistrict, listSkills, setListSkillsID,Type,setTypeJobID}) => {
+export const Filter = ({listCity,SetWorkingForm,setCity,setDistrict, listSkills, setListSkillsID,Type,setTypeJobID,current}) => {
     const working_form = [
         'Full-Time',
         'Part-Time',
       ];
-
+    //   var curCity = listCity.find(item=>{
+    //     return item.name === currentJobDescription.City
+    //   })
+    //   var curDistrict = currentJobDescription.District
+    const infoCurrent = current.description
     const cities = listCity
+   
+    const curCity = listCity.find(item =>{
+        return item.name === current.description.City
+    })
     const skills = listSkills
+    const curSkills = current.experience_require.map(item=>{
+        return item.Skill_name
+    })
     const types = Type
     const arrTypes = []
     types.map(item=>{
@@ -84,11 +95,11 @@ export const Filter = ({listCity,SetWorkingForm,setCity,setDistrict, listSkills,
         },
     },
     };
-    const [FormWorking, setFormWorking] = React.useState("");
-    const [jobType, setJobType] = React.useState([]);
-    const [listSkillChosen, setListSkillChosen] = React.useState([]);
-    const [city, setCityChosen] = React.useState('');
-    const [district, setDistrictChosen] = React.useState('');
+    const [FormWorking, setFormWorking] = React.useState(infoCurrent.Working_Form);
+    const [jobType, setJobType] = React.useState(current.job_type.Type_Name)
+    const [listSkillChosen, setListSkillChosen] = React.useState(curSkills)
+    const [city, setCityChosen] = React.useState(curCity);
+    const [district, setDistrictChosen] = React.useState(current.description.District);
     const [curDistricts,setCurDistricts] = React.useState([])
     const handleChangeWorkingForm = (event) => {
         setFormWorking(event.target.value)
@@ -102,7 +113,11 @@ export const Filter = ({listCity,SetWorkingForm,setCity,setDistrict, listSkills,
     useEffect(()=>{
         setDistrictChosen('')
         setCurDistricts(city.districts)
-    },[city])   
+    },[city])
+    useEffect(()=>{
+        setDistrictChosen(current.description.District)
+        setCurDistricts(city.districts)
+    },[curCity])
     const handleChangeDistrict = (event) => {
         setDistrictChosen(event.target.value);
     };
@@ -253,9 +268,9 @@ const EditJob = ({info}) => {
     const [submit,setSubmit] = React.useState(false)
     const [open, setOpen] = React.useState(false);
     const [description,setDescription] = React.useState("");
+    const [current,setCurrent] = React.useState([])
 
     const {id} = useParams()
-    console.log(id)
     var arrDescription = []
     description.split('\n').map(item=>{
         arrDescription.push(item)
@@ -285,19 +300,22 @@ const EditJob = ({info}) => {
         {
             withCredentials: true
         }).then((res)=>{
-            // console.log(res)
             getTypeJob(res.data.jobs)
         })
-        axios.get('http://localhost:3001/recruiter/job-list',
+        axios.get(`http://localhost:3001/recruiter/job-description/${id}`,
         {
         withCredentials: true
         }).then((res)=>{
-            console.log('job:' , res)
+            setCurrent(res.data.job)
         })
-    },[])
-    const handleCreateJob = () => {
+    },[id])
+    const handleUpdateJob = () => {
         setSubmit(true)
-        if(jobName&&salary&&startDate&&endDate&&district&&city.name&&workingForm&&recruimentQuantity&&listSkillsID){
+        if(parseInt(salary)<0 || isNaN(Number(salary))|| parseInt(recruimentQuantity)<0 || isNaN(Number(recruimentQuantity))|parseInt(yearExperience)<0 || isNaN(Number(yearExperience))){
+            setSubmit(false)
+            alert('Incorrect input')
+        }
+        if((jobName&&salary&&startDate&&endDate&&district&&city.name&&workingForm&&recruimentQuantity&&listSkillsID)&&(parseInt(salary)>0)&&(parseInt(yearExperience)>0)&&(parseInt(recruimentQuantity)>0)){
             axios.put(`http://localhost:3001/recruiter/job-description/${id}`,{
                 'job-name': jobName,
                 salary: salary,
@@ -323,77 +341,85 @@ const EditJob = ({info}) => {
                 }, 1000); 
             })
         }
-        else {
+        if(!(jobName&&salary&&startDate&&endDate&&district&&city.name&&workingForm&&recruimentQuantity&&listSkillsID)) {
+            setSubmit(false)
             alert('please fill all blank')
         }
-        console.log(typeJob)
         
     }
 
     return (
-        <div className='create_job_container'>
-            <label class="field field_v3">
-                <input class='field__input' type="text" name='job-name' placeholder={"e.g: Data Science"} onChange={(e) => {
-                    setJobName(e.target.value)
-                }}></input>
-                <span class="field__label-wrap">
-                    <span class="field__label">Tên công việc</span>
-                </span>
-            </label>
-            <br></br>
-            <label class="field field_v3">
-                <input class='field__input' type="text" name='salary' placeholder={"e.g: 15000000"} onChange={(e) => {
-                    setSalary(e.target.value)
-                }}></input>
-                <span class="field__label-wrap">
-                    <span class="field__label">Tiền lương</span>
-                </span>
-            </label>
-            <br></br>
-            <label class="field field_v3">
-                <input class='field__input' type="text" name='recruitment_quantity' placeholder={"e.g: 2"} onChange={(e) => {
-                    setRecruitmentQuantity(e.target.value)
-                }}></input>
-                <span class="field__label-wrap">
-                    <span class="field__label">Số lượng tuyển</span>
-                </span>
-            </label>
-            <br></br>
-            <label class="field field_v3">
-                <input class='field__input' type="text" name='years-of-experience' placeholder={"e.g: 2"} onChange={(e) => {
-                    setYearExperience(e.target.value)
-                }}></input>
-                <span class="field__label-wrap">
-                    <span class="field__label">Kinh nghiệm làm việc</span>
-                </span>
-            </label>
-            <br></br>
-            <label for="w3review">Description</label>
-            <textarea id="w3review" name="description" rows="4" cols="50" onChange={(e)=>{
-                setDescription(e.target.value)
-            }}>
-            </textarea>
-            <br></br>
-            <DatePicker setStartDate = {setStartDate} setEndDate = {setEndDate}/>
-            <Filter listCity = {listCity} Type = {Type} SetWorkingForm = {SetWorkingForm} setCity = {setCity} setDistrict = {setDistrict} listSkills={listSkills} setListSkillsID = {setListSkillsID} setTypeJobID={setTypeJobID}/>
-            <div className="button" onClick={handleCreateJob}>
-                {
-                    submit?
-                    <CircularProgress style={{"color":"white"}}/>
-                    :
-                    <>Save</>
-                }
+        Object.keys(current).length === 0?
+        <div className='create_job_container'><CircularProgress style={{"color":"rgb(238,125,52)"}}/></div>
+        :  
+        <>
+            <div className='create_job_container'>
+                
+                <label class="field field_v3">
+                    <input class='field__input' type="text" name='job-name' placeholder={current.description.Job_Name}  onChange={(e) => {
+                        setJobName(e.target.value)
+                    }}></input>
+                    <span class="field__label-wrap">
+                        <span class="field__label">Job Name</span>
+                    </span>
+                </label>
+                <br></br>
+                <label class="field field_v3">
+                    <input class='field__input' type="text" name='salary' placeholder={current.description.Salary} onChange={(e) => {
+                        setSalary(e.target.value)
+                    }}></input>
+                    <span class="field__label-wrap">
+                        <span class="field__label">Salary</span>
+                    </span>
+                </label>
+                <br></br>
+                <label class="field field_v3">
+                    <input class='field__input' type="text" name='recruitment_quantity' placeholder={current.description.Recruitment_Quantity} onChange={(e) => {
+                        setRecruitmentQuantity(e.target.value)
+                    }}></input>
+                    <span class="field__label-wrap">
+                        <span class="field__label">Recruitment Quantity</span>
+                    </span>
+                </label>
+                <br></br>
+                <label class="field field_v3">
+                    <input class='field__input' type="text" name='years-of-experience' placeholder={current.description.Years_Of_Experience} onChange={(e) => {
+                        setYearExperience(e.target.value)
+                    }}></input>
+                    <span class="field__label-wrap">
+                        <span class="field__label">Years of experience</span>
+                    </span>
+                </label>
+                <br></br>
+                <label for="w3review">Description</label>
+                <textarea id="w3review" name="description" rows="4" cols="50"onChange={(e)=>{
+                    
+                    setDescription(e.target.value)
+                }} >
+                </textarea>
+                <br></br>
+                    <DatePicker setStartDate = {setStartDate} setEndDate = {setEndDate} current = {current}/>
+                    <Filter listCity = {listCity} Type = {Type} SetWorkingForm = {SetWorkingForm} setCity = {setCity} setDistrict = {setDistrict} listSkills={listSkills} setListSkillsID = {setListSkillsID} setTypeJobID={setTypeJobID} current = {current}/>
+                <div className="button" onClick={handleUpdateJob}>
+                    {
+                        submit?
+                        <CircularProgress style={{"color":"white"}}/>
+                        :
+                        <>Save</>
+                    }
+                </div>
+                    <Snackbar
+                        open={open}
+                        autoHideDuration={6000}
+                        onClose={handleClose}
+                    >
+                        <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+                            Save successfully
+                            </Alert>
+                    </Snackbar>
             </div>
-                <Snackbar
-                    open={open}
-                    autoHideDuration={6000}
-                    onClose={handleClose}
-                >
-                    <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
-                        Save successfully
-                        </Alert>
-                </Snackbar>
-        </div>
+        </>
+        
     )
 }
 

@@ -4,7 +4,6 @@ import axios from 'axios'
 import CircularProgress from '@mui/material/CircularProgress';
 import { useNavigate } from 'react-router-dom';
 const CandidateListAppliedJob = ({listApplied}) => {
-    console.log(listApplied)
     const navigate = useNavigate();
     return (
         <div className="item" >
@@ -28,7 +27,7 @@ const CandidateListAppliedJob = ({listApplied}) => {
                                     <th style={{"cursor":"pointer"}} onClick={()=>{
                                         navigate(`/job/item/${job.Recruiter_Job_ID}`);
                                     }}>{job.Job_Name}</th>
-                                    <th>{job.Salary} VNĐ</th>
+                                    <th>{`${job.Salary.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} VND`}</th>
                                     <th>{job.District + " " + job.city}</th>
                                     <th>{job.Status}</th>
                                     <th>{job.Start_Date.split('T')[0]}</th>

@@ -280,19 +280,23 @@ const CreateJobForm = () => {
         {
             withCredentials: true
         }).then((res)=>{
-            // console.log(res)
             getTypeJob(res.data.jobs)
         })
         axios.get('http://localhost:3001/recruiter/job-list',
         {
         withCredentials: true
         }).then((res)=>{
-            console.log('job:' , res)
+            
         })
     },[])
     const handleCreateJob = () => {
         setSubmit(true)
-        if(jobName&&salary&&startDate&&endDate&&district&&city.name&&workingForm&&recruimentQuantity&&listSkillsID){
+
+        if(parseInt(salary)<0 || isNaN(Number(salary))|| parseInt(recruimentQuantity)<0 || isNaN(Number(recruimentQuantity))|parseInt(yearExperience)<0 || isNaN(Number(yearExperience))){
+            setSubmit(false)
+            alert('Incorrect input')
+        }
+        if((jobName&&salary&&startDate&&endDate&&district&&city.name&&workingForm&&recruimentQuantity&&listSkillsID)&&(parseInt(salary)>0)&&(parseInt(yearExperience)>0)&&(parseInt(recruimentQuantity)>0)){
             axios.post('http://localhost:3001/recruiter/job-create',{
                 'job-name': jobName,
                 salary: salary,
@@ -318,10 +322,10 @@ const CreateJobForm = () => {
                 }, 1000); 
             })
         }
-        else {
+        if(!(jobName&&salary&&startDate&&endDate&&district&&city.name&&workingForm&&recruimentQuantity&&listSkillsID)) {
+            setSubmit(false)
             alert('please fill all blank')
         }
-        console.log(typeJob)
         
     }
 
@@ -369,7 +373,7 @@ const CreateJobForm = () => {
             }}>
             </textarea>
             <br></br>
-            <DatePicker setStartDate = {setStartDate} setEndDate = {setEndDate}/>
+            <DatePicker setStartDate = {setStartDate} setEndDate = {setEndDate} />
             <Filter listCity = {listCity} Type = {Type} SetWorkingForm = {SetWorkingForm} setCity = {setCity} setDistrict = {setDistrict} listSkills={listSkills} setListSkillsID = {setListSkillsID} setTypeJobID={setTypeJobID}/>
             <div className="button" onClick={handleCreateJob}>
                 {
