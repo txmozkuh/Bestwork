@@ -25,6 +25,7 @@ const SignUp = () => {
       };
     const handleUserType = (e) => {
         var user_type = e.target;
+        document.querySelector('.active').classList.remove('active')
         user_type.classList.add('active')
         setType(user_type.getAttribute('type-value'))
         for(var i of document.querySelectorAll('.error_mess')){
