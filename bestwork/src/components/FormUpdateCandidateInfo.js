@@ -372,29 +372,38 @@ export const UpdateFormCandidate = (props) => {
     
     const handleUpdate = () => {
         setSubmit(true)
-        if(userType === 'candidate'){
-            axios.put('http://localhost:3001/candidate/profile',{
-                'candidate-name':CandidateName,
-                'date-of-birth':DateOfBirth,
-                gender:Gender==='Male'?true:false,
-                'phone-number':PhoneNumber,
-                about:About,
-                'apply-position':listJobTypeID,
-                'working-form':WorkingForm,
-                'interest-id':listInterestID,
-                'skill-id':[1,2,3],
-                'rank': [5,4,3]
-            },
-            {
-            withCredentials: true
-            }).then((res)=>{
-                handleClick()
-                setSubmit(false)
-                setTimeout(() => {
-                    window.location.href="/profile"
-                }, 1000); 
-            })
+        if(isNaN(Number(PhoneNumber))){
+            setSubmit(false)
+            alert('Invalid phone number')
         }
+        if(CandidateName&&DateOfBirth&&Gender&&PhoneNumber&&About&&listJobTypeID&&WorkingForm&&listSkillID&&listInterestID){
+                axios.put('http://localhost:3001/candidate/profile',{
+                    'candidate-name':CandidateName,
+                    'date-of-birth':DateOfBirth,
+                    gender:Gender==='Male'?true:false,
+                    'phone-number':PhoneNumber,
+                    about:About,
+                    'apply-position':listJobTypeID,
+                    'working-form':WorkingForm,
+                    'interest-id':listInterestID,
+                    'skill-id':listSkillID,
+                    'rank': [5,4,3]
+                },
+                {
+                withCredentials: true
+                }).then((res)=>{
+                    handleClick()
+                    setSubmit(false)
+                    setTimeout(() => {
+                        window.location.href="/profile"
+                    }, 1000); 
+                })
+        }
+        else{
+            setSubmit(false)
+            alert('Please fill all blank')
+        }
+        
     }
     return(
         <div class="profile_container">
