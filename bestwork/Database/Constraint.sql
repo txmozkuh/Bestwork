@@ -29,3 +29,44 @@ ALTER TABLE CANDIDATE  ADD CONSTRAINT CHK_CANDIDATE_CREATED_DATE CHECK (datediff
 
 --Tên nhà tuyển dụng >2 kí tự
 ALTER TABLE RECRUITER  ADD CONSTRAINT CHK_RECRUITER_NAME CHECK (LEN(RECRUITER_NAME) >=2)
+--Tax lớn hơn 7 kí tự
+ALTER TABLE RECRUITER  ADD CONSTRAINT CHK_RECRUITER_PHONE_NUMBER CHECK (LEN(TAX) >=7)
+--EMail duy nhất
+ALTER TABLE RECRUITER ADD UNIQUE(EMAIL)
+--Ngày tạo trước ngày hôm nay
+ALTER TABLE RECRUITER  ADD CONSTRAINT CHK_RECRUITER_CREATED_DATE CHECK (datediff(year,CREATED_DATE,GETDATE())>=0)
+
+
+--Ngày apply không lớn hơn ngày hôm nay
+ALTER TABLE APPLICATION  ADD CONSTRAINT CHK_APPLICATION_APPLY_TIME CHECK (datediff(year,APPLY_TIME,GETDATE())>=0)
+
+
+ALTER TABLE INTEREST  ADD CONSTRAINT CHK_INTEREST_NAME CHECK (LEN(INTEREST_NAME) >=4)
+
+ALTER TABLE SKILL  ADD CONSTRAINT CHK_SKILL_NAME CHECK (LEN(SKILL_NAME) >=2)
+
+--Rank nằm trong 0 và 5
+ALTER TABLE CANDIDATE_SKILL  ADD CONSTRAINT CHK_RANK CHECK (RANK BETWEEN 0 AND 5)
+
+--Mô tả công việc không quá gắn
+ALTER TABLE Frequently_Interview_Question ADD CONSTRAINT CHK_Description_LEN CHECK (LEN(DESCRIPTION) >=10)
+
+--Ngày post không lớn hơn ngày hôm nay
+ALTER TABLE  Frequently_Interview_Question ADD CONSTRAINT CHK_Fre_Posted_Date CHECK (datediff(year,Posted_date,GETDATE())>=0)
+
+ALTER TABLE Interview_Ques_Detail ADD CONSTRAINT CHK_Content_LEN CHECK (LEN(Content) >=10)
+
+ALTER TABLE JOB ADD CONSTRAINT CHK_Job_Name_LEN CHECK (LEN(Job_Name) >=7)
+
+ALTER TABLE JOB_TYPE ADD CONSTRAINT CHK_Type_Name_LEN CHECK (LEN(Type_Name) >=2)
+
+
+--Lương phải lớn hơn 0
+ALTER TABLE Recruiter_Job ADD CONSTRAINT CHK_Salary CHECK (SALARY>0)
+
+--Ngày bắt đầu trước ngày kết thúc
+ALTER TABLE Recruiter_Job ADD CONSTRAINT CHK_StartDate_EndDate CHECK (Start_Date<End_Date)
+--Số lượng tuyển tối thiểu 1
+ALTER TABLE Recruiter_Job ADD CONSTRAINT CHK_Recruitment_Quantity CHECK (Recruitment_Quantity>0)
+--Năm kinh nghiệm không âm và không quá lớn
+ALTER TABLE Recruiter_Job ADD CONSTRAINT CHK_Years_Of_Experience CHECK (Years_Of_Experience between 0 and 45)
