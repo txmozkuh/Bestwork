@@ -98,3 +98,103 @@ SET ANSI_PADDING OFF
 GO
 /****** Object:  Table [dbo].[Admin]    Script Date: 1/6/2022 3:18:49 PM ******/
 SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[Admin](
+	[Admin_ID] [int] IDENTITY(1,1) NOT NULL,
+	[Admin_Name] [nvarchar](50) NULL,
+	[Date_Of_Birth] [date] NULL,
+	[Gender] [bit] NULL,
+	[Phone_Number] [char](10) NULL,
+	[Email] [varchar](50) NULL,
+	[Created_Date] [datetime] NULL,
+	[Account_ID] [int] NULL,
+ CONSTRAINT [PK_Admin] PRIMARY KEY CLUSTERED 
+(
+	[Admin_ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[Application]    Script Date: 1/6/2022 3:18:49 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Application](
+	[Recruiter_Job_ID] [int] NOT NULL,
+	[Candidate_ID] [int] NOT NULL,
+	[Apply_Time] [datetime] NULL,
+ CONSTRAINT [PK_Application] PRIMARY KEY CLUSTERED 
+(
+	[Recruiter_Job_ID] ASC,
+	[Candidate_ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[Candidate]    Script Date: 1/6/2022 3:18:49 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[Candidate](
+	[Candidate_ID] [int] IDENTITY(1,1) NOT NULL,
+	[Candidate_Name] [nvarchar](50) NULL,
+	[Date_Of_Birth] [date] NULL,
+	[Gender] [bit] NULL,
+	[Phone_Number] [char](10) NULL,
+	[Email] [varchar](50) NULL,
+	[About] [nvarchar](200) NULL,
+	[Apply_Position] [int] NULL,
+	[Public_CV] [bit] NULL,
+	[Working_Form] [nvarchar](50) NULL,
+	[Created_Date] [datetime] NULL,
+	[Account_ID] [int] NULL,
+ CONSTRAINT [PK_Candidate] PRIMARY KEY CLUSTERED 
+(
+	[Candidate_ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[Candidate_Interest]    Script Date: 1/6/2022 3:18:49 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Candidate_Interest](
+	[Interest_ID] [int] NOT NULL,
+	[Candidate_ID] [int] NOT NULL,
+ CONSTRAINT [PK_Candidate_Interest] PRIMARY KEY CLUSTERED 
+(
+	[Interest_ID] ASC,
+	[Candidate_ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[Candidate_Skill]    Script Date: 1/6/2022 3:18:49 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Candidate_Skill](
+	[Skill_ID] [int] NOT NULL,
+	[Candidate_ID] [int] NOT NULL,
+	[Rank] [smallint] NULL,
+ CONSTRAINT [PK_Candidate_Skill] PRIMARY KEY CLUSTERED 
+(
+	[Skill_ID] ASC,
+	[Candidate_ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
