@@ -198,3 +198,102 @@ CREATE TABLE [dbo].[Candidate_Skill](
 	[Candidate_ID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[Description]    Script Date: 1/6/2022 3:18:49 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Description](
+	[Recruiter_Job_ID] [int] NOT NULL,
+	[Ordinal_Number] [smallint] IDENTITY(1,1) NOT NULL,
+	[Content] [nvarchar](300) NULL,
+ CONSTRAINT [PK_Description] PRIMARY KEY CLUSTERED 
+(
+	[Recruiter_Job_ID] ASC,
+	[Ordinal_Number] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[Experience_Require]    Script Date: 1/6/2022 3:18:49 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Experience_Require](
+	[Recruiter_Job_ID] [int] NOT NULL,
+	[Skill_ID] [int] NOT NULL,
+ CONSTRAINT [PK_Experience_Require] PRIMARY KEY CLUSTERED 
+(
+	[Recruiter_Job_ID] ASC,
+	[Skill_ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[Frequently_Interview_Question]    Script Date: 1/6/2022 3:18:49 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Frequently_Interview_Question](
+	[Ques_ID] [int] IDENTITY(1,1) NOT NULL,
+	[Description] [nvarchar](50) NULL,
+	[Posted_Date] [date] NULL,
+	[Posted_Time] [time](7) NULL,
+	[Status] [bit] NULL,
+	[Admin_ID] [int] NULL,
+ CONSTRAINT [PK_Frequently Interview Question] PRIMARY KEY CLUSTERED 
+(
+	[Ques_ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[Interest]    Script Date: 1/6/2022 3:18:49 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Interest](
+	[Interest_ID] [int] IDENTITY(1,1) NOT NULL,
+	[Interest_Name] [nvarchar](50) NULL,
+ CONSTRAINT [PK_Interest] PRIMARY KEY CLUSTERED 
+(
+	[Interest_ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[Interview_Ques_Detail]    Script Date: 1/6/2022 3:18:49 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Interview_Ques_Detail](
+	[Ques_ID] [int] NOT NULL,
+	[Ordinal_Number] [smallint] IDENTITY(1,1) NOT NULL,
+	[Content] [nvarchar](300) NULL,
+ CONSTRAINT [PK_Interview Ques Detail] PRIMARY KEY CLUSTERED 
+(
+	[Ques_ID] ASC,
+	[Ordinal_Number] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[Job]    Script Date: 1/6/2022 3:18:49 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Job](
+	[Job_ID] [int] IDENTITY(1,1) NOT NULL,
+	[Job_Name] [nvarchar](50) NULL,
+ CONSTRAINT [PK_Job] PRIMARY KEY CLUSTERED 
+(
+	[Job_ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
