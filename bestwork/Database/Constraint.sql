@@ -1,2 +1,6 @@
 ﻿--Kiểm tra password > 8 kí tự
 ALTER TABLE ACCOUNT  ADD CONSTRAINT CHK_PASSWORD CHECK (LEN(PASSWORD) >8)
+
+-- Kiểm tra loại tài khoản trong 3 laoij
+ALTER TABLE ACCOUNT  ADD CONSTRAINT CHK_USER_TYPE CHECK (USER_TYPE IN ('ADMIN','RECRUITER','CANDIDATE'))
+--Kiểm tra email duy nhất 
